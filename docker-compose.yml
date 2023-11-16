@@ -1,13 +1,13 @@
-version: '3.8'
+version: '3.8' # version mas reciente
 
 services:
-  app:
-    build:
-      context: .
+  app: # nombre del servicio
+    build: # especifica el build context y el dockerfile para la imagen
+      context: . # usa el directorio actual
       dockerfile: Dockerfile
     container_name: chacurbanos-front
     ports:
-      - '3000:3000'
+      - '3000:3000' # accedemos al servicio desde este puerto
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/app # mapea el directorio actual al directorio /app dentro del container
+      - /app/node_modules #se usa para persistir el node_modules, ahorrando hacer npm i innecesarios en cada build. Sin embargo, se usa el .dockerignore para excluir archivos innecesarios
