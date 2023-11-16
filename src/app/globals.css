@@ -33,3 +33,7 @@ body {
 .shadow-logout-button{
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.shadow-white-distribution-container{
+  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
