@@ -3,11 +3,11 @@ export function LogoutDoorIcon({ className = "" }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="white"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -23,11 +23,11 @@ export function LeftArrowIcon({ className = "" }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="currentColor"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -44,17 +44,17 @@ export function TriangleDownArrow({ className = "" }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="currentColor"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path
         d="M18 9c.852 0 1.297 .986 .783 1.623l-.076 .084l-6 6a1 1 0 0 1 -1.32 .083l-.094 -.083l-6 -6l-.083 -.094l-.054 -.077l-.054 -.096l-.017 -.036l-.027 -.067l-.032 -.108l-.01 -.053l-.01 -.06l-.004 -.057v-.118l.005 -.058l.009 -.06l.01 -.052l.032 -.108l.027 -.067l.07 -.132l.065 -.09l.073 -.081l.094 -.083l.077 -.054l.096 -.054l.036 -.017l.067 -.027l.108 -.032l.053 -.01l.06 -.01l.057 -.004l12.059 -.002z"
-        stroke-width="0"
+        strokeWidth="0"
         fill="currentColor"
       />
     </svg>
@@ -66,11 +66,11 @@ export function UserLogin({ className = "" }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="currentColor"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -85,11 +85,11 @@ export function LockIcon({ className = "" }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="currentColor"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -105,11 +105,11 @@ export function Camera({ className = "" }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="currentColor"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -122,49 +122,55 @@ export function Camera({ className = "" }) {
 }
 
 export function OpenEyeIcon({ className = "" }) {
+  return (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    stroke-width="2"
+    strokeWidth="2"
     stroke="currentColor"
     fill="none"
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
     <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-  </svg>;
+  </svg>
+  )
 }
 
 export function CloseEyeIcon({ className = "" }) {
+  return (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    stroke-width="2"
+    strokeWidth="2"
     stroke="currentColor"
     fill="none"
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
     <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
     <path d="M3 3l18 18" />
-  </svg>;
+  </svg>
+  )
+
 }
 
 export function TrashIcon({ className = "" }) {
+  return (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    stroke-width="2"
-    stroke="currentColor"
+    strokeWidth="2"
+    stroke="red"
     fill="none"
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     className={className}
   >
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -173,7 +179,9 @@ export function TrashIcon({ className = "" }) {
     <path d="M14 11l0 6" />
     <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
     <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-  </svg>;
+  </svg>
+  )
+
 }
 
 export function CheckboxEmpty({ className = "" }) {
@@ -181,11 +189,11 @@ export function CheckboxEmpty({ className = "" }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="currentColor"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -199,11 +207,11 @@ export function CheckboxCheck({ className = "" }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      stroke-width="2"
+      strokeWidth="2"
       stroke="currentColor"
       fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       className={className}
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
