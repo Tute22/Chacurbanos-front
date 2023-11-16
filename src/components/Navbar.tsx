@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from "next/image";
-import pejoton from "../../public/pejoton.png";
+import pejoton from "../../public/pejoton.png"
 import { LogoutDoorIcon } from "@/commons/icons";
 
 
