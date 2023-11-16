@@ -11,8 +11,6 @@ export default function Distribution() {
           <LogoutDoorIcon className="w-6 ml-[3px]" />
         </div>
       </nav>
-
-      
     </div>
   );
 }
