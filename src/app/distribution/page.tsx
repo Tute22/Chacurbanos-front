@@ -1,6 +1,7 @@
 import Image from "next/image";
 import pejoton from "../../../public/pejoton.png";
 import { LogoutDoorIcon, LeftArrowIcon } from "@/commons/icons";
+import { poppins800, poppins700, poppins200, poppins300, poppins400 } from "@/commons/fonts";
 
 export default function Distribution() {
   return (
@@ -19,7 +20,7 @@ export default function Distribution() {
           <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
 
           <div className="w-fit mx-auto">
-            <h3 className="text-lg font-extrabold ">Reparto en curso</h3>
+            <h3 className={`text-lg ${poppins700.className}`}>Reparto en curso</h3>
           </div>
         </div>
 
@@ -37,23 +38,23 @@ export default function Distribution() {
 
             {/* Container con info de envio  */}
             <div className="py-5 pl-[0.5px]">
-              <p className="text-black text-sm mb-[1px]">
-                <strong>Destino:</strong> Balcarce 744
+              <p className={`text-black text-[13px] mb-[1px] ${poppins400.className}`}>
+                <strong className={`${poppins700.className} font-bold`} >Destino:</strong> Balcarce 744
               </p>
-              <p className="text-black text-sm mb-[1px]">
-                <strong>Número de paquete:</strong> #026AO9
+              <p className={`text-black text-[13px] mb-[1px] ${poppins400.className}`}>
+                <strong className={`${poppins700.className} font-bold`}>Número de paquete:</strong> #026AO9
               </p>
-              <p className="text-black text-sm">
-                <strong>Recibe:</strong> David Rodríguez
+              <p className={`text-black text-[13px] ${poppins400.className}`}>
+                <strong className={`${poppins700.className} font-bold`}>Recibe:</strong> David Rodríguez
               </p>
             </div>
 
             {/* Container para botones */}
             <div className="pt-2">
-              <button className="w-full bg-amber-400 text-stone-900 rounded-3xl py-[4.5px] text-lg">
+              <button className={`w-full bg-amber-400 text-stone-900 rounded-3xl py-[6px] text-base ${poppins400.className}`}>
                 Finalizar
               </button>
-              <button className="w-full mt-[14px] border border-amber-400 text-stone-900 rounded-3xl py-1 text-lg">
+              <button className={`w-full mt-[14px] border border-amber-400 text-stone-900 rounded-3xl py-[6px] text-base ${poppins400.className}`}>
                 Cancelar entrega
               </button>
             </div>
