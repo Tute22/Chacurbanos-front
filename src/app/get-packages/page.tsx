@@ -1,6 +1,6 @@
 import { CheckboxCheck, CheckboxEmpty, LeftArrowIcon } from '@/commons/icons';
 import { Navbar } from '@/components/Navbar';
-import { poppins200, poppins300, poppins400, poppins700 } from '@/commons/fonts';
+import { poppins300, poppins400, poppins700 } from '@/commons/fonts';
 
 export default function GetPackages() {
     return (
@@ -9,10 +9,10 @@ export default function GetPackages() {
             <section className="flex items-center flex-col h-[82%] mt-7">
                 <div className="bg-[#55BBD1] rounded-lg p-4 w-80 h-[80px] text-white flex flex-wrap justify-between shadow-md">
                     <LeftArrowIcon className="w-8 ml-[3px] h-fit" />
-                    <h1 className= {`mr-[70px] ${poppins700.className} h-[32px] flex items-center`}>Obtener Paquetes</h1>
+                    <h3 className= {`mr-[70px] text-lg ${poppins700.className} h-[32px] flex items-center`}>Obtener Paquetes</h3>
                 </div>
                 <div className="bg-white rounded-lg p-4 w-80 mt-[-20px] h-[600px] flex flex-col shadow-md">
-                    <p className={`text-[#55BBD1] text-center text-xs ${poppins200.className}`}>¿Cuántos paquetes repartirás hoy?</p>
+                    <p className={`text-[#55BBD1] text-center ${poppins300.className} text-sm`}>¿Cuántos paquetes repartirás hoy?</p>
                     <p className="mt-2 border-t border-1 border-dashed border-black"></p>
 
                     <div className="border border-solid border-black h-[60px] rounded-xl mt-4 flex items-center flex-row">
@@ -74,9 +74,9 @@ export default function GetPackages() {
                 </div>
             </section>
 
-            <div className="mb-4">
+            <div className="mb-4 flex justify-center">
                 <button type="submit"
-                    className={`w-full px-4 py-2 font-bold bg-[#F4C455] rounded-full ${poppins300.className}`}>
+                    className={` w-80 py-1 font-bold bg-[#F4C455] rounded-full ${poppins400.className}`}>
                     Iniciar Jornada
                 </button>
             </div>

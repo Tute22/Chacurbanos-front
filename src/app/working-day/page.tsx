@@ -3,14 +3,14 @@ import { Navbar } from "@/components/Navbar";
 import { TriangleDownArrow } from "@/commons/icons";
 import { TrashIcon } from "@/commons/icons";
 import box from "../../../public/box.png";
-import { poppins300, poppins500, poppins600, poppins700, poppins800 } from "@/commons/fonts";
+import { poppins300, poppins400, poppins500, poppins600, poppins700, poppins800 } from "@/commons/fonts";
 
 export default function WorkingDay() {
   return (
     <main className="bg-[#AEE3EF] h-screen">
       <Navbar />
       <div className="flex flex-col justify-center items-center">
-        <section className="bg-white w-80 h-[275px] mt-6 rounded-xl p-4">
+        <section className="bg-white w-80 h-[275px] mt-6 rounded-xl p-4 shadow-md">
           <div className={`flex justify-between items-center ${poppins800.className} text-lg mb-3.5`}>
             <div>Repartos pendientes</div>
             <TriangleDownArrow className="w-6 ml-[3px]" />
@@ -54,7 +54,7 @@ export default function WorkingDay() {
           </div>
         </section>
         <br />
-        <section className="bg-white w-80 h-[300px] rounded-xl p-4">
+        <section className="bg-white w-80 h-[300px] rounded-xl p-4 shadow-md">
           <div className={`flex justify-between items-center ${poppins800.className} text-lg mb-2`}>
             <div>Historial de reportes</div>
             <TriangleDownArrow className="w-6 ml-[3px]" />
@@ -94,7 +94,7 @@ export default function WorkingDay() {
         </section>
         <br />
         <div>
-          <button className={`bg-[#F4C455] text-lg py-1 px-10 rounded-full ${poppins500.className}`}>Obtener paquetes</button>
+          <button className={`bg-[#F4C455] text-lg py-1 w-80 rounded-full ${poppins400.className}`}>Obtener paquetes</button>
         </div>
       </div>
     </main>
