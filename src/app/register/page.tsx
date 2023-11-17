@@ -1,5 +1,10 @@
 import { poppins400, poppins600, poppins700 } from "@/commons/fonts";
-import { Camera, LeftArrowIcon } from "@/commons/icons";
+import {
+  Camera,
+  CloseEyeIcon,
+  LeftArrowIcon,
+  OpenEyeIcon,
+} from "@/commons/icons";
 import { Navbar } from "@/components/Navbar";
 
 export default function Register() {
@@ -8,13 +13,15 @@ export default function Register() {
       <Navbar />
       <section className="flex justify-center mt-9">
         <section className="bg-[#55BBD1] h-[150px] rounded-xl">
-          <div className="flex gap-12 mt-5">
+          <div className="flex gap-12 mt-3 mb-2">
             <LeftArrowIcon className="w-8 h-auto text-white ml-3" />
-            <h1 className={`flex justify-center text-lg ${poppins700.className} text-white`}>
+            <h1
+              className={`flex justify-center text-lg ${poppins700.className} text-white`}
+            >
               Creá tu cuenta
             </h1>
           </div>
-          <div className="mt-5 bg-white rounded-xl shadow-xl p-5 w-80 h-[600px]">
+          <div className="bg-white rounded-xl shadow-xl p-5 w-80 h-[600px]">
             <div className="flex justify-center mb-4">
               <Camera className="w-24 h-auto text-[#F4C455]" />
             </div>
@@ -41,13 +48,15 @@ export default function Register() {
                 />
               </div>
               <div className="mb-4">
+                <CloseEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" />
                 <input
                   type="password"
                   className={`${poppins400.className} w-full px-4 py-2 border rounded-lg focus:outline-none`}
-                  placeholder="Contraseña"
+                  placeholder="**********"
                 />
               </div>
               <div className="mb-4">
+                <OpenEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" />
                 <input
                   type="password"
                   className={`${poppins400.className} w-full px-4 py-2 border rounded-lg focus:outline-none`}
@@ -64,12 +73,17 @@ export default function Register() {
               </div>
             </form>
             <div className="text-center">
-              <a href="#" className={`${poppins400.className} inline-block text-sm`}>
+              <a
+                href="#"
+                className={`${poppins400.className} inline-block text-sm`}
+              >
                 ¿Ya tenés una cuenta?
               </a>
             </div>
             <div className="mb-4 mt-4">
-              <button className={`${poppins400.className} w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]`}>
+              <button
+                className={`${poppins400.className} w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]`}
+              >
                 Iniciar Sesión
               </button>
             </div>
