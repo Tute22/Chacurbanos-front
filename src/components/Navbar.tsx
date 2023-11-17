@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import pejoton from "../../public/pejoton.png"
+import navbarLogo from "../../public/navbarLogo.svg"
 import { LogoutDoorIcon } from "@/commons/icons";
 import { usePathname } from "next/navigation";
 
@@ -10,7 +10,7 @@ export const Navbar = () => {
 
   return (
     <nav className="h-14 bg-[#AEE3EF] shadow-nav py-2 px-8 flex justify-between">
-      <Image src={pejoton} width={56} height={160} alt="pejoton" />
+      <Image src={navbarLogo} width={56} height={160} alt="navbarLogo" />
       {pathName === "/register" ? (
         ""
       ) : (

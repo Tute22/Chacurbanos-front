@@ -1,17 +1,11 @@
-import Image from "next/image";
-import pejoton from "../../../public/pejoton.png";
-import { LogoutDoorIcon, LeftArrowIcon } from "@/commons/icons";
-import { poppins800, poppins700, poppins200, poppins300, poppins400 } from "@/commons/fonts";
+import { LeftArrowIcon } from "@/commons/icons";
+import { poppins700, poppins400, poppins600 } from "@/commons/fonts";
+import { Navbar } from "@/components/Navbar";
 
 export default function Distribution() {
   return (
     <div className="bg-[#AEE3EF] h-screen">
-      <nav className="h-14 bg-[#AEE3EF] shadow-nav py-2 px-8 flex justify-between">
-        <Image src={pejoton} width={56} height={160} alt="pejoton" />
-        <div className="w-7 rounded-md my-[4px] bg-[#55BBD1] shadow-logout-button flex items-center justify-center">
-          <LogoutDoorIcon className="w-6 ml-[3px]" />
-        </div>
-      </nav>
+      <Navbar/>
 
       {/* distribution screen */}
 
@@ -51,10 +45,10 @@ export default function Distribution() {
 
             {/* Container para botones */}
             <div className="pt-2">
-              <button className={`w-full bg-amber-400 text-stone-900 rounded-3xl py-[6px] text-base ${poppins400.className}`}>
+              <button className={`${poppins600.className} w-full px-4 py-2 mb-4 font-bold bg-[#F4C455] rounded-full text-stone-900`}>
                 Finalizar
               </button>
-              <button className={`w-full mt-[14px] border border-amber-400 text-stone-900 rounded-3xl py-[6px] text-base ${poppins400.className}`}>
+              <button className={`${poppins400.className} w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px] text-stone-900`}>
                 Cancelar entrega
               </button>
             </div>
