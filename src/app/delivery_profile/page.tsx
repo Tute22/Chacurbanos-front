@@ -1,6 +1,12 @@
 import { LeftArrowIcon, TriangleDownArrow } from "@/commons/icons";
-import { poppins700, poppins400, poppins600 } from "@/commons/fonts";
+import {
+  poppins700,
+  poppins400,
+  poppins600,
+  poppins500,
+} from "@/commons/fonts";
 import { Navbar } from "@/components/Navbar";
+import box from "../../../public/Box.png";
 import exampleFace from "../../../public/Ellipse 9.png";
 import Image from "next/image";
 
@@ -27,7 +33,7 @@ export default function AdminProfile() {
             <Image src={exampleFace} alt="example_face" className="w-[70px]" />
 
             {/* Container con nombre, estado y toggle */}
-            <div className="pl-2 flex justify-between w-64 items-center">
+            <div className="pl-2 flex justify-between w-64 items-center ml-1">
               {/* Container con nombre y estado */}
               <div>
                 <p
@@ -59,16 +65,161 @@ export default function AdminProfile() {
         </div>
       </main>
 
+      {/* Container con info de repartos pendientes */}
       <div className="p-4 w-[335px] mx-auto mt-3 bg-white rounded-[11px] shadow-white-distribution-container ">
-        <div className="w-full" >
-          <div className="flex justify-between " >
+        <div className="w-full">
+          <div className="flex justify-between ">
             <h3 className={`text-lg ${poppins700.className}`}>
               Repartos pendientes
             </h3>
-            <TriangleDownArrow className=" w-[18px] h-6  ml-[3px] -rotate-90"/>
+            <TriangleDownArrow className=" w-[18px] h-6  ml-[3px] -rotate-90" />
           </div>
-          <p className="mt-1 text-[15px]">Sin repartos</p>
+          <p className={`mt-1 text-[13px] ${poppins400.className}`}>
+            Sin repartos
+          </p>
         </div>
+      </div>
+
+      
+
+        
+
+        <div className="p-4 w-[335px] mx-auto mt-3 bg-white rounded-[11px] shadow-white-distribution-container max-h-[385.5px] " >
+        <div className="w-full">
+          <div className="flex justify-between ">
+            <h3 className={`text-lg ${poppins700.className}`}>
+              Historial de repartos
+            </h3>
+            <TriangleDownArrow className=" w-[18px] h-6  ml-[3px] " />
+          </div>
+          <p className={`mt-1 text-[13px] ${poppins400.className} mb-5`}>
+            58 paquetes entregados
+          </p>
+        </div>
+        {/* Containers de paquetes entregados */}
+        <main className="max-h-[280.5px] scroll-content ">
+          <div className={`border border-solid border-black rounded-xl mb-3 `}>
+            <div className="flex py-[10px] pl-[1px]">
+              <Image src={box} alt="box" width={50} height={50} />
+              <div className="flex-col border-l-2 border-black border-dotted">
+                <div className={`ml-2 ${poppins500.className}`}>
+                  <div
+                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
+                  >
+                    #0A235
+                  </div>
+                  <div className="text-sm">Malabia 789,</div>
+                  <div className="text-sm">CABA</div>
+                </div>
+              </div>
+              <div className="flex flex-col flex-grow items-end">
+                <div
+                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
+                >
+                  ENTREGADO
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={`border border-solid border-black rounded-xl mb-3`}>
+            <div className="flex py-[10px] pl-[1px]">
+              <Image src={box} alt="box" width={50} height={50} />
+              <div className="flex-col border-l-2 border-black border-dotted">
+                <div className={`ml-2 ${poppins500.className}`}>
+                  <div
+                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
+                  >
+                    #0A235
+                  </div>
+                  <div className="text-sm">Malabia 789,</div>
+                  <div className="text-sm">CABA</div>
+                </div>
+              </div>
+              <div className="flex flex-col flex-grow items-end">
+                <div
+                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
+                >
+                  ENTREGADO
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={`border border-solid border-black rounded-xl mb-3`}>
+            <div className="flex py-[10px] pl-[1px]">
+              <Image src={box} alt="box" width={50} height={50} />
+              <div className="flex-col border-l-2 border-black border-dotted">
+                <div className={`ml-2 ${poppins500.className}`}>
+                  <div
+                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
+                  >
+                    #0A235
+                  </div>
+                  <div className="text-sm">Malabia 789,</div>
+                  <div className="text-sm">CABA</div>
+                </div>
+              </div>
+              <div className="flex flex-col flex-grow items-end">
+                <div
+                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
+                >
+                  ENTREGADO
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={`border border-solid border-black rounded-xl mb-3`}>
+            <div className="flex py-[10px] pl-[1px]">
+              <Image src={box} alt="box" width={50} height={50} />
+              <div className="flex-col border-l-2 border-black border-dotted">
+                <div className={`ml-2 ${poppins500.className}`}>
+                  <div
+                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
+                  >
+                    #0A235
+                  </div>
+                  <div className="text-sm">Malabia 789,</div>
+                  <div className="text-sm">CABA</div>
+                </div>
+              </div>
+              <div className="flex flex-col flex-grow items-end">
+                <div
+                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
+                >
+                  ENTREGADO
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={`border border-solid border-black rounded-xl mb-3`}>
+            <div className="flex py-[10px] pl-[1px]">
+              <Image src={box} alt="box" width={50} height={50} />
+              <div className="flex-col border-l-2 border-black border-dotted">
+                <div className={`ml-2 ${poppins500.className}`}>
+                  <div
+                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
+                  >
+                    #0A235
+                  </div>
+                  <div className="text-sm">Malabia 789,</div>
+                  <div className="text-sm">CABA</div>
+                </div>
+              </div>
+              <div className="flex flex-col flex-grow items-end">
+                <div
+                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
+                >
+                  ENTREGADO
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </main>
+
       </div>
     </div>
   );
