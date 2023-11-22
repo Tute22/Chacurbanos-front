@@ -1,0 +1,59 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Fiama",
+            "lastName": "Talavera",
+            "email": "fiama@gmail.com",
+            "password": "fiama1234",
+            "role": "admin",
+            "status": "enabled",   
+            "day": null,         
+            "img": "img"
+        },
+        {
+            "id": 2,
+            "name": "Agustin",
+            "lastName": "Sandoval",
+            "email": "agustin@gmail.com",
+            "password": "agustin1234",
+            "role": "delivery",
+            "status": "enabled",   
+            "day": "in progress",         
+            "img": "img"
+        },
+        {
+            "id": 3,
+            "name": "Gastón",
+            "lastName": "Rabinovich",
+            "email": "gaston@gmail.com",
+            "password": "gaston1234",
+            "role": "delivery",
+            "status": "enabled",   
+            "day": "in progress",         
+            "img": "img"
+        },
+        {
+            "id": 4,
+            "name": "Martin",
+            "lastName": "Ferrando",
+            "email": "martin@gmail.com",
+            "password": "martin1234",
+            "role": "delivery",
+            "status": "enabled",   
+            "day": "complete",         
+            "img": "img"
+        },
+        {
+            "id": 5,
+            "name": "Isidro",
+            "lastName": "Molina",
+            "email": "isidro@gmail.com",
+            "password": "isidro1234",
+            "role": "delivery",
+            "status": "enabled",   
+            "day": "in progress",         
+            "img": "img"
+        }
+    ]
+}

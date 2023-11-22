@@ -1,0 +1,100 @@
+{
+    "packages": [
+      {
+        "id": 1,
+        "number_of_order": "#0A235",
+        "address": "Castillo 1356, CABA",
+        "status": null,
+        "to": "Luciano Acosta",
+        "weight": 13
+      },
+      {
+        "id": 2,
+        "number_of_order": "#0H167",
+        "address": "AV. Carabobo y Rivadavia, CABA",
+        "status": null,
+        "to": "Nestor Ortigoza",
+        "weight": 15
+      },
+      {
+        "id": 3,
+        "number_of_order": "#0H166",
+        "address": "Mendoza 1810, CABA",
+        "status": null,
+        "to": "Camila Gonzalez",
+        "weight": 20
+      },
+      {
+        "id": 4,
+        "number_of_order": "#0B540",
+        "address": "Scalabrini Ortiz 5073, CABA",
+        "status": null,
+        "to": "Marco Ruben",
+        "weight": 36
+      },
+      {
+        "id": 5,
+        "number_of_order": "#0A242",
+        "address": "Amenabar 2100, CABA",
+        "status": null,
+        "to": "Milton Alvarez",
+        "weight": 24
+      },
+      {
+        "id": 6,
+        "number_of_order": "#0I143",
+        "address": "Melian 1242, CABA",
+        "status": null,
+        "to": "Fausto Vera",
+        "weight": 17
+      },      
+      {
+        "id": 7,
+        "number_of_order": "#0K870",
+        "address": "Av. Gral. Mosconi 1056, CABA",
+        "status": null,
+        "to": "Fernanda Ruiz",
+        "weight": 25
+      },
+      {
+        "id": 8,
+        "number_of_order": "#0A771",
+        "address": "Av. Callao 1441, CABA",
+        "status": null,
+        "to": "José Gimenez",
+        "weight": 9
+      },
+      {
+        "id": 9,
+        "number_of_order": "#0E553",
+        "address": "Reconquista 2549, CABA",
+        "status": null,
+        "to": "Maria Lucero",
+        "weight": 12
+      },
+      {
+        "id": 10,
+        "number_of_order": "#0M145",
+        "address": "Maipú 962, CABA",
+        "status": null,
+        "to": "Alvaro Cuello",
+        "weight": 21
+      },
+      {
+        "id": 11,
+        "number_of_order": "#0C874",
+        "address": "Montevideo 1581, CABA",
+        "status": null,
+        "to": "José Gimenez",
+        "weight": 54
+      },
+      {
+        "id": 12,
+        "number_of_order": "#0P509",
+        "address": "Av. Juan B. Justo 2891, CABA",
+        "status": null,
+        "to": "Lucas Fernandez",
+        "weight": 27
+      }
+    ]
+  }
