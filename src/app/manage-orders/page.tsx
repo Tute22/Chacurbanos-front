@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import Image from "next/image";
 import adminLogo from "../../../public/adminFoto.png";
@@ -6,8 +9,74 @@ import delivery2 from "../../../public/delivery2.png";
 import { poppins300, poppins400, poppins500, poppins600, poppins700 } from "@/commons/fonts";
 import { TriangleDownArrow, PlusIcon } from "@/commons/icons";
 import { Progress } from "antd";
+import { DateTime } from "luxon";
+import { fiveDays, injectTime, getPreviousFiveDays, getNextFiveDays } from "@/utils/calendar";
+import { membersEnabled, shipmentsDelivered, percentage } from "@/utils/calculations";
+import { users } from "@/services/users.json"
+import { packages } from "@/services/packages.json"
+
+
+interface DayData {
+  info: DateTime;
+  number: number;
+  day: string | null;
+  time: string;
+}
+
+interface UserData {
+  id: number,
+  name: string,
+  lastName: string,
+  email: string,
+  password: string,
+  role: string,
+  status: string,   
+  day: string | null,       
+  img: string;
+}
+
+interface PackageData {
+  id: number,
+  number_of_order: string,
+  address: string,
+  status: string | null,
+  to: string,
+  weight: number;
+}
 
 export default function ManageOrders() {
+  const [renderedDays, setRenderedDays] = useState<DayData[]>([]);
+  const [members, setMembers] = useState<UserData[]>([]);
+  const [shipments, setShipments] = useState<PackageData[]>([]);
+
+
+  const now = DateTime.local();
+  const formattedDate = now.toFormat("dd/MM/yy");
+  const days = fiveDays(formattedDate);
+  injectTime(now, days);
+
+  useEffect(() => {
+    setRenderedDays(days);
+    setMembers(users)
+    setShipments(packages)
+  }, []);
+
+  const classBeforeToday = "flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5";
+  const classToday = "flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5 bg-[#F4C455]";
+  const classAfterToday = "flex flex-col items-center border rounded-xl w-[42px] m-0.5 bg-[#626262] bg-opacity-[20%]";
+
+  const handlePreviousDays = () => {
+    const previousDays = getPreviousFiveDays(renderedDays);
+    setRenderedDays(previousDays);
+    injectTime(now, previousDays);
+  };
+
+  const handleNextDays = () => {
+    const nextDays = getNextFiveDays(renderedDays);
+    setRenderedDays(nextDays);
+    injectTime(now, nextDays);
+  };
+
   return (
     <div className="bg-[#AEE3EF] h-screen">
       <Navbar />
@@ -26,31 +95,17 @@ export default function ManageOrders() {
             </div>
             <br />
             <div className={`flex flex-col items-center border border-solid border-black rounded-xl`}>
-              <h1 className={`text-base ${poppins700.className} border-b-2 border-[#55BBD1] border-dotted w-[250px] mt-1`}>Enero</h1>
+              <h1 className={`text-base ${poppins700.className} border-b-2 border-[#55BBD1] border-dotted w-[250px] mt-1`}>Noviembre</h1>
               <div>
                 <div className="flex my-2">
-                  <TriangleDownArrow className="rotate-90 w-[20px]" />
-                  <div className={`flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5`}>
-                    <h3 className={`text-lg ${poppins400.className}`}>lun</h3>
-                    <h1 className={`text-xl ${poppins700.className}`}>01</h1>
-                  </div>
-                  <div className={`flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5`}>
-                    <h3 className={`text-lg ${poppins400.className}`}>mar</h3>
-                    <h1 className={`text-xl ${poppins700.className}`}>02</h1>
-                  </div>
-                  <div className={`flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5 bg-[#F4C455]`}>
-                    <h3 className={`text-lg ${poppins400.className}`}>mie</h3>
-                    <h1 className={`text-xl ${poppins700.className}`}>03</h1>
-                  </div>
-                  <div className={`flex flex-col items-center border rounded-xl w-[42px] m-0.5 bg-[#626262] bg-opacity-[20%]`}>
-                    <h3 className={`text-lg ${poppins400.className} text-[#626262]`}>jue</h3>
-                    <h1 className={`text-xl ${poppins700.className} text-[#626262]`}>04</h1>
-                  </div>
-                  <div className={`flex flex-col items-center border rounded-xl w-[42px] m-0.5 bg-[#626262] bg-opacity-[20%]`}>
-                    <h3 className={`text-lg ${poppins400.className} text-[#626262]`}>vie</h3>
-                    <h1 className={`text-xl ${poppins700.className} text-[#626262]`}>05</h1>
-                  </div>
-                  <TriangleDownArrow className="rotate-[-90deg] w-[20px]" />
+                  <TriangleDownArrow className="rotate-90 w-[20px]" onClick={handlePreviousDays} />
+                  {renderedDays.map((day) => (
+                    <div key={day.number} className={`${day.time === "before" ? classBeforeToday : ""} ${day.time === "today" ? classToday : ""} ${day.time === "after" ? classAfterToday : ""}`}>
+                      <h3 className={`text-lg ${poppins400.className} ${day.time === "after" ? "text-[#626262]" : ""}`}>{day.day}</h3>
+                      <h1 className={`text-xl ${poppins700.className} ${day.time === "after" ? "text-[#626262]" : ""}`}>{day.number}</h1>
+                    </div>
+                  ))}
+                  <TriangleDownArrow className="rotate-[-90deg] w-[20px]" onClick={handleNextDays} />
                 </div>
               </div>
             </div>
@@ -59,15 +114,15 @@ export default function ManageOrders() {
               <div className="flex justify-between border-b-2 border-[#55BBD1] border-dotted w-[250px] mb-2">
                 <h1 className={`text-base ${poppins700.className} mt-1`}>Detalles</h1>
                 <div className="flex">
-                  <h2 className={`text-base ${poppins500.className} mt-1`}>03/01/23</h2>
+                  <h2 className={`text-base ${poppins500.className} mt-1`}>{formattedDate}</h2>
                   <TriangleDownArrow className="w-[20px] ml-1" />
                 </div>
               </div>
               <div className="flex  justify-between w-[250px] mb-5">
-                <Progress type="circle" percent={20} strokeColor="#55BBD1" size={70} className={`text-lg ${poppins600.className}`} />
+                <Progress type="circle" percent={percentage(membersEnabled(members), members.length)} strokeColor="#55BBD1" size={70} className={`text-lg ${poppins600.className}`} />
                 <div>
                   <h1 className={`text-sm ${poppins700.className}`}>Repartidores</h1>
-                  <h3 className={`text-xs ${poppins300.className}`}>2/10 Habilitados</h3>
+                  <h3 className={`text-xs ${poppins300.className}`}>{`${membersEnabled(members)}/${members.length} Habilitados`}</h3>
                   <div className="flex">
                     {" "}
                     <Image src={delivery1} alt="Delivery 1 Logo" width={30} />
@@ -78,10 +133,10 @@ export default function ManageOrders() {
               </div>
               <div className="flex justify-between border-b-2 border-[#55BBD1] border-dotted w-[250px] mb-2"></div>
               <div className="flex  justify-between w-[250px] mb-5">
-                <Progress type="circle" percent={80} strokeColor="#55BBD1" size={70} className={`text-lg ${poppins600.className}`} />
+                <Progress type="circle" percent={percentage(shipmentsDelivered(shipments), shipments.length)} strokeColor="#55BBD1" size={70} className={`text-lg ${poppins600.className}`} />
                 <div>
                   <h1 className={`text-sm ${poppins700.className}`}>Paquetes</h1>
-                  <h3 className={`text-xs ${poppins300.className}`}>16/20 Repartidos</h3>
+                  <h3 className={`text-xs ${poppins300.className}`}>{`${shipmentsDelivered(shipments)}/${shipments.length} Repartidos`}</h3>
                   <div className="flex">
                     {" "}
                     <Image src={delivery1} alt="Delivery 1 Logo" width={30} />
