@@ -1,8 +1,12 @@
-import { LeftArrowIcon } from "@/commons/icons";
-import { poppins700, poppins400 } from "@/commons/fonts";
+import { LeftArrowIcon, TrashIcon, ChevronArrowDown } from "@/commons/icons";
+import { poppins400, poppins500, poppins600, poppins700 } from "@/commons/fonts";
 import { Navbar } from "@/components/Navbar";
+import Image from "next/image";
+import box from "../../../public/box.png";
+import { packages } from "../../services/packages.json";
 
-export default function Distribution() {
+export default function Packages() {
+
   return (
     <div className="bg-[#AEE3EF] h-screen">
       <Navbar />
@@ -25,6 +29,34 @@ export default function Distribution() {
               <h3 className={`text-lg ${poppins400.className}`}>mie</h3>
               <h1 className={`text-xl ${poppins700.className}`}>03</h1>
             </div>
+          </div>
+
+          <div>
+            <h1 className="text-black font-bold mb-5">{packages.length} paquetes</h1>
+          </div>
+
+          <div className=" h-96 overflow-y-auto">
+            {packages.map((element, index) => (
+              <div key={index} className={`border border-solid border-black rounded-xl mb-4 `}>
+                <div className="flex py-[10px] pl-[1px]">
+                  <Image src={box} alt="box" width={50} />
+                  <div className="flex-col border-l-2 border-black border-dotted">
+                    <div className={`ml-2 ${poppins500.className}`}>
+                      <h1 className={`text-[#55BBD1] ${poppins600.className} text-sm`}>{element.number_of_order}</h1>
+                      <p className="text-sm text-black">{element.address.split(",")[0]},</p>
+                      <p className="text-sm text-black">{element.address.split(",")[1]}</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col flex-grow items-end pr-3 mt-4">
+                    <button>{<TrashIcon className="w-6 text-red" />}</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center">
+            <button>{<ChevronArrowDown className="w-10 mt-6 text-black" />}</button>
           </div>
         </div>
       </main>
