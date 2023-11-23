@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { TriangleDownArrow } from "@/commons/icons";
 import { TrashIcon } from "@/commons/icons";
-import box from "../../../public/box.png";
+import box from "../../../public/Box.png";
 import { poppins300, poppins400, poppins500, poppins600, poppins700, poppins800 } from "@/commons/fonts";
 
 export default function WorkingDay() {
