@@ -4,72 +4,88 @@ import mainLogo from '../../../public/mainLogo.png';
 import { poppins400, poppins600, poppins700 } from '@/commons/fonts';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { users } from "@/services/users.json"
+import Link from 'next/link';
+
 
 export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
 
-    localStorage.setItem('userAdminApp', JSON.stringify({ 
-      name: "Fiama",
-      lastName: "Talavera",
-      email: "fiama@gmail.com",
-      password: "12345678",
-      admin: true
-     }));
-    
-const handleValidation = {
-        handleEmail: (value: string) => {
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
-            if (emailRegex.test(value)) {
-                return;
-            } else {
-                alert('El email debe contener @xxx.xxx');
-                setEmail('');
-            }
-        },
-        handlePassword: (value: string) => {
-            if (value.length >= 8) {
-                return;
-            } else {
-                setPassword('');
-                alert('La contraseña debe ser mayor a 8 caracteres');
-            }
-        },
-    };
+  const initializeFakeData = () => {
+    if (typeof window !== 'undefined') {
+      const storedDataString = localStorage.getItem('usersData');
+      if (!storedDataString || !JSON.parse(storedDataString).StoredUsers) {
+        const fakeData = users;
+        localStorage.setItem("usersData", JSON.stringify({ StoredUsers: fakeData }));
+      }
+    }
+  };
+  
+  // Llama a esta función para inicializar la fake data
+  initializeFakeData();
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
 
-        const userStorageInfoString = localStorage.getItem('userApp');
-        const userStorageInfo = userStorageInfoString ? JSON.parse(userStorageInfoString) : null;
-        const adminStorageInfoString = localStorage.getItem('userAdminApp');
-        const adminStorageInfo = adminStorageInfoString ? JSON.parse(adminStorageInfoString) : null;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-        if (userStorageInfo && userStorageInfo.admin === false) {
-            if (email !== userStorageInfo.email || password !== userStorageInfo.password) {
-              alert('Datos inválidos');
-              setEmail('')
-              setPassword('')
-            } 
-            else {
-                alert('Logueo exitoso!');
-                router.push("/working-day")
-            }
-        } else if(adminStorageInfo && adminStorageInfo.admin === true) {
-          if (email !== adminStorageInfo.email || password !== adminStorageInfo.password) {
-            alert('Datos inválidos');
-            setEmail('')
-            setPassword('')
-          } 
-          else {
-              alert('Logueo exitoso!');
-              router.push("/manage-orders")
-          }
-        }
-    };
+    const storedDataString = localStorage.getItem('usersData');
+    if (!storedDataString) {
+      alert('Error: No se pudo encontrar la información de usuarios.');
+      return;
+    }
+  
+    const storedData = JSON.parse(storedDataString);
+    const { StoredUsers } = storedData;
 
-    // value={password} onChange={(e)=> setPassword(e.currentTarget.value)} onBlur={(e) => handleValidation.handlePassword(e.currentTarget.value)} required
+    type User = {
+        id: number;
+        name: string;
+        lastName: string;
+        email: string;
+        password: string;
+        role: string;
+        status: string;
+        day: string | null;
+        img: string;
+      }
+
+      const user = StoredUsers.find((u: User) => u.email === email && u.password === password);
+
+    if (user) {
+      alert('Logueo exitoso!');
+      if (user.role === 'admin') {
+        router.push('/manage-orders');
+      } else {
+        router.push('/working-day');
+      }
+    } else {
+      alert('Datos inválidos');
+      setEmail('');
+      setPassword('');
+    }
+  };
+
+  const handleValidation = {
+    handleEmail: (value: string) => {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/;
+      if (emailRegex.test(value)) {
+        return;
+      } else {
+        alert('El email debe contener @xxx.xxx');
+        setEmail('');
+      }
+    },
+    handlePassword: (value: string) => {
+      if (value.length >= 8) {
+        return;
+      } else {
+        setPassword('');
+        alert('La contraseña debe ser mayor a 8 caracteres');
+      }
+    },
+  };
 
     return (
         <div>
@@ -83,12 +99,9 @@ const handleValidation = {
                         <div className="mt-2 bg-white rounded-xl shadow-xl p-5 w-80 h-[300px]">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-4 gap-5">
-                                    {/* <UserLogin className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" /> */}
                                     <input type="email" className={`${poppins400.className} w-full px-4 py-2 border rounded-lg focus:outline-none`} placeholder="nombre@mail.com" value={email} onBlur={(e) => handleValidation.handleEmail(e.currentTarget.value)} onChange={(e) => setEmail(e.currentTarget.value)} required />
                                 </div>
                                 <div className="mb-4">
-                                    {/* <LockIcon className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" /> */}
-                                    {/* <CloseEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" /> */}
                                     <input type="password" className={`${poppins400.className} w-full px-4 py-2 border rounded-lg focus:outline-none`} placeholder="    **********" value={password} onChange={(e) => setPassword(e.currentTarget.value)} onBlur={(e) => handleValidation.handlePassword(e.currentTarget.value)} required />
                                 </div>
                                 <div className="mb-4">
@@ -98,7 +111,8 @@ const handleValidation = {
                                 </div>
                             </form>
                             <div className="mb-4 mt-4">
-                                <button className={`${poppins400.className} w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]`}>Crear Cuenta</button>
+                                <Link href={"/register"}><button className={`${poppins400.className} w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]`}>Crear Cuenta</button></Link>
+                                
                             </div>
                             <div className="text-center mt-8">
                                 <a href="#" className={`${poppins400.className} inline-block text-sm`}>

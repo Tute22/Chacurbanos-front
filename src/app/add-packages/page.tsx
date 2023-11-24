@@ -22,7 +22,7 @@ export default function GetPackages() {
             console.log('No hay paquete');
         }
     }
-
+    
 
     const handleValidation = {
         handleAddress: (value: string) => {

@@ -7,6 +7,7 @@ import { OpenEyeIcon } from '@/commons/icons/OpenEyeIcon';
 import { Navbar } from '@/components/Navbar';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -17,13 +18,56 @@ export default function Register() {
     const router = useRouter();
 
     const handleSubmit = (e: React.FormEvent) => {
-      
         e.preventDefault();
-        localStorage.setItem('userApp', JSON.stringify({ name, lastName, email, password, admin: false }));
-        alert('Usuario Registrado');
+      
+        const storedDataString = localStorage.getItem('usersData');
+        if (!storedDataString) {
+          alert('Error: No se pudo encontrar la información de usuarios.');
+          return;
+        }
+      
+        storedDataString
 
+        const storedData = JSON.parse(storedDataString);
+        const { StoredUsers } = storedData;
+      
+        type User = {
+          id: number;
+          name: string;
+          lastName: string;
+          email: string;
+          password: string;
+          role: string;
+          status: string;
+          day: string | null;
+          img: string;
+        }
+      
+        const isEmailRegistered = StoredUsers.some((u: User) => u.email === email);
+      
+        if (isEmailRegistered) {
+          alert('El correo electrónico ya está registrado.');
+          return;
+        }
+      
+        const newUser = {
+          id: StoredUsers.length + 1,
+          name,
+          lastName,
+          email,
+          password,
+          role: 'user',
+          status: 'enabled',
+          day: null,
+          img: 'img',
+        };
+      
+        StoredUsers.push(newUser);
+        localStorage.setItem('usersData', JSON.stringify({ StoredUsers: StoredUsers }));
+      
+        alert('Usuario Registrado');
         router.push('/login');
-    };
+      };
 
     const handleValidation = {
         handleName: (value: string) => {
@@ -77,7 +121,7 @@ export default function Register() {
             <section className="flex justify-center mt-9">
                 <section className="bg-[#55BBD1] h-[150px] rounded-xl">
                     <div className="flex gap-12 mt-3 mb-2">
-                        <LeftArrowIcon className="w-8 h-auto text-white ml-3" />
+                    <Link href="/login"><LeftArrowIcon className="w-8 h-auto text-white ml-3" /></Link>
                         <h1 className={`flex justify-center text-lg ${poppins700.className} text-white`}>Creá tu cuenta</h1>
                     </div>
                     <div className="bg-white rounded-xl shadow-xl p-5 w-80 h-[600px]">
@@ -109,12 +153,12 @@ export default function Register() {
                             </div>
 
                             <div className="text-center">
-                                <a href="#" className={`${poppins400.className} inline-block text-sm`}>
+                                <p className={`${poppins400.className} inline-block text-sm`}>
                                     ¿Ya tenés una cuenta?
-                                </a>
+                                </p>
                             </div>
                             <div className="mb-4 mt-4">
-                                <button className={`${poppins400.className} w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]`}>Iniciar Sesión</button>
+                                <Link href="/login"><button className={`${poppins400.className} w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]`}>Iniciar Sesión</button></Link>
                             </div>
                         </form>
                     </div>
