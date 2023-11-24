@@ -1,4 +1,5 @@
-import { LeftArrowIcon, TriangleDownArrow } from "@/commons/icons";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
+import { TriangleDownArrow } from "@/commons/icons/TriangleDownArrow";
 import { Navbar } from "@/components/Navbar";
 import box from "../../../public/Box.png";
 import exampleFace from "../../../public/Ellipse 9.png";

@@ -5,7 +5,8 @@ import Image from "next/image";
 import adminLogo from "../../../public/adminFoto.png";
 import delivery1 from "../../../public/delivery1.png";
 import delivery2 from "../../../public/delivery2.png";
-import { TriangleDownArrow, PlusIcon } from "@/commons/icons";
+import { TriangleDownArrow } from "@/commons/icons/TriangleDownArrow";
+import { PlusIcon } from "@/commons/icons/PlusIcon";
 import { Progress } from "antd";
 import { DateTime } from "luxon";
 import {

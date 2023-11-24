@@ -1,8 +1,7 @@
 "use client";
-import { LeftArrowIcon } from "@/commons/icons";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
 import { Navbar } from "@/components/Navbar";
 import { useState } from "react";
-
 
 export default function GetPackages() {
   const [address, setAddress] = useState("");
@@ -10,18 +9,14 @@ export default function GetPackages() {
   const [packageWeight, setpackageWeight] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        localStorage.setItem('package', JSON.stringify({address, recipentName, packageWeight, deliveryDate}))
-        console.log('Paquete agregado!');
-        const storedPackage = localStorage.getItem('package');
-    
-        if (storedPackage !== null) {
-            console.log(JSON.parse(storedPackage));
-        } else {
-            console.log('No hay paquete');
-        }
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    localStorage.setItem(
+      "package",
+      JSON.stringify({ address, recipentName, packageWeight, deliveryDate })
+    );
+    console.log("Paquete agregado!");
+    const storedPackage = localStorage.getItem("package");
 
     if (storedPackage !== null) {
       console.log(JSON.parse(storedPackage));
@@ -65,7 +60,7 @@ export default function GetPackages() {
         <div className="bg-[#55BBD1] rounded-lg p-4 w-80 h-[80px] text-white flex flex-wrap justify-between shadow-md">
           <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
           <div className="w-fit mx-auto">
-            <h3 className="text-lg font-poppins font-semibold h-[32px] flex items-center">
+            <h3 className="text-lg font-poppins font-bold h-[32px] flex items-center">
               Agregar Paquetes
             </h3>
           </div>
@@ -121,7 +116,7 @@ export default function GetPackages() {
             <div className="mb-4 absolute right-12 bottom-[110px] flex justify-center">
               <button
                 type="submit"
-                className="w-72 py-1 bg-[#F4C455] rounded-full font-poppins font-medium"
+                className="w-72 py-1 font-bold bg-[#F4C455] rounded-full font-poppins"
               >
                 Agregar
               </button>

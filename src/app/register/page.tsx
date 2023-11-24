@@ -1,10 +1,8 @@
 "use client";
-import {
-  Camera,
-  CloseEyeIcon,
-  LeftArrowIcon,
-  OpenEyeIcon,
-} from "@/commons/icons";
+import { Camera } from "@/commons/icons/Camera";
+import { CloseEyeIcon } from "@/commons/icons/CloseEyeIcon";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
+import { OpenEyeIcon } from "@/commons/icons/OpenEyeIcon";
 import { Navbar } from "@/components/Navbar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -17,7 +15,6 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

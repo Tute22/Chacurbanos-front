@@ -1,4 +1,5 @@
-import { ChevronArrowDown, LeftArrowIcon } from "@/commons/icons";
+import { ChevronArrowDown } from "@/commons/icons/ChevronArrowDown";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
 import { Navbar } from "@/components/Navbar";
 import { Progress } from "antd";
 import Image from "next/image";

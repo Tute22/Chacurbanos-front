@@ -1,4 +1,4 @@
-import { LeftArrowIcon } from "@/commons/icons";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
 import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
 
