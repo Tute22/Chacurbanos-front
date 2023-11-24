@@ -10,21 +10,18 @@ export default function GetPackages() {
   const [packageWeight, setpackageWeight] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    localStorage.setItem(
-      "package",
-      JSON.stringify({ address, recipentName, packageWeight, deliveryDate })
-    );
-    console.log("Paquete agregado!");
-    const storedPackage = localStorage.getItem("package");
-
-    if (storedPackage !== null) {
-      console.log(JSON.parse(storedPackage));
-    } else {
-      console.log("No hay paquete");
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        localStorage.setItem('package', JSON.stringify({address, recipentName, packageWeight, deliveryDate}))
+        console.log('Paquete agregado!');
+        const storedPackage = localStorage.getItem('package');
+    
+        if (storedPackage !== null) {
+            console.log(JSON.parse(storedPackage));
+        } else {
+            console.log('No hay paquete');
+        }
     }
-  };
 
   const handleValidation = {
     handleAddress: (value: string) => {

@@ -1,24 +1,70 @@
-"use client";
-import Image from "next/image";
-import mainLogo from "../../../public/mainLogo.png";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+import Image from 'next/image';
+import mainLogo from '../../../public/mainLogo.png';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { users } from "@/services/users.json"
+import Link from 'next/link';
+
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
-  localStorage.setItem(
-    "userAdminApp",
-    JSON.stringify({
-      name: "Fiama",
-      lastName: "Talavera",
-      email: "fiama@gmail.com",
-      password: "12345678",
-      admin: true,
-    })
-  );
+  const initializeFakeData = () => {
+    if (typeof window !== 'undefined') {
+      const storedDataString = localStorage.getItem('usersData');
+      if (!storedDataString || !JSON.parse(storedDataString).StoredUsers) {
+        const fakeData = users;
+        localStorage.setItem("usersData", JSON.stringify({ StoredUsers: fakeData }));
+      }
+    }
+  };
+  
+  // Llama a esta función para inicializar la fake data
+  initializeFakeData();
+
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const storedDataString = localStorage.getItem('usersData');
+    if (!storedDataString) {
+      alert('Error: No se pudo encontrar la información de usuarios.');
+      return;
+    }
+  
+    const storedData = JSON.parse(storedDataString);
+    const { StoredUsers } = storedData;
+
+    type User = {
+        id: number;
+        name: string;
+        lastName: string;
+        email: string;
+        password: string;
+        role: string;
+        status: string;
+        day: string | null;
+        img: string;
+      }
+
+      const user = StoredUsers.find((u: User) => u.email === email && u.password === password);
+
+    if (user) {
+      alert('Logueo exitoso!');
+      if (user.role === 'admin') {
+        router.push('/manage-orders');
+      } else {
+        router.push('/working-day');
+      }
+    } else {
+      alert('Datos inválidos');
+      setEmail('');
+      setPassword('');
+    }
+  };
 
   const handleValidation = {
     handleEmail: (value: string) => {
@@ -26,63 +72,22 @@ export default function Login() {
       if (emailRegex.test(value)) {
         return;
       } else {
-        alert("El email debe contener @xxx.xxx");
-        setEmail("");
+        alert('El email debe contener @xxx.xxx');
+        setEmail('');
       }
     },
     handlePassword: (value: string) => {
       if (value.length >= 8) {
         return;
       } else {
-        setPassword("");
-        alert("La contraseña debe ser mayor a 8 caracteres");
+        setPassword('');
+        alert('La contraseña debe ser mayor a 8 caracteres');
       }
     },
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const userStorageInfoString = localStorage.getItem("userApp");
-    const userStorageInfo = userStorageInfoString
-      ? JSON.parse(userStorageInfoString)
-      : null;
-    const adminStorageInfoString = localStorage.getItem("userAdminApp");
-    const adminStorageInfo = adminStorageInfoString
-      ? JSON.parse(adminStorageInfoString)
-      : null;
-
-    if (userStorageInfo && userStorageInfo.admin === false) {
-      if (
-        email !== userStorageInfo.email ||
-        password !== userStorageInfo.password
-      ) {
-        alert("Datos inválidos");
-        setEmail("");
-        setPassword("");
-      } else {
-        alert("Logueo exitoso!");
-        router.push("/working-day");
-      }
-    } else if (adminStorageInfo && adminStorageInfo.admin === true) {
-      if (
-        email !== adminStorageInfo.email ||
-        password !== adminStorageInfo.password
-      ) {
-        alert("Datos inválidos");
-        setEmail("");
-        setPassword("");
-      } else {
-        alert("Logueo exitoso!");
-        router.push("/manage-orders");
-      }
-    }
-  };
-
-  // value={password} onChange={(e)=> setPassword(e.currentTarget.value)} onBlur={(e) => handleValidation.handlePassword(e.currentTarget.value)} required
-
-  return (
-    <div>
+    return (
+     <div>
       <main className="bg-[#AEE3EF] h-screen">
         <div className="flex justify-center">
           <Image src={mainLogo} width={280} alt="Logo" className="mt-24" />
@@ -134,9 +139,9 @@ export default function Login() {
                 </div>
               </form>
               <div className="mb-4 mt-4">
-                <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]">
+                <Link href={"/register"}><button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]">
                   Crear Cuenta
-                </button>
+                </button></Link>
               </div>
               <div className="text-center mt-8">
                 <a
@@ -151,5 +156,6 @@ export default function Login() {
         </section>
       </main>
     </div>
-  );
+    )
 }
+
