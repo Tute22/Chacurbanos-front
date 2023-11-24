@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import { CloseEyeIcon, UserLogin, LockIcon } from '@/commons/icons';
 import mainLogo from '../../../public/mainLogo.png';
 import { poppins400, poppins600, poppins700 } from '@/commons/fonts';
 import { useState } from 'react';
@@ -39,13 +38,13 @@ const handleValidation = {
         },
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        let userStorageInfoString = localStorage.getItem('userApp');
-        let userStorageInfo = userStorageInfoString ? JSON.parse(userStorageInfoString) : null;
-        let adminStorageInfoString = localStorage.getItem('userAdminApp');
-        let adminStorageInfo = adminStorageInfoString ? JSON.parse(adminStorageInfoString) : null;
+        const userStorageInfoString = localStorage.getItem('userApp');
+        const userStorageInfo = userStorageInfoString ? JSON.parse(userStorageInfoString) : null;
+        const adminStorageInfoString = localStorage.getItem('userAdminApp');
+        const adminStorageInfo = adminStorageInfoString ? JSON.parse(adminStorageInfoString) : null;
 
         if (userStorageInfo && userStorageInfo.admin === false) {
             if (email !== userStorageInfo.email || password !== userStorageInfo.password) {

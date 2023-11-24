@@ -1,5 +1,5 @@
 'use client';
-import { LeftArrowIcon } from '@/commons/icons';
+import { LeftArrowIcon } from '@/commons/icons/LeftArrowIcon';
 import { Navbar } from '@/components/Navbar';
 import { poppins400, poppins700 } from '@/commons/fonts';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ export default function GetPackages() {
     const [packageWeight, setpackageWeight] = useState('');
     const [deliveryDate, setDeliveryDate ] = useState('');
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         localStorage.setItem('package', JSON.stringify({address, recipentName, packageWeight, deliveryDate}))
         console.log('Paquete agregado!');

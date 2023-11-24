@@ -1,4 +1,4 @@
-import { LeftArrowIcon } from "@/commons/icons";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
 import { poppins700, poppins400, poppins600 } from "@/commons/fonts";
 import { Navbar } from "@/components/Navbar";
 

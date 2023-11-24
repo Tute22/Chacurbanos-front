@@ -1,6 +1,9 @@
 'use client';
 import { poppins400, poppins600, poppins700 } from '@/commons/fonts';
-import { Camera, CloseEyeIcon, LeftArrowIcon, OpenEyeIcon } from '@/commons/icons';
+import { Camera } from '@/commons/icons/Camera';
+import { CloseEyeIcon } from '@/commons/icons/CloseEyeIcon';
+import { LeftArrowIcon } from '@/commons/icons/LeftArrowIcon';
+import { OpenEyeIcon } from '@/commons/icons/OpenEyeIcon';
 import { Navbar } from '@/components/Navbar';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -13,7 +16,7 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const router = useRouter();
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent) => {
       
         e.preventDefault();
         localStorage.setItem('userApp', JSON.stringify({ name, lastName, email, password, admin: false }));
