@@ -1,6 +1,6 @@
 import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
-import { poppins700, poppins400, poppins600 } from "@/commons/fonts";
 import { Navbar } from "@/components/Navbar";
+import Link from "next/link";
 
 export default function Distribution() {
   return (
@@ -10,13 +10,12 @@ export default function Distribution() {
       {/* distribution screen */}
 
       <main className="mt-8 w-[335px] mx-auto bg-[#55BBD1] text-white   rounded-xl">
-        <div className="flex items-center w-full p-4">
-          <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
-
+        <div className="flex w-full p-4">
+          <Link href={"/working-day"}>
+            <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
+          </Link>
           <div className="w-fit mx-auto">
-            <h3 className={`text-lg ${poppins700.className}`}>
-              Reparto en curso
-            </h3>
+            <h3 className="text-lg font-poppins font-bold">Reparto en curso</h3>
           </div>
         </div>
 
@@ -34,40 +33,30 @@ export default function Distribution() {
 
             {/* Container con info de envio  */}
             <div className="py-5 pl-[0.5px]">
-              <p
-                className={`text-black text-[13px] mb-[1px] ${poppins400.className}`}
-              >
-                <strong className={`${poppins700.className} font-bold`}>
-                  Destino:
-                </strong>{" "}
+              <p className="text-black text-[13px] mb-[1px] font-poppins font-normal">
+                <strong className="font-poppins font-bold">Destino:</strong>{" "}
                 Balcarce 744
               </p>
-              <p
-                className={`text-black text-[13px] mb-[1px] ${poppins400.className}`}
-              >
-                <strong className={`${poppins700.className} font-bold`}>
+              <p className="text-black text-[13px] mb-[1px] font-poppins font-normal">
+                <strong className="font-poppins font-bold">
                   Número de paquete:
                 </strong>{" "}
                 #026AO9
               </p>
-              <p className={`text-black text-[13px] ${poppins400.className}`}>
-                <strong className={`${poppins700.className} font-bold`}>
-                  Recibe:
-                </strong>{" "}
+              <p className="text-black text-[13px] font-poppins font-normal">
+                <strong className="font-poppins font-bold">Recibe:</strong>{" "}
                 David Rodríguez
               </p>
             </div>
 
             {/* Container para botones */}
             <div className="pt-2">
-              <button
-                className={`${poppins600.className} w-full px-4 py-2 mb-4 font-bold bg-[#F4C455] rounded-full text-stone-900`}
-              >
-                Finalizar
-              </button>
-              <button
-                className={`${poppins400.className} w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px] text-stone-900`}
-              >
+              <Link href={"/working-day"}>
+                <button className="font-poppins font-medium w-full px-4 py-2 mb-4 bg-[#F4C455] rounded-full text-stone-900">
+                  Finalizar
+                </button>
+              </Link>
+              <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px] text-stone-900">
                 Cancelar entrega
               </button>
             </div>
