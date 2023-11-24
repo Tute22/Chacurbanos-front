@@ -1,4 +1,6 @@
-import { LeftArrowIcon, TrashIcon, ChevronArrowDown } from "@/commons/icons";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
+import { TrashIcon } from "@/commons/icons/TrashIcon";
+import { ChevronArrowDown } from "@/commons/icons/ChevronArrowDown";
 import { poppins400, poppins500, poppins600, poppins700 } from "@/commons/fonts";
 import { Navbar } from "@/components/Navbar";
 import Image from "next/image";

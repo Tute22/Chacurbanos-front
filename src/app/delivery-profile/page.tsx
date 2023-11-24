@@ -1,4 +1,6 @@
-import { LeftArrowIcon, TriangleDownArrow } from "@/commons/icons";
+// import { LeftArrowIcon, TriangleDownArrow } from "@/commons/icons";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
+import { TriangleDownArrow } from "@/commons/icons/TriangleDownArrow";
 import {
   poppins700,
   poppins400,

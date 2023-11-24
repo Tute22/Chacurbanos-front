@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import navbarLogo from "../../public/navbarLogo.svg"
-import { LogoutDoorIcon } from "@/commons/icons";
+import { LogoutDoorIcon } from "@/commons/icons/LogoutDoorIcon";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
