@@ -18,6 +18,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
 
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     localStorage.setItem(
@@ -25,7 +26,6 @@ export default function Register() {
       JSON.stringify({ name, lastName, email, password, admin: false })
     );
     alert("Usuario Registrado");
-
     router.push("/login");
   };
 

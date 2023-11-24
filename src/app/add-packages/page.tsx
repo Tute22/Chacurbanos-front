@@ -3,20 +3,25 @@ import { LeftArrowIcon } from "@/commons/icons";
 import { Navbar } from "@/components/Navbar";
 import { useState } from "react";
 
+
 export default function GetPackages() {
   const [address, setAddress] = useState("");
   const [recipentName, setRecipientName] = useState("");
   const [packageWeight, setpackageWeight] = useState("");
   const [deliveryDate, setDeliveryDate] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    localStorage.setItem(
-      "package",
-      JSON.stringify({ address, recipentName, packageWeight, deliveryDate })
-    );
-    console.log("Paquete agregado!");
-    const storedPackage = localStorage.getItem("package");
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        localStorage.setItem('package', JSON.stringify({address, recipentName, packageWeight, deliveryDate}))
+        console.log('Paquete agregado!');
+        const storedPackage = localStorage.getItem('package');
+    
+        if (storedPackage !== null) {
+            console.log(JSON.parse(storedPackage));
+        } else {
+            console.log('No hay paquete');
+        }
+    }
 
     if (storedPackage !== null) {
       console.log(JSON.parse(storedPackage));
