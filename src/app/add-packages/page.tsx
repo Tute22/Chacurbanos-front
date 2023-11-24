@@ -1,6 +1,7 @@
 "use client";
 import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
 import { Navbar } from "@/components/Navbar";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function GetPackages() {
@@ -58,7 +59,9 @@ export default function GetPackages() {
       <Navbar />
       <section className="flex items-center flex-col h-[82%] mt-7">
         <div className="bg-[#55BBD1] rounded-lg p-4 w-80 h-[80px] text-white flex flex-wrap justify-between shadow-md">
-          <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
+          <Link href={"/manage-orders"}>
+            <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
+          </Link>
           <div className="w-fit mx-auto">
             <h3 className="text-lg font-poppins font-bold h-[32px] flex items-center">
               Agregar Paquetes

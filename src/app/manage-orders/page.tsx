@@ -22,6 +22,7 @@ import {
 } from "@/utils/calculations";
 import { users } from "@/services/users.json";
 import { packages } from "@/services/packages.json";
+import Link from "next/link";
 
 interface DayData {
   info: DateTime;
@@ -189,9 +190,11 @@ export default function ManageOrders() {
                     <Image src={delivery2} alt="Delivery 2 Logo" width={30} />
                   </div>
                 </div>
-                <button className="bg-[#F4C455] text-sm py-1 px-3 rounded-full h-[28px] mt-[37px] font-poppins font-medium">
-                  Ver
-                </button>
+                <Link href={"/deliveries"}>
+                  <button className="bg-[#F4C455] text-sm py-1 px-3 rounded-full h-[28px] mt-[37px] font-poppins font-medium">
+                    Ver
+                  </button>
+                </Link>
               </div>
               <div className="flex justify-between border-b-2 border-[#55BBD1] border-dotted w-[250px] mb-2"></div>
               <div className="flex  justify-between w-[250px] mb-5">
@@ -221,19 +224,23 @@ export default function ManageOrders() {
                     </div>
                   </div>
                 </div>
-                <button className="bg-[#F4C455] text-sm py-1 px-3 rounded-full h-[28px] mt-[37px] font-poppins font-medium">
-                  Ver
-                </button>
+                <Link href={"/packages"}>
+                  <button className="bg-[#F4C455] text-sm py-1 px-3 rounded-full h-[28px] mt-[37px] font-poppins font-medium">
+                    Ver
+                  </button>
+                </Link>
               </div>
             </div>
             <br />
             <div>
-              <button className="bg-[#F4C455] py-1 w-[280px] rounded-full font-poppins font-medium">
-                <div className="flex justify-center items-center">
-                  <h1 className="mr-2">Nuevo paquete</h1>
-                  <PlusIcon className="w-[20px]" />
-                </div>
-              </button>
+              <Link href={"/add-packages"}>
+                <button className="bg-[#F4C455] py-1 w-[280px] rounded-full font-poppins font-medium">
+                  <div className="flex justify-center items-center">
+                    <h1 className="mr-2">Nuevo paquete</h1>
+                    <PlusIcon className="w-[20px]" />
+                  </div>
+                </button>
+              </Link>
             </div>
           </div>
         </section>

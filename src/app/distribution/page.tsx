@@ -11,7 +11,7 @@ export default function Distribution() {
 
       <main className="mt-8 w-[335px] mx-auto bg-[#55BBD1] text-white   rounded-xl">
         <div className="flex w-full p-4">
-          <Link href={"/"}>
+          <Link href={"/working-day"}>
             <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
           </Link>
           <div className="w-fit mx-auto">
@@ -51,9 +51,11 @@ export default function Distribution() {
 
             {/* Container para botones */}
             <div className="pt-2">
-              <button className="font-poppins font-medium w-full px-4 py-2 mb-4 bg-[#F4C455] rounded-full text-stone-900">
-                Finalizar
-              </button>
+              <Link href={"/working-day"}>
+                <button className="font-poppins font-medium w-full px-4 py-2 mb-4 bg-[#F4C455] rounded-full text-stone-900">
+                  Finalizar
+                </button>
+              </Link>
               <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px] text-stone-900">
                 Cancelar entrega
               </button>

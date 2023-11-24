@@ -10,7 +10,7 @@ export default function GetPackages() {
       <Navbar />
       <section className="flex items-center flex-col h-[82%] mt-7">
         <div className="bg-[#55BBD1] rounded-lg p-4 w-80 h-[80px] text-white flex flex-wrap justify-between shadow-md">
-          <Link href={"/"}>
+          <Link href={"/working-day"}>
             <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
           </Link>
           <div className="w-fit mx-auto">
@@ -85,12 +85,14 @@ export default function GetPackages() {
       </section>
 
       <div className="mb-4 flex justify-center">
-        <button
-          type="submit"
-          className="w-80 py-1 bg-[#F4C455] rounded-full font-poppins font-bold"
-        >
-          Iniciar Jornada
-        </button>
+        <Link href={"/working-day"}>
+          <button
+            type="submit"
+            className="w-80 py-1 bg-[#F4C455] rounded-full font-poppins font-bold"
+          >
+            Iniciar Jornada
+          </button>
+        </Link>
       </div>
     </main>
   );
