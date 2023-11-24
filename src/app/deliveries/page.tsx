@@ -7,6 +7,7 @@ import delivery3 from "../../../public/delivery3.svg";
 import delivery4 from "../../../public/delivery4.svg";
 import delivery5 from "../../../public/delivery5.svg";
 import delivery6 from "../../../public/delivery6.svg";
+import Link from "next/link";
 
 export default function Deliveries() {
   return (
@@ -15,7 +16,9 @@ export default function Deliveries() {
       <section className="flex justify-center mt-9">
         <section className="bg-[#55BBD1] h-[150px] rounded-xl">
           <div className="flex gap-16 mt-3 mb-2">
-            <LeftArrowIcon className="w-8 h-auto text-white ml-3" />
+            <Link href={"/manage-orders"}>
+              <LeftArrowIcon className="w-8 h-auto text-white ml-3" />
+            </Link>
             <h1 className="flex justify-center text-lg font-poppins font-semibold text-white">
               Repartidores
             </h1>
@@ -36,24 +39,26 @@ export default function Deliveries() {
               </div>
             </div>
 
-            <div className="flex gap-5">
-              <Progress
-                type="circle"
-                percent={52}
-                strokeColor="#55BBD1"
-                size={70}
-                className="text-lg font-poppins font-semibold"
-              ></Progress>
-              <div>
-                <h2 className="mt-3 text-lg font-poppins font-semibold">
-                  Farid
-                </h2>
-                <h3 className="text-xs bg-[#F4C455] px-2 rounded-full font-poppins font-bold">
-                  EN CURSO
-                </h3>
+            <Link href={"/delivery-profile"}>
+              <div className="flex gap-5">
+                <Progress
+                  type="circle"
+                  percent={52}
+                  strokeColor="#55BBD1"
+                  size={70}
+                  className="text-lg font-poppins font-semibold"
+                ></Progress>
+                <div>
+                  <h2 className="mt-3 text-lg font-poppins font-semibold">
+                    Farid
+                  </h2>
+                  <h3 className="text-xs bg-[#F4C455] px-2 rounded-full font-poppins font-bold">
+                    EN CURSO
+                  </h3>
+                </div>
+                <Image src={delivery3} alt="delivery" className="ml-12" />
               </div>
-              <Image src={delivery3} alt="delivery" className="ml-12" />
-            </div>
+            </Link>
             <p className="my-5 border-dashed border-black border-t w-full"></p>
             <div className="flex gap-5">
               <Progress

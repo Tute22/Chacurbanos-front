@@ -4,16 +4,18 @@ import { Navbar } from "@/components/Navbar";
 import box from "../../../public/Box.png";
 import exampleFace from "../../../public/Ellipse 9.png";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AdminProfile() {
   return (
     <div className="bg-[#AEE3EF] h-screen">
       <Navbar />
 
-      <main className="mt-8 w-[335px] mx-auto bg-[#55BBD1] text-white   rounded-xl">
-        <div className="flex items-center w-full p-4">
-          <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
-
+      <main className="mt-8 w-[335px] mx-auto bg-[#55BBD1] text-white rounded-xl">
+        <div className="flex w-full p-4">
+          <Link href={"/deliveries"}>
+            <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
+          </Link>
           <div className="w-fit mx-auto">
             <h3 className="text-lg font-poppins font-semibold">
               Perfil del repartidor

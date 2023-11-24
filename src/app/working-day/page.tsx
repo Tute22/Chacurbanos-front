@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { TriangleDownArrow } from "@/commons/icons/TriangleDownArrow";
 import { TrashIcon } from "@/commons/icons/TrashIcon";
 import box from "../../../public/Box.png";
+import Link from "next/link";
 
 export default function WorkingDay() {
   return (
@@ -54,9 +55,11 @@ export default function WorkingDay() {
                   PENDIENTE
                 </div>
                 <div className="pr-3">
-                  <button className="bg-[#F4C455] text-sm py-1 px-3 rounded-full font-poppins font-medium">
-                    Iniciar
-                  </button>
+                  <Link href={"/distribution"}>
+                    <button className="bg-[#F4C455] text-sm py-1 px-3 rounded-full font-poppins font-medium">
+                      Iniciar
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -113,9 +116,11 @@ export default function WorkingDay() {
         </section>
         <br />
         <div>
-          <button className="bg-[#F4C455] text-lg py-1 w-80 rounded-full font-poppins font-medium">
-            Obtener paquetes
-          </button>
+          <Link href={"/get-packages"}>
+            <button className="bg-[#F4C455] text-lg py-1 w-80 rounded-full font-poppins font-medium">
+              Obtener paquetes
+            </button>
+          </Link>
         </div>
       </div>
     </main>
