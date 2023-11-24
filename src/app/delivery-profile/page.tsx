@@ -1,10 +1,4 @@
 import { LeftArrowIcon, TriangleDownArrow } from "@/commons/icons";
-import {
-  poppins700,
-  poppins400,
-  poppins600,
-  poppins500,
-} from "@/commons/fonts";
 import { Navbar } from "@/components/Navbar";
 import box from "../../../public/Box.png";
 import exampleFace from "../../../public/Ellipse 9.png";
@@ -20,7 +14,7 @@ export default function AdminProfile() {
           <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
 
           <div className="w-fit mx-auto">
-            <h3 className={`text-lg ${poppins700.className}`}>
+            <h3 className="text-lg font-poppins font-semibold">
               Perfil del repartidor
             </h3>
           </div>
@@ -36,19 +30,13 @@ export default function AdminProfile() {
             <div className="pl-2 flex justify-between w-64 items-center ml-1">
               {/* Container con nombre y estado */}
               <div>
-                <p
-                  className={`text-black text-[13px] mb-[3px] ml-[0.5px] ${poppins400.className}`}
-                >
-                  <strong
-                    className={`${poppins700.className} font-bold text-base`}
-                  >
+                <p className="text-black text-[13px] mb-[3px] ml-[0.5px] font-poppins font-normal">
+                  <strong className="font-poppins font-bold text-base">
                     Farid
                   </strong>
                 </p>
 
-                <div
-                  className={`mb-1 text-[10px] text-black ${poppins700.className} bg-[#8EEE86] py-[1px] px-3 rounded-2xl tracking-wide`}
-                >
+                <div className="mb-1 text-[10px] text-black font-poppins font-bold bg-[#8EEE86] py-[1px] px-3 rounded-2xl tracking-wide">
                   HABILITADO
                 </div>
               </div>
@@ -69,30 +57,26 @@ export default function AdminProfile() {
       <div className="p-4 w-[335px] mx-auto mt-3 bg-white rounded-[11px] shadow-white-distribution-container ">
         <div className="w-full">
           <div className="flex justify-between ">
-            <h3 className={`text-lg ${poppins700.className}`}>
+            <h3 className="text-lg font-poppins font-bold">
               Repartos pendientes
             </h3>
             <TriangleDownArrow className=" w-[18px] h-6  ml-[3px] -rotate-90" />
           </div>
-          <p className={`mt-1 text-[13px] ${poppins400.className}`}>
+          <p className="mt-1 text-[13px] font-poppins font-normal">
             Sin repartos
           </p>
         </div>
       </div>
 
-      
-
-        
-
-        <div className="p-4 w-[335px] mx-auto mt-3 bg-white rounded-[11px] shadow-white-distribution-container max-h-[385.5px] " >
+      <div className="p-4 w-[335px] mx-auto mt-3 bg-white rounded-[11px] shadow-white-distribution-container max-h-[385.5px] ">
         <div className="w-full">
           <div className="flex justify-between ">
-            <h3 className={`text-lg ${poppins700.className}`}>
+            <h3 className="text-lg font-poppins font-bold">
               Historial de repartos
             </h3>
             <TriangleDownArrow className=" w-[18px] h-6  ml-[3px] " />
           </div>
-          <p className={`mt-1 text-[13px] ${poppins400.className} mb-5`}>
+          <p className="mt-1 text-[13px] font-poppins font-normal mb-5">
             58 paquetes entregados
           </p>
         </div>
@@ -102,10 +86,8 @@ export default function AdminProfile() {
             <div className="flex py-[10px] pl-[1px]">
               <Image src={box} alt="box" width={50} height={50} />
               <div className="flex-col border-l-2 border-black border-dotted">
-                <div className={`ml-2 ${poppins500.className}`}>
-                  <div
-                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
-                  >
+                <div className="ml-2 font-poppins font-medium">
+                  <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
                     #0A235
                   </div>
                   <div className="text-sm">Malabia 789,</div>
@@ -113,9 +95,7 @@ export default function AdminProfile() {
                 </div>
               </div>
               <div className="flex flex-col flex-grow items-end">
-                <div
-                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
-                >
+                <div className="mb-4 text-xs font-poppins font-bold bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl">
                   ENTREGADO
                 </div>
               </div>
@@ -126,10 +106,8 @@ export default function AdminProfile() {
             <div className="flex py-[10px] pl-[1px]">
               <Image src={box} alt="box" width={50} height={50} />
               <div className="flex-col border-l-2 border-black border-dotted">
-                <div className={`ml-2 ${poppins500.className}`}>
-                  <div
-                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
-                  >
+                <div className="ml-2 font-poppins font-medium">
+                  <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
                     #0A235
                   </div>
                   <div className="text-sm">Malabia 789,</div>
@@ -137,9 +115,7 @@ export default function AdminProfile() {
                 </div>
               </div>
               <div className="flex flex-col flex-grow items-end">
-                <div
-                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
-                >
+                <div className="mb-4 text-xs font-poppins font-bold bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl">
                   ENTREGADO
                 </div>
               </div>
@@ -150,10 +126,8 @@ export default function AdminProfile() {
             <div className="flex py-[10px] pl-[1px]">
               <Image src={box} alt="box" width={50} height={50} />
               <div className="flex-col border-l-2 border-black border-dotted">
-                <div className={`ml-2 ${poppins500.className}`}>
-                  <div
-                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
-                  >
+                <div className="ml-2 font-poppins font-medium">
+                  <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
                     #0A235
                   </div>
                   <div className="text-sm">Malabia 789,</div>
@@ -161,9 +135,7 @@ export default function AdminProfile() {
                 </div>
               </div>
               <div className="flex flex-col flex-grow items-end">
-                <div
-                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
-                >
+                <div className="mb-4 text-xs font-poppins font-bold bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl">
                   ENTREGADO
                 </div>
               </div>
@@ -174,10 +146,8 @@ export default function AdminProfile() {
             <div className="flex py-[10px] pl-[1px]">
               <Image src={box} alt="box" width={50} height={50} />
               <div className="flex-col border-l-2 border-black border-dotted">
-                <div className={`ml-2 ${poppins500.className}`}>
-                  <div
-                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
-                  >
+                <div className="ml-2 font-poppins font-medium">
+                  <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
                     #0A235
                   </div>
                   <div className="text-sm">Malabia 789,</div>
@@ -185,9 +155,7 @@ export default function AdminProfile() {
                 </div>
               </div>
               <div className="flex flex-col flex-grow items-end">
-                <div
-                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
-                >
+                <div className="mb-4 text-xs font-poppins font-bold bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl">
                   ENTREGADO
                 </div>
               </div>
@@ -198,10 +166,8 @@ export default function AdminProfile() {
             <div className="flex py-[10px] pl-[1px]">
               <Image src={box} alt="box" width={50} height={50} />
               <div className="flex-col border-l-2 border-black border-dotted">
-                <div className={`ml-2 ${poppins500.className}`}>
-                  <div
-                    className={`text-[#55BBD1] ${poppins600.className} text-sm`}
-                  >
+                <div className="ml-2 font-poppins font-medium">
+                  <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
                     #0A235
                   </div>
                   <div className="text-sm">Malabia 789,</div>
@@ -209,17 +175,13 @@ export default function AdminProfile() {
                 </div>
               </div>
               <div className="flex flex-col flex-grow items-end">
-                <div
-                  className={`mb-4 text-xs ${poppins700.className} bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl`}
-                >
+                <div className="mb-4 text-xs font-poppins font-bold bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl">
                   ENTREGADO
                 </div>
               </div>
             </div>
           </div>
-
         </main>
-
       </div>
     </div>
   );
