@@ -1,4 +1,6 @@
-import { CheckboxCheck, CheckboxEmpty, LeftArrowIcon } from "@/commons/icons";
+import { CheckboxCheck } from "@/commons/icons/CheckboxCheck";
+import { CheckboxEmpty } from "@/commons/icons/CheckboxEmpty";
+import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
 import { Navbar } from "@/components/Navbar";
 import Link from "next/link";
 
