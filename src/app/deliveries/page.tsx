@@ -8,8 +8,14 @@ import delivery4 from "../../../public/delivery4.svg";
 import delivery5 from "../../../public/delivery5.svg";
 import delivery6 from "../../../public/delivery6.svg";
 import Link from "next/link";
+import { DateTime } from "luxon";
 
 export default function Deliveries() {
+  const now = DateTime.local();
+
+  console.log(now.weekdayShort);
+  
+
   return (
     <main className="bg-[#AEE3EF] h-screen">
       <Navbar />
@@ -34,8 +40,8 @@ export default function Deliveries() {
               <div
                 className={`flex flex-col items-center border border-solid border-[#F4C455] rounded-xl w-[42px] text-[#55BBD1] shadow-lg py-2 px-7`}
               >
-                <h3 className="text-lg font-poppins font-normal">mie</h3>
-                <h1 className="text-xl font-poppins font-bold">03</h1>
+                <h3 className="text-lg font-poppins font-normal">{now.weekdayShort}</h3>
+                <h1 className="text-xl font-poppins font-bold">{now.day}</h1>
               </div>
             </div>
 

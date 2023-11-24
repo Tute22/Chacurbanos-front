@@ -17,6 +17,7 @@ import {
 } from "@/utils/calendar";
 import {
   membersEnabled,
+  membersWhoAreDelivery,
   shipmentsDelivered,
   percentage,
 } from "@/utils/calculations";
@@ -183,7 +184,7 @@ export default function ManageOrders() {
                   </h1>
                   <h3 className="text-xs font-poppins font-light">{`${membersEnabled(
                     members
-                  )}/${members.length} Habilitados`}</h3>
+                  )}/${membersWhoAreDelivery(members)} Habilitados`}</h3>
                   <div className="flex">
                     {" "}
                     <Image src={delivery1} alt="Delivery 1 Logo" width={30} />
