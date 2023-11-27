@@ -33,59 +33,59 @@ export default function Login() {
         }
     };
 
-    const storedDataString = localStorage.getItem('usersData');
-    if (!storedDataString) {
-        // alert('Error: No se pudo encontrar la información de usuarios.');
-        return;
-    }
+    // const storedDataString = localStorage.getItem('usersData');
+    // if (!storedDataString) {
+    //     // alert('Error: No se pudo encontrar la información de usuarios.');
+    //     return;
+    // }
 
-    const storedData = JSON.parse(storedDataString);
-    const { StoredUsers } = storedData;
+    // const storedData = JSON.parse(storedDataString);
+    // const { StoredUsers } = storedData;
 
-    const user = StoredUsers.find((u: User) => u.email === email && u.password === password);
+    // const user = StoredUsers.find((u: User) => u.email === email && u.password === password);
     // Llama a esta función para inicializar la fake data
     initializeFakeData();
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    // const handleSubmit = (e: React.FormEvent) => {
+    //     e.preventDefault();
 
 
-        if (user) {
-            alert('Logueo exitoso!');
-            if (user.role === 'admin') {
-                router.push('/manage-orders');
-            } else {
-                router.push('/working-day');
-            }
-        } else {
-            alert('Datos inválidos');
-            setEmail('');
-            setPassword('');
-        }
-    };
+    //     if (user) {
+    //         alert('Logueo exitoso!');
+    //         if (user.role === 'admin') {
+    //             router.push('/manage-orders');
+    //         } else {
+    //             router.push('/working-day');
+    //         }
+    //     } else {
+    //         alert('Datos inválidos');
+    //         setEmail('');
+    //         setPassword('');
+    //     }
+    // };
 
-    const handleValidation = {
-        handleEmail: (value: string) => {
-            const user = StoredUsers.find((u: User) => u.email === email);
-            if (user) {
-                return;
-            } else {
-                alert('Datos invalidos');
-                setEmail('');
-                setPassword('');
-            }
-        },
-        handlePassword: (value: string) => {
-            const user = StoredUsers.find((u: User) => u.password === password);
-            if (user) {
-                return;
-            } else {
-                setPassword('');
-                setEmail('');
-                alert('Datos invalidos');
-            }
-        },
-    };
+    // const handleValidation = {
+    //     handleEmail: (value: string) => {
+    //         const user = StoredUsers.find((u: User) => u.email === email);
+    //         if (user) {
+    //             return;
+    //         } else {
+    //             alert('Datos invalidos');
+    //             setEmail('');
+    //             setPassword('');
+    //         }
+    //     },
+    //     handlePassword: (value: string) => {
+    //         const user = StoredUsers.find((u: User) => u.password === password);
+    //         if (user) {
+    //             return;
+    //         } else {
+    //             setPassword('');
+    //             setEmail('');
+    //             alert('Datos invalidos');
+    //         }
+    //     },
+    // };
 
     return (
         <div>
@@ -97,18 +97,18 @@ export default function Login() {
                     <section className="bg-[#55BBD1] h-[80px] rounded-xl mt-4">
                         <h1 className="flex justify-center text-lg font-poppins font-bold mt-3 text-white">Iniciar Sesión</h1>
                         <div className="mt-2 bg-white rounded-xl shadow-xl p-5 w-80 h-[300px]">
-                            <form onSubmit={handleSubmit}>
+                            <form /* onSubmit={handleSubmit} */>
                                 <div className="mb-4 gap-5">
                                     {/* <UserLogin className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" /> */}
-                                    <input type="email" className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none" placeholder="nombre@mail.com" value={email} onBlur={(e) => handleValidation.handleEmail(e.currentTarget.value)} onChange={(e) => setEmail(e.currentTarget.value)} required />
+                                    <input type="email" className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none" placeholder="nombre@mail.com" value={email} /* onBlur={(e) => handleValidation.handleEmail(e.currentTarget.value)} */ onChange={(e) => setEmail(e.currentTarget.value)} required />
                                 </div>
                                 <div className="mb-4">
                                     {/* <LockIcon className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" />
                   <CloseEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" /> */}
-                                    <input type="password" className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none" placeholder="**********" value={password} onChange={(e) => setPassword(e.currentTarget.value)} onBlur={(e) => handleValidation.handlePassword(e.currentTarget.value)} required />
+                                    <input type="password" className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none" placeholder="**********" value={password} onChange={(e) => setPassword(e.currentTarget.value)} /* onBlur={(e) => handleValidation.handlePassword(e.currentTarget.value)} */ required />
                                 </div>
                                 <div className="mb-4">
-                                    <button type="submit" onSubmit={handleSubmit} className="font-poppins font-semibold w-full px-4 py-2 bg-[#F4C455] rounded-full">
+                                    <button type="submit" /* onSubmit={handleSubmit} */ className="font-poppins font-semibold w-full px-4 py-2 bg-[#F4C455] rounded-full">
                                         Ingresar
                                     </button>
                                 </div>
