@@ -9,7 +9,18 @@ export default function Distribution() {
 
       {/* distribution screen */}
 
-      <main className="mt-8 w-[335px] mx-auto bg-[#55BBD1] text-white   rounded-xl">
+
+
+
+
+
+
+
+
+
+
+
+                                                                     <main className="mt-8 w-[335px] mx-auto bg-[#55BBD1] text-white   rounded-xl">
         <div className="flex w-full p-4">
           <Link href={"/working-day"}>
             <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
