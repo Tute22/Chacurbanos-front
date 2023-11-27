@@ -24,7 +24,7 @@ export default function Login() {
     };
 
     const initializeFakeData = () => {
-        if (typeof window !== 'undefined') {
+                                                        if (typeof window !== 'undefined') {
             const storedDataString = localStorage.getItem('usersData');
             if (!storedDataString || !JSON.parse(storedDataString).StoredUsers) {
                 const fakeData = users;
