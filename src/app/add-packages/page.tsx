@@ -13,7 +13,7 @@ export default function GetPackages() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         localStorage.setItem('package', JSON.stringify({address, recipentName, packageWeight, deliveryDate}))
-        console.log('Paquete agregado!');
+        alert('Paquete agregado!');
         const storedPackage = localStorage.getItem('package');
     
         if (storedPackage !== null) {
