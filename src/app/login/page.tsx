@@ -16,6 +16,7 @@ export default function Login() {
         validatePassword,
         setEmail,
         setPassword,
+        isLoginComplete,
     } = useValidations()
 
     const initializeFakeData = () => {
@@ -80,6 +81,8 @@ export default function Login() {
         }
     }
 
+    const buttonOpacityClass = isLoginComplete() ? 'opacity-100' : 'opacity-50'
+
     return (
         <div>
             <main className="bg-[#AEE3EF] h-screen">
@@ -96,7 +99,7 @@ export default function Login() {
                         <h1 className="flex justify-center text-lg font-poppins font-bold mt-3 text-white">
                             Iniciar Sesión
                         </h1>
-                        <div className="mt-2 bg-white rounded-xl shadow-xl p-5 w-80 h-[300px]">
+                        <div className="mt-2 bg-white rounded-xl shadow-xl p-5 w-80">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-4 gap-5">
                                     {/* <UserLogin className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" /> */}
@@ -114,7 +117,9 @@ export default function Login() {
                                         required
                                     />{' '}
                                     {errors.email && (
-                                        <span>{errors.email}</span>
+                                        <span className="text-red-600 text-xs">
+                                            {errors.email}
+                                        </span>
                                     )}
                                 </div>
                                 <div className="mb-4">
@@ -136,13 +141,16 @@ export default function Login() {
                                         required
                                     />{' '}
                                     {errors.password && (
-                                        <span>{errors.password}</span>
+                                        <span className="text-red-600 text-xs">
+                                            {errors.password}
+                                        </span>
                                     )}
                                 </div>
                                 <div className="mb-4">
                                     <button
                                         onSubmit={handleSubmit}
-                                        className="font-poppins font-semibold w-full px-4 py-2 bg-[#F4C455] rounded-full"
+                                        className={`font-poppins font-semibold w-full px-4 py-2 bg-[#F4C455] rounded-full ${buttonOpacityClass}`}
+                                        disabled={!isLoginComplete()}
                                     >
                                         Ingresar
                                     </button>

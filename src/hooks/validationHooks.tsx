@@ -32,7 +32,10 @@ export const useValidations = () => {
             setErrors((prevErrors) => ({ ...prevErrors, name: '' }))
             return true
         } else {
-            setErrors((prevErrors) => ({ ...prevErrors, name: 'Nombre solo con letras' }))
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                name: '*Nombre solo con letras',
+            }))
             return false
         }
     }
@@ -42,7 +45,10 @@ export const useValidations = () => {
             setErrors((prevErrors) => ({ ...prevErrors, lastName: '' }))
             return true
         } else {
-            setErrors((prevErrors) => ({ ...prevErrors, lastName: 'Apellido solo con letras' }))
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                lastName: '*Apellido solo con letras',
+            }))
             return false
         }
     }
@@ -53,7 +59,10 @@ export const useValidations = () => {
             setErrors((prevErrors) => ({ ...prevErrors, email: '' }))
             return true
         } else {
-            setErrors((prevErrors) => ({ ...prevErrors, email: 'Debe contener @ y dominio' }))
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                email: '*Debe contener @ y dominio',
+            }))
             return false
         }
     }
@@ -63,19 +72,44 @@ export const useValidations = () => {
             setErrors((prevErrors) => ({ ...prevErrors, password: '' }))
             return true
         } else {
-            setErrors((prevErrors) => ({ ...prevErrors, password: 'La contraseña debe ser mayor a 8 caracteres' }))
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                password: '*La contraseña debe ser mayor a 8 caracteres',
+            }))
             return false
         }
     }
 
-    const validateConfirmPassword = (confirmPassword: string, password: string) => {
+    const validateConfirmPassword = (
+        confirmPassword: string,
+        password: string
+    ) => {
         if (confirmPassword === password) {
             setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: '' }))
             return true
         } else {
-            setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: 'Deben ser iguales' }))
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                confirmPassword: '*Deben ser iguales',
+            }))
             return false
         }
+    }
+
+    const isLoginComplete = () => {
+        return (
+            formValues.email.trim() !== '' && formValues.password.trim() !== ''
+        )
+    }
+
+    const isRegisterComplete = () => {
+        return (
+            formValues.name.trim() !== '' &&
+            formValues.lastName.trim() !== '' &&
+            formValues.email.trim() !== '' &&
+            formValues.password.trim() !== '' &&
+            formValues.confirmPassword.trim() !== ''
+        )
     }
 
     const setName = (name: string) => {
@@ -111,5 +145,7 @@ export const useValidations = () => {
         setEmail,
         setPassword,
         setConfirmPassword,
+        isLoginComplete,
+        isRegisterComplete,
     }
 }
