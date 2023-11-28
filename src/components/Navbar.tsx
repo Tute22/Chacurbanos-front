@@ -8,17 +8,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
-  const pathName = usePathname();
+  const pathname = usePathname();
   const router = useRouter();
 
   return (
     <nav className="h-14 bg-[#AEE3EF] shadow-nav py-2 px-8 flex justify-between">
-      <Link href={"/"}>
         {" "}
         {/* Despues cambiar a working-day para repartidor y manage-orders para admin */}
         <Image src={navbarLogo} width={56} height={160} alt="navbarLogo" />
-      </Link>
-      {pathName === "/register" ? (
+      {pathname === "/register" ? (
         ""
       ) : (
         <div

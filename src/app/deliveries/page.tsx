@@ -1,5 +1,4 @@
 import { ChevronArrowDown } from "@/commons/icons/ChevronArrowDown";
-import { LeftArrowIcon } from "@/commons/icons/LeftArrowIcon";
 import { Navbar } from "@/components/Navbar";
 import { Progress } from "antd";
 import Image from "next/image";
@@ -9,28 +8,16 @@ import delivery5 from "../../../public/delivery5.svg";
 import delivery6 from "../../../public/delivery6.svg";
 import Link from "next/link";
 import { DateTime } from "luxon";
+import MainContainer from "@/commons/MainContainer";
 
 export default function Deliveries() {
-  const now = DateTime.local();
-
-  console.log(now.weekdayShort);
-  
+  const now = DateTime.local();  
 
   return (
     <main className="bg-[#AEE3EF] h-screen">
       <Navbar />
-      <section className="flex justify-center mt-9">
-        <section className="bg-[#55BBD1] h-[150px] rounded-xl">
-          <div className="flex gap-16 mt-3 mb-2">
-            <Link href={"/manage-orders"}>
-              <LeftArrowIcon className="w-8 h-auto text-white ml-3" />
-            </Link>
-            <h1 className="flex justify-center text-lg font-poppins font-semibold text-white">
-              Repartidores
-            </h1>
-          </div>
-          <section className="bg-white rounded-xl shadow-xl p-5 w-80 h-[600px]">
-            <div className="flex">
+      <MainContainer title={'Repartidores'} height={''}>
+      <div className="flex">
               <div>
                 <h1 className="text-black text-xl mb-1 mt-2 font-poppins font-bold">
                   Enero
@@ -122,9 +109,7 @@ export default function Deliveries() {
             <div className="flex justify-center">
               <ChevronArrowDown className="mt-6" />
             </div>
-          </section>
-        </section>
-      </section>
+      </MainContainer>
     </main>
   );
 }
