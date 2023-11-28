@@ -1,10 +1,11 @@
-'use client'
-import Image from 'next/image'
-import mainLogo from '../../../public/mainLogo.png'
-import { useState } from 'react'
-// import { useRouter } from "next/navigation";
-import { users } from '@/services/users.json'
-import Link from 'next/link'
+'use client';
+import Image from 'next/image';
+import mainLogo from '../../../public/mainLogo.png';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { users } from '@/services/users.json';
+import Link from 'next/link';
+import MainContainer from '@/commons/MainContainer';
 
 export default function Login() {
     const [email, setEmail] = useState('')
@@ -104,12 +105,8 @@ export default function Login() {
                     />
                 </div>
                 <section className="flex justify-center mt-9">
-                    <section className="bg-[#55BBD1] h-[80px] rounded-xl mt-4">
-                        <h1 className="flex justify-center text-lg font-poppins font-bold mt-3 text-white">
-                            Iniciar Sesión
-                        </h1>
-                        <div className="mt-2 bg-white rounded-xl shadow-xl p-5 w-80 h-[300px]">
-                            <form /* onSubmit={handleSubmit} */>
+                    <MainContainer title={'Iniciar Sesión'} height={''}>
+                     <form /* onSubmit={handleSubmit} */>
                                 <div className="mb-4 gap-5">
                                     {/* <UserLogin className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" /> */}
                                     <input
@@ -161,8 +158,7 @@ export default function Login() {
                                     OLVIDÉ MI CONTRASEÑA
                                 </a>
                             </div>
-                        </div>
-                    </section>
+                    </MainContainer>
                 </section>
             </main>
         </div>
