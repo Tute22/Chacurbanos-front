@@ -1,8 +1,7 @@
 'use client'
-import { LeftArrowIcon } from '@/commons/icons/LeftArrowIcon'
+import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
 import { useValidations } from '@/hooks/validationHooks'
-import Link from 'next/link'
 import { useState } from 'react'
 
 export default function GetPackages() {
@@ -17,6 +16,7 @@ export default function GetPackages() {
         setPackageWeight,
         isAddPackageComplete,
     } = useValidations()
+
     const [deliveryDate, setDeliveryDate] = useState('')
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -43,19 +43,8 @@ export default function GetPackages() {
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
             <Navbar />
-            <section className="flex items-center flex-col h-[82%] mt-7">
-                <div className="bg-[#55BBD1] rounded-lg p-4 w-80 h-[80px] text-white flex flex-wrap justify-between shadow-md">
-                    <Link href={'/manage-orders'}>
-                        <LeftArrowIcon className="w-8 ml-[3px] absolute mx-auto" />
-                    </Link>
-                    <div className="w-fit mx-auto">
-                        <h3 className="text-lg font-poppins font-bold h-[32px] flex items-center">
-                            Agregar Paquetes
-                        </h3>
-                    </div>
-                </div>
-                <div className="bg-white rounded-lg p-4 w-80 mt-[-20px] h-[600px] flex flex-col shadow-md justify-center">
-                    <form
+            <MainContainer title={'Agrega'} height={'600px'}>
+                   <form
                         className="rounded-xl flex justify-center flex-col p-4"
                         onSubmit={handleSubmit}
                     >
@@ -126,8 +115,7 @@ export default function GetPackages() {
                             </button>
                         </div>
                     </form>
-                </div>
-            </section>
+            </MainContainer>
         </main>
     )
 }
