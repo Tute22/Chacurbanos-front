@@ -6,6 +6,8 @@ interface FormValues {
     email: string
     password: string
     confirmPassword: string
+    address: string
+    packageWeight: string
 }
 
 interface FormErrors {
@@ -14,6 +16,8 @@ interface FormErrors {
     email?: string
     password?: string
     confirmPassword?: string
+    address?: string
+    packageWeight?: string
 }
 
 export const useValidations = () => {
@@ -23,6 +27,8 @@ export const useValidations = () => {
         email: '',
         password: '',
         confirmPassword: '',
+        address: '',
+        packageWeight: '',
     })
 
     const [errors, setErrors] = useState<FormErrors>({})
@@ -96,6 +102,33 @@ export const useValidations = () => {
         }
     }
 
+    const validateAddress = (address: string) => {
+        if (/^[A-Za-z0-9\s]*$/.test(address)) {
+            setErrors((prevErrors) => ({ ...prevErrors, address: '' }))
+            return true
+        } else {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                address: '*Dirección solo admite caracteres alfanumericos',
+            }))
+            return false
+        }
+    }
+
+    const validatePackage = (packageWeight: string) => {
+        const stringValue = packageWeight.toString()
+        if (/^[0-9]+$/.test(stringValue)) {
+            setErrors((prevErrors) => ({ ...prevErrors, packageWeight: '' }))
+            return true
+        } else {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                packageWeight: '*Peso solo admite numeros',
+            }))
+            return false
+        }
+    }
+
     const isLoginComplete = () => {
         return (
             formValues.email.trim() !== '' && formValues.password.trim() !== ''
@@ -109,6 +142,14 @@ export const useValidations = () => {
             formValues.email.trim() !== '' &&
             formValues.password.trim() !== '' &&
             formValues.confirmPassword.trim() !== ''
+        )
+    }
+
+    const isAddPackageComplete = () => {
+        return (
+            formValues.name.trim() !== '' &&
+            formValues.address.trim() !== '' &&
+            formValues.packageWeight.trim() !== ''
         )
     }
 
@@ -132,6 +173,14 @@ export const useValidations = () => {
         setFormValues((prevState) => ({ ...prevState, confirmPassword }))
     }
 
+    const setAddress = (address: string) => {
+        setFormValues((prevState) => ({ ...prevState, address }))
+    }
+
+    const setPackageWeight = (packageWeight: string) => {
+        setFormValues((prevState) => ({ ...prevState, packageWeight }))
+    }
+
     return {
         formValues,
         errors,
@@ -140,12 +189,17 @@ export const useValidations = () => {
         validateEmail,
         validatePassword,
         validateConfirmPassword,
+        validateAddress,
+        validatePackage,
         setName,
         setLastName,
         setEmail,
         setPassword,
         setConfirmPassword,
+        setAddress,
+        setPackageWeight,
         isLoginComplete,
         isRegisterComplete,
+        isAddPackageComplete,
     }
 }
