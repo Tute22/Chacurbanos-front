@@ -25,6 +25,8 @@ import { users } from '@/services/users.json'
 import { packages } from '@/services/packages.json'
 import Link from 'next/link'
 import MainContainer from '@/commons/MainContainer'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 interface DayData {
     info: DateTime
@@ -58,6 +60,36 @@ export default function ManageOrders() {
     const [renderedDays, setRenderedDays] = useState<DayData[]>([])
     const [members, setMembers] = useState<UserData[]>([])
     const [shipments, setShipments] = useState<PackageData[]>([])
+
+    const port = process.env.NEXT_PUBLIC_PORT
+
+    const router = useRouter()
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${port}/users/${storedToken}`);
+                const decodedToken = response.data.decodedToken;
+                console.log('Token encontrado y decodificado:', decodedToken);
+
+                if (decodedToken.role !== 'admin') {
+                    router.push('/');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error al intentar obtener usuario.');
+            }
+        };
+
+        if (storedToken) {
+            fetchData();
+        } else {
+            router.push('/');
+        }
+
+    }, [port, router]);
 
     const now = DateTime.local()
     const formattedDate = now.toFormat('dd/MM/yy')

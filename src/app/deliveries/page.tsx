@@ -1,3 +1,5 @@
+"use client"
+
 import { ChevronArrowDown } from '@/commons/icons/ChevronArrowDown'
 import { Navbar } from '@/components/Navbar'
 import { Progress } from 'antd'
@@ -9,9 +11,42 @@ import delivery6 from '../../../public/delivery6.svg'
 import Link from 'next/link'
 import { DateTime } from 'luxon'
 import MainContainer from '@/commons/MainContainer'
+import { useEffect } from 'react'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 export default function Deliveries() {
     const now = DateTime.local()
+
+    const port = process.env.NEXT_PUBLIC_PORT
+
+    const router = useRouter()
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${port}/users/${storedToken}`);
+                const decodedToken = response.data.decodedToken;
+                console.log('Token encontrado y decodificado:', decodedToken);
+
+                if (decodedToken.role !== 'admin') {
+                    router.push('/');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error al intentar obtener usuario.');
+            }
+        };
+
+        if (storedToken) {
+            fetchData();
+        } else {
+            router.push('/');
+        }
+
+    }, [port, router]);
 
     return (
         <main className="bg-[#AEE3EF] h-screen">

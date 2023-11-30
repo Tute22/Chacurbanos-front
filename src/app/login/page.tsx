@@ -34,6 +34,8 @@ export default function Login() {
                 password,
             })
 
+
+            
             const { user, token } = response.data
 
             localStorage.setItem('token', token)
