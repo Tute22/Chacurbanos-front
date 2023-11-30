@@ -17,7 +17,6 @@ export const Navbar = () => {
     router.push("/")
   } 
 
-
   return (
     <nav className="h-14 bg-[#AEE3EF] shadow-nav py-2 px-8 flex justify-between">
       <Link href={"/"}>
