@@ -6,10 +6,13 @@ import { Navbar } from '@/components/Navbar'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
+import axios from 'axios'
 import MainContainer from '@/commons/MainContainer'
 
 export default function Register() {
     const router = useRouter()
+
+    const port = process.env.NEXT_PUBLIC_PORT
 
     const {
         formValues,
@@ -24,65 +27,29 @@ export default function Register() {
         setEmail,
         setPassword,
         setConfirmPassword,
-        isRegisterComplete,
     } = useValidations()
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+
         const { name, lastName, email, password } = formValues
 
-        const storedDataString = localStorage.getItem('usersData')
-        if (!storedDataString) {
-            alert('Error: No se pudo encontrar la información de usuarios.')
-            return
+        try {
+            await axios.post(`${port}/users`, {
+                name,
+                lastName,
+                email,
+                password,
+            })
+
+            alert('Usuario Registrado')
+            router.push('/')
+        } catch (err) {
+            console.error(err)
+            alert(
+                'Error al intentar registrar usuario. Verifica tus datos e intenta nuevamente.'
+            )
         }
-
-        storedDataString
-
-        const storedData = JSON.parse(storedDataString)
-        const { StoredUsers } = storedData
-
-        type User = {
-            id: number
-            name: string
-            lastName: string
-            email: string
-            password: string
-            role: string
-            status: string
-            day: string | null
-            img: string
-        }
-
-        const isEmailRegistered = StoredUsers.some(
-            (u: User) => u.email === email
-        )
-
-        if (isEmailRegistered) {
-            alert('El correo electrónico ya está registrado.')
-            return
-        }
-
-        const newUser = {
-            id: StoredUsers.length + 1,
-            name,
-            lastName,
-            email,
-            password,
-            role: 'user',
-            status: 'enabled',
-            day: null,
-            img: 'img',
-        }
-
-        StoredUsers.push(newUser)
-        localStorage.setItem(
-            'usersData',
-            JSON.stringify({ StoredUsers: StoredUsers })
-        )
-
-        alert('Usuario Registrado')
-        router.push('/')
     }
 
     const buttonOpacityClass = isRegisterComplete()
