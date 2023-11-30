@@ -12,30 +12,29 @@ export default function GetPackages() {
     const port = process.env.NEXT_PUBLIC_PORT
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
+        const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`);
-                const decodedToken = response.data.decodedToken;
-                console.log('Token encontrado y decodificado:', decodedToken);
+                const response = await axios.get(`${port}/users/${storedToken}`)
+                const decodedToken = response.data.decodedToken
+                console.log('Token encontrado y decodificado:', decodedToken)
 
                 if (decodedToken.role !== 'admin') {
-                    router.push('/');
+                    router.push('/')
                 }
             } catch (err) {
-                console.error(err);
-                alert('Error al intentar obtener usuario.');
+                console.error(err)
+                alert('Error al intentar obtener usuario.')
             }
-        };
-
-        if (storedToken) {
-            fetchData();
-        } else {
-            router.push('/');
         }
 
-    }, [port, router]);
+        if (storedToken) {
+            fetchData()
+        } else {
+            router.push('/')
+        }
+    }, [port, router])
 
     const {
         formValues,
@@ -75,7 +74,7 @@ export default function GetPackages() {
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
             <Navbar />
-            <MainContainer title={'Agrega'} height={'600px'}>
+            <MainContainer title={'Agregar paquetes'} height={'600px'}>
                 <form
                     className="rounded-xl flex justify-center flex-col p-4"
                     onSubmit={handleSubmit}
