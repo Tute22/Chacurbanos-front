@@ -11,6 +11,13 @@ export const Navbar = () => {
   const pathName = usePathname();
   const router = useRouter();
 
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    router.push("/")
+  } 
+
+
   return (
     <nav className="h-14 bg-[#AEE3EF] shadow-nav py-2 px-8 flex justify-between">
       <Link href={"/"}>
@@ -23,7 +30,7 @@ export const Navbar = () => {
       ) : (
         <div
           className="w-7 rounded-md cursor-pointer my-[4px] bg-[#55BBD1] shadow-logout-button flex items-center justify-center"
-          onClick={() => router.push("/")}
+          onClick={handleLogout}
         >
           <LogoutDoorIcon className="w-6 ml-[3px]" />
         </div>

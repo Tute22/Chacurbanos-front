@@ -27,6 +27,7 @@ export default function Register() {
         setEmail,
         setPassword,
         setConfirmPassword,
+        isRegisterComplete
     } = useValidations()
 
     const handleSubmit = async (e: React.FormEvent) => {
