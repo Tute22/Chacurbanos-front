@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
 import axios from 'axios'
+import MainContainer from '@/commons/MainContainer'
+
 
 export default function Login() {
     const router = useRouter()
@@ -18,6 +20,7 @@ export default function Login() {
         validatePassword,
         setEmail,
         setPassword,
+        isLoginComplete,
     } = useValidations()
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -47,6 +50,8 @@ export default function Login() {
         }
     }
 
+    const buttonOpacityClass = isLoginComplete() ? 'opacity-100' : 'opacity-50'
+
     return (
         <div>
             <main className="bg-[#AEE3EF] h-screen">
@@ -59,79 +64,77 @@ export default function Login() {
                     />
                 </div>
                 <section className="flex justify-center mt-9">
-                    <section className="bg-[#55BBD1] h-[80px] rounded-xl mt-4">
-                        <h1 className="flex justify-center text-lg font-poppins font-bold mt-3 text-white">
-                            Iniciar Sesión
-                        </h1>
-                        <div className="mt-2 bg-white rounded-xl shadow-xl p-5 w-80 h-[300px]">
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-4 gap-5">
-                                    {/* <UserLogin className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" /> */}
-                                    <input
-                                        type="email"
-                                        className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
-                                        placeholder="nombre@mail.com"
-                                        value={formValues.email}
-                                        onBlur={(e) =>
-                                            validateEmail(e.currentTarget.value)
-                                        }
-                                        onChange={(e) =>
-                                            setEmail(e.currentTarget.value)
-                                        }
-                                        required
-                                    />{' '}
-                                    {errors.email && (
-                                        <span>{errors.email}</span>
-                                    )}
-                                </div>
-                                <div className="mb-4">
-                                    {/* <LockIcon className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" />
+                    <MainContainer title={'Iniciar Sesión'} height="">
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-4 gap-5">
+                                {/* <UserLogin className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" /> */}
+                                <input
+                                    type="email"
+                                    className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
+                                    placeholder="nombre@mail.com"
+                                    value={formValues.email}
+                                    onBlur={(e) =>
+                                        validateEmail(e.currentTarget.value)
+                                    }
+                                    onChange={(e) =>
+                                        setEmail(e.currentTarget.value)
+                                    }
+                                    required
+                                />{' '}
+                                {errors.email && (
+                                    <span className="text-red-600 text-xs">
+                                        {errors.email}
+                                    </span>
+                                )}
+                            </div>
+                            <div className="mb-4">
+                                {/* <LockIcon className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" />
                   <CloseEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" /> */}
-                                    <input
-                                        type="password"
-                                        className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
-                                        placeholder="**********"
-                                        value={formValues.password}
-                                        onChange={(e) =>
-                                            setPassword(e.currentTarget.value)
-                                        }
-                                        onBlur={(e) =>
-                                            validatePassword(
-                                                e.currentTarget.value
-                                            )
-                                        }
-                                        required
-                                    />{' '}
-                                    {errors.password && (
-                                        <span>{errors.password}</span>
-                                    )}
-                                </div>
-                                <div className="mb-4">
-                                    <button
-                                        onSubmit={handleSubmit}
-                                        className="font-poppins font-semibold w-full px-4 py-2 bg-[#F4C455] rounded-full"
-                                    >
-                                        Ingresar
-                                    </button>
-                                </div>
-                            </form>
-                            <div className="mb-4 mt-4">
-                                <Link href={'/register'}>
-                                    <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]">
-                                        Crear Cuenta
-                                    </button>
-                                </Link>
+                                <input
+                                    type="password"
+                                    className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
+                                    placeholder="**********"
+                                    value={formValues.password}
+                                    onChange={(e) =>
+                                        setPassword(e.currentTarget.value)
+                                    }
+                                    onBlur={(e) =>
+                                        validatePassword(e.currentTarget.value)
+                                    }
+                                    required
+                                />{' '}
+                                {errors.password && (
+                                    <span className="text-red-600 text-xs">
+                                        {errors.password}
+                                    </span>
+                                )}
                             </div>
-                            <div className="text-center mt-8">
-                                <a
-                                    href="#"
-                                    className="font-poppins font-normal inline-block text-sm"
+                            <div className="mb-4">
+                                <button
+                                    onSubmit={handleSubmit}
+                                    className={`font-poppins font-semibold w-full px-4 py-2 bg-[#F4C455] rounded-full ${buttonOpacityClass}`}
+                                    disabled={!isLoginComplete()}
                                 >
-                                    OLVIDÉ MI CONTRASEÑA
-                                </a>
+                                    Ingresar
+                                </button>
                             </div>
+                        </form>
+                        <div>
+                            <Link href={'/register'}>
+                                <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]">
+                                    Crear Cuenta
+                                </button>
+                            </Link>
                         </div>
-                    </section>
+                        <div className="text-center mt-4">
+                            <a
+                                href="#"
+                                className="font-poppins font-normal inline-block text-sm"
+                            >
+                                OLVIDÉ MI CONTRASEÑA
+                            </a>
+                        </div>
+                    </MainContainer>
                 </section>
             </main>
         </div>
