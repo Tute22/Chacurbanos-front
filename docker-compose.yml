@@ -10,4 +10,3 @@ services:
       - '3000:3000' # accedemos al servicio desde este puerto
     volumes:
       - .:/app # mapea el directorio actual al directorio /app dentro del container
-      - /app/node_modules #se usa para persistir el node_modules, ahorrando hacer npm i innecesarios en cada build. Sin embargo, se usa el .dockerignore para excluir archivos innecesarios

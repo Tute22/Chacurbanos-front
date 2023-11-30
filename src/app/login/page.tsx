@@ -1,13 +1,15 @@
 'use client'
 import Image from 'next/image'
 import mainLogo from '../../../public/mainLogo.png'
-import { users } from '@/services/users.json'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
+import axios from 'axios'
 
 export default function Login() {
     const router = useRouter()
+
+    const port = process.env.NEXT_PUBLIC_PORT
 
     const {
         formValues,
@@ -18,65 +20,30 @@ export default function Login() {
         setPassword,
     } = useValidations()
 
-    const initializeFakeData = () => {
-        if (typeof window !== 'undefined') {
-            const storedDataString = localStorage.getItem('usersData')
-            if (
-                !storedDataString ||
-                !JSON.parse(storedDataString).StoredUsers
-            ) {
-                const fakeData = users
-                localStorage.setItem(
-                    'usersData',
-                    JSON.stringify({ StoredUsers: fakeData })
-                )
-            }
-        }
-    }
-
-    initializeFakeData()
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         const { email, password } = formValues
 
-        const storedDataString = localStorage.getItem('usersData')
-        if (!storedDataString) {
-            alert('Error: No se pudo encontrar la información de usuarios.')
-            return
-        }
+        try {
+            const response = await axios.post(`${port}/users/login`, {
+                email,
+                password,
+            })
 
-        const storedData = JSON.parse(storedDataString)
-        const { StoredUsers } = storedData
+            const { user, token } = response.data
 
-        type User = {
-            id: number
-            name: string
-            lastName: string
-            email: string
-            password: string
-            role: string
-            status: string
-            day: string | null
-            img: string
-        }
+            localStorage.setItem('token', token)
 
-        const user = StoredUsers.find(
-            (u: User) => u.email === email && u.password === password
-        )
-
-        if (user) {
             alert('Logueo exitoso!')
             if (user.role === 'admin') {
                 router.push('/manage-orders')
             } else {
                 router.push('/working-day')
             }
-        } else {
+        } catch (error) {
             alert('Datos inválidos')
-            setEmail('')
-            setPassword('')
+            console.error(error)
         }
     }
 
