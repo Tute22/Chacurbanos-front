@@ -66,30 +66,29 @@ export default function ManageOrders() {
     const router = useRouter()
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
+        const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`);
-                const decodedToken = response.data.decodedToken;
-                console.log('Token encontrado y decodificado:', decodedToken);
+                const response = await axios.get(`${port}/users/${storedToken}`)
+                const decodedToken = response.data.decodedToken
+                console.log('Token encontrado y decodificado:', decodedToken)
 
                 if (decodedToken.role !== 'admin') {
-                    router.push('/');
+                    router.push('/')
                 }
             } catch (err) {
-                console.error(err);
-                alert('Error al intentar obtener usuario.');
+                console.error(err)
+                alert('Error al intentar obtener usuario.')
             }
-        };
-
-        if (storedToken) {
-            fetchData();
-        } else {
-            router.push('/');
         }
 
-    }, [port, router]);
+        if (storedToken) {
+            fetchData()
+        } else {
+            router.push('/')
+        }
+    }, [port, router])
 
     const now = DateTime.local()
     const formattedDate = now.toFormat('dd/MM/yy')
@@ -295,7 +294,7 @@ export default function ManageOrders() {
                         </div>
                     </div>
                     <br />
-                    <div className="mt-8">
+                    <div>
                         <Link href={'/add-packages'}>
                             <button className="bg-[#F4C455] py-1 w-[280px] rounded-full font-poppins font-medium">
                                 <div className="flex justify-center items-center">

@@ -133,7 +133,7 @@ export default function GetPackages() {
                         placeholder="00/00/00"
                         required
                     />
-                    <div className="mb-4 absolute right-12 bottom-[110px] flex justify-center">
+                    <div className="mt-64 flex justify-center">
                         <button
                             type="submit"
                             className={`w-72 py-1 font-bold bg-[#F4C455] rounded-full font-poppins ${buttonOpacityClass}`}
