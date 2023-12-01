@@ -1,42 +1,47 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'react-circular-progressbar/dist/styles.css';
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+            to bottom,
+            transparent,
+            rgb(var(--background-end-rgb))
+        )
+        rgb(var(--background-start-rgb));
 }
 
 .shadow-nav {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .shadow-logout-button {
-  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow:
+        1px 3px 5px rgba(0, 0, 0, 0.3),
+        0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .shadow-white-distribution-container {
-  box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow:
+        1px 3px 5px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .scroll-content {
-  overflow-y: scroll;
+    overflow-y: scroll;
 }
 
 .scroll-content::-webkit-scrollbar {
-  width: 0em;
+    width: 0em;
 }
 
 .scroll-content::-webkit-scrollbar-track {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 .scroll-content::-webkit-scrollbar-thumb {
-  background-color: transparent;
-  border: none;
+    background-color: transparent;
+    border: none;
 }
