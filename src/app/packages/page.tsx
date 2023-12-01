@@ -1,48 +1,44 @@
-"use client"
+'use client'
 import { TrashIcon } from '@/commons/icons/TrashIcon'
 import { ChevronArrowDown } from '@/commons/icons/ChevronArrowDown'
 import { Navbar } from '@/components/Navbar'
 import Image from 'next/image'
-import box from '../../../public/box.png'
+import box from '../../../public/Box.png'
 import { packages } from '../../services/packages.json'
 import MainContainer from '@/commons/MainContainer'
-import { useEffect } from "react"
+import { useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
-
 export default function Packages() {
-
     const port = process.env.NEXT_PUBLIC_PORT
 
     const router = useRouter()
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
+        const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`);
-                const decodedToken = response.data.decodedToken;
-                console.log('Token encontrado y decodificado:', decodedToken);
+                const response = await axios.get(`${port}/users/${storedToken}`)
+                const decodedToken = response.data.decodedToken
+                console.log('Token encontrado y decodificado:', decodedToken)
 
                 if (decodedToken.role !== 'admin') {
-                    router.push('/');
+                    router.push('/')
                 }
             } catch (err) {
-                console.error(err);
-                alert('Error al intentar obtener usuario.');
+                console.error(err)
+                alert('Error al intentar obtener usuario.')
             }
-        };
-
-        if (storedToken) {
-            fetchData();
-        } else {
-            router.push('/');
         }
 
-    }, [port, router]);
-
+        if (storedToken) {
+            fetchData()
+        } else {
+            router.push('/')
+        }
+    }, [port, router])
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
