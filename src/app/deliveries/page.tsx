@@ -1,8 +1,7 @@
-"use client"
+'use client'
 
 import { ChevronArrowDown } from '@/commons/icons/ChevronArrowDown'
 import { Navbar } from '@/components/Navbar'
-import { Progress } from 'antd'
 import Image from 'next/image'
 import delivery3 from '../../../public/delivery3.svg'
 import delivery4 from '../../../public/delivery4.svg'
@@ -14,6 +13,7 @@ import MainContainer from '@/commons/MainContainer'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { CircularProgressbar } from 'react-circular-progressbar'
 
 export default function Deliveries() {
     const now = DateTime.local()
@@ -23,30 +23,29 @@ export default function Deliveries() {
     const router = useRouter()
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
+        const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`);
-                const decodedToken = response.data.decodedToken;
-                console.log('Token encontrado y decodificado:', decodedToken);
+                const response = await axios.get(`${port}/users/${storedToken}`)
+                const decodedToken = response.data.decodedToken
+                console.log('Token encontrado y decodificado:', decodedToken)
 
                 if (decodedToken.role !== 'admin') {
-                    router.push('/');
+                    router.push('/')
                 }
             } catch (err) {
-                console.error(err);
-                alert('Error al intentar obtener usuario.');
+                console.error(err)
+                alert('Error al intentar obtener usuario.')
             }
-        };
-
-        if (storedToken) {
-            fetchData();
-        } else {
-            router.push('/');
         }
 
-    }, [port, router]);
+        if (storedToken) {
+            fetchData()
+        } else {
+            router.push('/')
+        }
+    }, [port, router])
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
@@ -74,13 +73,11 @@ export default function Deliveries() {
 
                     <Link href={'/delivery-profile'}>
                         <div className="flex gap-5">
-                            <Progress
-                                type="circle"
-                                percent={52}
-                                strokeColor="#55BBD1"
-                                size={70}
-                                className="text-lg font-poppins font-semibold"
-                            ></Progress>
+                            <CircularProgressbar
+                                className="w-[75px] h-[75px]"
+                                value={52}
+                                text="52%"
+                            />
                             <div>
                                 <h2 className="mt-3 text-lg font-poppins font-semibold">
                                     Farid
@@ -98,13 +95,11 @@ export default function Deliveries() {
                     </Link>
                     <p className="my-5 border-dashed border-black border-t w-full"></p>
                     <div className="flex gap-5">
-                        <Progress
-                            type="circle"
-                            percent={100}
-                            strokeColor="#55BBD1"
-                            size={70}
-                            className="text-lg font-poppins font-semibold"
-                        ></Progress>
+                        <CircularProgressbar
+                            className="w-[75px] h-[75px]"
+                            value={100}
+                            text="100%"
+                        />
                         <div>
                             <h2 className="mt-3 text-lg font-poppins font-bold">
                                 Luciana
@@ -121,13 +116,11 @@ export default function Deliveries() {
                     </div>
                     <p className="my-5 border-dashed border-black border-t w-full"></p>
                     <div className="flex gap-5">
-                        <Progress
-                            type="circle"
-                            percent={80}
-                            strokeColor="#55BBD1"
-                            size={70}
-                            className="text-lg font-poppins font-semibold "
-                        ></Progress>
+                        <CircularProgressbar
+                            className="w-[75px] h-[75px]"
+                            value={80}
+                            text="80%"
+                        />
                         <div>
                             <h2 className="mt-3 text-lg font-poppins font-bold">
                                 Dario
@@ -144,13 +137,11 @@ export default function Deliveries() {
                     </div>
                     <p className="my-5 border-dashed border-black border-t w-full"></p>
                     <div className="flex gap-5">
-                        <Progress
-                            type="circle"
-                            percent={0}
-                            strokeColor="#55BBD1"
-                            size={70}
-                            className="text-lg font-poppins font-semibold"
-                        ></Progress>
+                        <CircularProgressbar
+                            className="w-[75px] h-[75px]"
+                            value={0}
+                            text="0%"
+                        />
                         <div>
                             <h2 className="mt-3 text-lg font-poppins font-bold">
                                 Santiago
@@ -167,7 +158,7 @@ export default function Deliveries() {
                     </div>
                     <p className="my-5 border-dashed border-black border-t w-full"></p>
                     <div className="flex justify-center">
-                        <ChevronArrowDown className="mt-6" />
+                        <ChevronArrowDown className="mt-2" />
                     </div>
                 </MainContainer>
             </section>

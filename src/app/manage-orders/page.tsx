@@ -7,7 +7,7 @@ import delivery1 from '../../../public/delivery1.png'
 import delivery2 from '../../../public/delivery2.png'
 import { TriangleDownArrow } from '@/commons/icons/TriangleDownArrow'
 import { PlusIcon } from '@/commons/icons/PlusIcon'
-import { Progress } from 'antd'
+import { CircularProgressbar } from 'react-circular-progressbar'
 import { DateTime } from 'luxon'
 import {
     fiveDays,
@@ -19,7 +19,6 @@ import {
     membersEnabled,
     membersWhoAreDelivery,
     shipmentsDelivered,
-    percentage,
 } from '@/utils/calculations'
 import { users } from '@/services/users.json'
 import { packages } from '@/services/packages.json'
@@ -197,7 +196,7 @@ export default function ManageOrders() {
                     <div
                         className={`flex flex-col items-center border border-solid mt-8 border-black rounded-xl`}
                     >
-                        <div className="flex justify-between border-b-2 border-[#55BBD1] border-dotted w-[250px] mb-2">
+                        <div className="flex justify-between border-b-2 border-[#55BBD1] border-dotted w-[250px] mb-4">
                             <h1 className="text-base font-poppins font-bold mt-1">
                                 Detalles
                             </h1>
@@ -208,16 +207,11 @@ export default function ManageOrders() {
                                 <TriangleDownArrow className="w-[20px] ml-1" />
                             </div>
                         </div>
-                        <div className="flex  justify-between w-[250px] mb-5">
-                            <Progress
-                                type="circle"
-                                percent={percentage(
-                                    membersEnabled(members),
-                                    members.length
-                                )}
-                                strokeColor="#55BBD1"
-                                size={70}
-                                className="text-lg font-poppins font-semibold"
+                        <div className="flex justify-between w-[250px] mb-4">
+                            <CircularProgressbar
+                                className="w-[75px] h-[75px]"
+                                value={70}
+                                text="70%"
                             />
                             <div>
                                 <h1 className="text-sm font-poppins font-bold">
@@ -229,7 +223,6 @@ export default function ManageOrders() {
                                     members
                                 )} Habilitados`}</h3>
                                 <div className="flex">
-                                    {' '}
                                     <Image
                                         src={delivery1}
                                         alt="Delivery 1 Logo"
@@ -248,18 +241,14 @@ export default function ManageOrders() {
                                 </button>
                             </Link>
                         </div>
-                        <div className="flex justify-between border-b-2 border-[#55BBD1] border-dotted w-[250px] mb-2"></div>
-                        <div className="flex  justify-between w-[250px] mb-5">
-                            <Progress
-                                type="circle"
-                                percent={percentage(
-                                    shipmentsDelivered(shipments),
-                                    shipments.length
-                                )}
-                                strokeColor="#55BBD1"
-                                size={70}
-                                className="text-lg font-poppins font-semibold"
+                        <div className="flex justify-between border-b-2 border-[#55BBD1] border-dotted w-[250px] mb-3"></div>
+                        <div className="flex justify-between w-[250px] mb-4">
+                            <CircularProgressbar
+                                className="w-[75px] h-[75px]"
+                                value={66}
+                                text="66%"
                             />
+
                             <div>
                                 <h1 className="text-sm font-poppins font-bold">
                                     Paquetes
