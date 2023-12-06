@@ -109,7 +109,7 @@ export const useValidations = () => {
         } else {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                address: '*Dirección solo admite caracteres alfanumericos',
+                address: '*Solo caracteres alfanumericos',
             }))
             return false
         }
