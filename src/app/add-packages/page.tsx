@@ -74,52 +74,62 @@ export default function GetPackages() {
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
             <Navbar />
-            <MainContainer title={'Agregar paquetes'} height={'600px'}>
+            <MainContainer title={'Agregar paquetes'} height={'80%'}>
                 <form
-                    className="rounded-xl flex justify-center flex-col p-4"
+                    className="flex justify-center flex-col"
                     onSubmit={handleSubmit}
                 >
-                    <input
-                        className="pl-2 border border-solid border-black mb-4 rounded-lg p-2"
-                        placeholder="Dirección"
-                        value={formValues.address}
-                        onChange={(e) => setAddress(e.currentTarget.value)}
-                        onBlur={(e) => validateAddress(e.currentTarget.value)}
-                        required
-                    />{' '}
-                    {errors.address && (
-                        <span className="text-red-600 text-xs">
-                            {errors.address}
-                        </span>
-                    )}
-                    <input
-                        className="pl-2 border border-solid border-black mb-4 rounded-lg p-2"
-                        placeholder="Nombre de quien recibe"
-                        value={formValues.name}
-                        onChange={(e) => setName(e.currentTarget.value)}
-                        onBlur={(e) => validateName(e.currentTarget.value)}
-                        required
-                    />{' '}
-                    {errors.name && (
-                        <span className="text-red-600 text-xs">
-                            {errors.name}
-                        </span>
-                    )}
-                    <input
-                        className="pl-2 border border-solid border-black rounded-lg p-2"
-                        placeholder="Peso del paquete (Kg)"
-                        value={formValues.packageWeight}
-                        onChange={(e) =>
-                            setPackageWeight(e.currentTarget.value)
-                        }
-                        onBlur={(e) => validatePackage(e.currentTarget.value)}
-                        required
-                    />{' '}
-                    {errors.packageWeight && (
-                        <span className="text-red-600 text-xs">
-                            {errors.packageWeight}
-                        </span>
-                    )}
+                    <div className="mb-4">
+                        <input
+                            className="border border-solid border-black rounded-lg p-2 w-full"
+                            placeholder="Dirección"
+                            value={formValues.address}
+                            onChange={(e) => setAddress(e.currentTarget.value)}
+                            onBlur={(e) =>
+                                validateAddress(e.currentTarget.value)
+                            }
+                            required
+                        />{' '}
+                        {errors.address && (
+                            <span className="text-red-600 text-xs">
+                                {errors.address}
+                            </span>
+                        )}
+                    </div>
+                    <div className="mb-4">
+                        <input
+                            className="border border-solid border-black rounded-lg p-2 w-full"
+                            placeholder="Nombre de quien recibe"
+                            value={formValues.name}
+                            onChange={(e) => setName(e.currentTarget.value)}
+                            onBlur={(e) => validateName(e.currentTarget.value)}
+                            required
+                        />{' '}
+                        {errors.name && (
+                            <span className="text-red-600 text-xs">
+                                {errors.name}
+                            </span>
+                        )}
+                    </div>
+                    <div className="mb-4">
+                        <input
+                            className="border border-solid border-black rounded-lg p-2 w-full"
+                            placeholder="Peso del paquete (Kg)"
+                            value={formValues.packageWeight}
+                            onChange={(e) =>
+                                setPackageWeight(e.currentTarget.value)
+                            }
+                            onBlur={(e) =>
+                                validatePackage(e.currentTarget.value)
+                            }
+                            required
+                        />{' '}
+                        {errors.packageWeight && (
+                            <span className="text-red-600 text-xs">
+                                {errors.packageWeight}
+                            </span>
+                        )}
+                    </div>
                     <p className="mt-3">Fecha de entrega</p>
                     <p className="mt-2 border-t border-1 border-dashed border-black"></p>
                     <input
