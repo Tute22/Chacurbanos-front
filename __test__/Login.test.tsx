@@ -14,7 +14,7 @@ jest.mock('next/navigation', () => ({
 describe('<Login/>', () => {
     test('renders the Login component', () => {
         render(<Login />)
-        const loginElement = screen.getByText(/Iniciar Sesión/i)
+        const loginElement = screen.getByText(/Iniciar Sesión/)
         expect(loginElement).toBeInTheDocument()
     })
 })
