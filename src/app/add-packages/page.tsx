@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
-export default function GetPackages() {
+export default function AddPackages() {
     const router = useRouter()
 
     const port = process.env.NEXT_PUBLIC_PORT

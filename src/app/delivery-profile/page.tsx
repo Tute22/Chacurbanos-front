@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import { TriangleDownArrow } from '@/commons/icons/TriangleDownArrow'
 import { Navbar } from '@/components/Navbar'
 import box from '../../../public/Box.png'
@@ -9,37 +9,35 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
-export default function AdminProfile() {
-
+export default function DeliveryProfile() {
     const port = process.env.NEXT_PUBLIC_PORT
 
     const router = useRouter()
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
+        const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`);
-                const decodedToken = response.data.decodedToken;
-                console.log('Token encontrado y decodificado:', decodedToken);
+                const response = await axios.get(`${port}/users/${storedToken}`)
+                const decodedToken = response.data.decodedToken
+                console.log('Token encontrado y decodificado:', decodedToken)
 
                 if (decodedToken.role !== 'admin') {
-                    router.push('/');
+                    router.push('/')
                 }
             } catch (err) {
-                console.error(err);
-                alert('Error al intentar obtener usuario.');
+                console.error(err)
+                alert('Error al intentar obtener usuario.')
             }
-        };
-
-        if (storedToken) {
-            fetchData();
-        } else {
-            router.push('/');
         }
 
-    }, [port, router]);
+        if (storedToken) {
+            fetchData()
+        } else {
+            router.push('/')
+        }
+    }, [port, router])
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
