@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import DeliveryProfile from '@/app/delivery-profile/[id]/[id]'
+import DeliveryProfile from '@/app/delivery-profile/[id]/page'
 
 jest.mock('next/navigation', () => ({
     useRouter() {
