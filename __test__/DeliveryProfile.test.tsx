@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import DeliveryProfile from '@/app/delivery-profile/[id]/[id]'
+import DeliveryProfile from '@/app/delivery-profile/[id]/page'
+import { Providers } from '@/store/providers'
 
 jest.mock('next/navigation', () => ({
     useRouter() {
@@ -13,7 +14,11 @@ jest.mock('next/navigation', () => ({
 
 describe('<DeliveryProfile/>', () => {
     test('renders the DeliveryProfile component', () => {
-        render(<DeliveryProfile />)
+        render(
+            <Providers>
+                <DeliveryProfile />
+            </Providers>
+        )
         const deliveryProfileElement = screen.getByText(/Perfil del repartidor/)
         expect(deliveryProfileElement).toBeInTheDocument()
     })
