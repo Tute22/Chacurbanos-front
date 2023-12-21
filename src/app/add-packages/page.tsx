@@ -50,20 +50,23 @@ export default function AddPackages() {
 
     const [deliveryDate, setDeliveryDate] = useState('')
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        const { name, address, packageWeight } = formValues
-        localStorage.setItem(
-            'package',
-            JSON.stringify({ address, name, packageWeight, deliveryDate })
-        )
-        alert('Paquete agregado!')
-        const storedPackage = localStorage.getItem('package')
+        try {
+            const { name, address, packageWeight } = formValues
 
-        if (storedPackage !== null) {
-            console.log(JSON.parse(storedPackage))
-        } else {
-            console.log('No hay paquete')
+            await axios.post(`${port}/packages`, {
+                address: address,
+                recipient: name,
+                weight: packageWeight,
+                date: deliveryDate,
+            })
+            alert('Paquete agregado!')
+        } catch (err) {
+            console.error(err)
+            alert(
+                'Error al intentar crear un paquete nuevo. Verifica los datos e intenta nuevamente.'
+            )
         }
     }
 

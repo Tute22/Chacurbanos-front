@@ -6,10 +6,13 @@ import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
 import axios from 'axios'
 import MainContainer from '@/commons/MainContainer'
-
+import { useDispatch } from 'react-redux'
+import { setUser } from '@/store/slice/userData/userSlice'
+import { setData, setUsersData } from '@/store/slice/dbData/dataSlice'
 
 export default function Login() {
     const router = useRouter()
+    const dispatch = useDispatch()
 
     const port = process.env.NEXT_PUBLIC_PORT
 
@@ -34,11 +37,20 @@ export default function Login() {
                 password,
             })
 
-
-            
             const { user, token } = response.data
 
             localStorage.setItem('token', token)
+            dispatch(setUser(response.data))
+
+            axios
+                .get(`${port}/packages`)
+                .then((response) => dispatch(setData(response.data)))
+                .catch((error) => console.error(error))
+
+            axios
+                .get(`${port}/users`)
+                .then((response) => dispatch(setUsersData(response.data)))
+                .catch((error) => console.error(error))
 
             alert('Logueo exitoso!')
             if (user.role === 'admin') {
