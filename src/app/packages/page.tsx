@@ -4,14 +4,25 @@ import { ChevronArrowDown } from '@/commons/icons/ChevronArrowDown'
 import { Navbar } from '@/components/Navbar'
 import Image from 'next/image'
 import box from '../../../public/Box.png'
-import { packages } from '../../services/packages.json'
 import MainContainer from '@/commons/MainContainer'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
 
 export default function Packages() {
+    type Package = {
+        _id: string
+        address: string
+        recipient: string
+        weight: number
+        date: string
+        status: string
+    }
+
     const port = process.env.NEXT_PUBLIC_PORT
+    const { data } = useSelector((store: any) => store.dbDataReducer)
+    const [packagesChanged, setPackagesChanged] = useState(false)
 
     const router = useRouter()
 
@@ -29,7 +40,7 @@ export default function Packages() {
                 }
             } catch (err) {
                 console.error(err)
-                alert('Error al intentar obtener usuario.')
+                // alert('Error al intentar obtener usuario.')
             }
         }
 
@@ -38,7 +49,17 @@ export default function Packages() {
         } else {
             router.push('/')
         }
-    }, [port, router])
+    }, [port, router, packagesChanged])
+
+    const handleDelete = (element: Package) => {
+        axios
+            .delete(`${port}/packages/${element._id}`)
+            .then(() => {
+                setPackagesChanged(!packagesChanged)
+                alert('Paquete eliminado correctamente')
+            })
+            .catch((error) => console.error(error))
+    }
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
@@ -63,39 +84,63 @@ export default function Packages() {
 
                 <div>
                     <h1 className="text-black font-bold mb-5">
-                        {packages.length} paquetes
+                        {
+                            data?.filter(
+                                (p: Package) =>
+                                    p.status === 'pending' ||
+                                    p.status === 'disabled'
+                            ).length
+                        }{' '}
+                        paquetes
                     </h1>
                 </div>
 
                 <div className=" h-96 overflow-y-auto">
-                    {packages.map((element, index) => (
-                        <div
-                            key={index}
-                            className={`border border-solid border-black rounded-xl mb-4 `}
-                        >
-                            <div className="flex py-[10px] pl-[1px]">
-                                <Image src={box} alt="box" width={50} />
-                                <div className="flex-col border-l-2 border-black border-dotted">
-                                    <div className="ml-2 font-poppins font-medium">
-                                        <h1 className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                            {element.number_of_order}
-                                        </h1>
-                                        <p className="text-sm text-black">
-                                            {element.address.split(',')[0]},
-                                        </p>
-                                        <p className="text-sm text-black">
-                                            {element.address.split(',')[1]}
-                                        </p>
+                    {data
+                        ?.filter(
+                            (p: Package) =>
+                                p.status === 'pending' ||
+                                p.status === 'disabled'
+                        )
+                        .map((element: Package, index: number) => (
+                            <div
+                                key={index}
+                                className={`border border-solid border-black rounded-xl mb-4 `}
+                            >
+                                <div className="flex py-[10px] pl-[1px]">
+                                    <Image src={box} alt="box" width={50} />
+                                    <div className="flex-col border-l-2 border-black border-dotted">
+                                        <div className="ml-2 font-poppins font-medium">
+                                            <h1 className="text-[#55BBD1] font-poppins font-semibold text-sm">
+                                                {'#' +
+                                                    element._id
+                                                        .split('')
+                                                        .reverse()
+                                                        .join('')
+                                                        .slice(0, 5)}
+                                            </h1>
+                                            <p className="text-sm text-black">
+                                                {element.address.split(',')[0]},
+                                            </p>
+                                            <p className="text-sm text-black">
+                                                {element.address.split(',')[1]}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col flex-grow items-end pr-3 mt-4">
+                                        <button
+                                            onClick={() => {
+                                                handleDelete(element)
+                                            }}
+                                        >
+                                            {
+                                                <TrashIcon className="w-6 text-red" />
+                                            }
+                                        </button>
                                     </div>
                                 </div>
-                                <div className="flex flex-col flex-grow items-end pr-3 mt-4">
-                                    <button>
-                                        {<TrashIcon className="w-6 text-red" />}
-                                    </button>
-                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
 
                 <div className="flex justify-center">

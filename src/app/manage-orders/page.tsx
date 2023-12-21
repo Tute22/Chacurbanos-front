@@ -15,17 +15,11 @@ import {
     getPreviousFiveDays,
     getNextFiveDays,
 } from '@/utils/calendar'
-import {
-    membersEnabled,
-    membersWhoAreDelivery,
-    shipmentsDelivered,
-} from '@/utils/calculations'
-import { users } from '@/services/users.json'
-import { packages } from '@/services/packages.json'
 import Link from 'next/link'
 import MainContainer from '@/commons/MainContainer'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
 
 interface DayData {
     info: DateTime
@@ -35,30 +29,57 @@ interface DayData {
 }
 
 interface UserData {
-    id: number
+    _id: string
     name: string
     lastName: string
     email: string
     password: string
-    role: string
-    status: string
-    day: string | null
-    img: string
+    role: UserRole.DELIVERY | UserRole.ADMIN
+    status: UserStatus.ENABLED | UserStatus.DISABLED
+    day: UserDay.PENDING | UserDay.IN_PROGRESS | UserDay.FINISH
+    iconUrl: string
 }
 
-interface PackageData {
-    id: number
-    number_of_order: string
+type Package = {
+    _id: string
     address: string
-    status: string | null
-    to: string
+    recipient: string
     weight: number
+    date: string
+    status: string
+}
+
+enum UserRole {
+    DELIVERY = 'delivery',
+    ADMIN = 'admin',
+}
+
+enum UserStatus {
+    ENABLED = 'enabled',
+    DISABLED = 'disabled',
+}
+
+enum UserDay {
+    PENDING = 'pending',
+    IN_PROGRESS = 'in progress',
+    FINISH = 'finish',
 }
 
 export default function ManageOrders() {
     const [renderedDays, setRenderedDays] = useState<DayData[]>([])
-    const [members, setMembers] = useState<UserData[]>([])
-    const [shipments, setShipments] = useState<PackageData[]>([])
+    const { usersData, data: packages } = useSelector(
+        (store: any) => store.dbDataReducer
+    )
+    const activeUsers = usersData?.filter(
+        (user: UserData) => user.day === 'pending' && user.status !== 'disabled'
+    ).length
+    const totalUsers = usersData?.filter(
+        (user: UserData) => user.status !== 'disabled'
+    ).length
+    const deliveredPackages = packages?.filter(
+        (p: Package) => p.status === 'delivered'
+    ).length
+    const totalPackages = packages?.length
 
     const port = process.env.NEXT_PUBLIC_PORT
 
@@ -96,8 +117,6 @@ export default function ManageOrders() {
 
     useEffect(() => {
         setRenderedDays(days)
-        setMembers(users)
-        setShipments(packages)
     }, [])
 
     const classBeforeToday =
@@ -217,11 +236,7 @@ export default function ManageOrders() {
                                 <h1 className="text-sm font-poppins font-bold">
                                     Repartidores
                                 </h1>
-                                <h3 className="text-xs font-poppins font-light">{`${membersEnabled(
-                                    members
-                                )}/${membersWhoAreDelivery(
-                                    members
-                                )} Habilitados`}</h3>
+                                <h3 className="text-xs font-poppins font-light">{`${activeUsers}/${totalUsers} Habilitados`}</h3>
                                 <div className="flex">
                                     <Image
                                         src={delivery1}
@@ -253,24 +268,19 @@ export default function ManageOrders() {
                                 <h1 className="text-sm font-poppins font-bold">
                                     Paquetes
                                 </h1>
-                                <h3 className="text-xs font-poppins font-light">{`${shipmentsDelivered(
-                                    shipments
-                                )}/${shipments.length} Repartidos`}</h3>
+                                <h3 className="text-xs font-poppins font-light">{`${deliveredPackages}/${totalPackages} Repartidos`}</h3>
                                 <div className="flex">
                                     {' '}
-                                    <Image
-                                        src={delivery1}
-                                        alt="Delivery 1 Logo"
-                                        width={30}
-                                    />
-                                    <Image
-                                        src={delivery2}
-                                        alt="Delivery 2 Logo"
-                                        width={30}
-                                    />
                                     <div className="flex justify-center items-center w-[30px] h-[30px] bg-[#55BBD1] rounded-full">
                                         <h1 className="text-[12px] text-white font-poppins font-semibold">
-                                            +14
+                                            {
+                                                packages?.filter(
+                                                    (p: Package) =>
+                                                        p.status ===
+                                                            'pending' ||
+                                                        p.status === 'disabled'
+                                                ).length
+                                            }
                                         </h1>
                                     </div>
                                 </div>

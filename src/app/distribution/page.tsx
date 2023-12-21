@@ -1,39 +1,77 @@
-"use client"
+'use client'
 import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
-import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-
+import { useSelector } from 'react-redux'
 
 export default function Distribution() {
+    type Package = {
+        _id: string
+        address: string
+        recipient: string
+        weight: number
+        date: string
+        status: string
+    }
     const router = useRouter()
 
     const port = process.env.NEXT_PUBLIC_PORT
-
+    const { selectedPackage: inProgressPackage } = useSelector(
+        (store: any) => store.dbDataReducer
+    )
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
+        const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`);
-                const decodedToken = response.data.decodedToken;
-                console.log('Token encontrado y decodificado:', decodedToken);
+                const response = await axios.get(`${port}/users/${storedToken}`)
+                const decodedToken = response.data.decodedToken
+                console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
-                console.error(err);
-                alert('Error al intentar obtener usuario.');
+                console.error(err)
+                alert('Error al intentar obtener usuario.')
             }
-        };
-
-        if (storedToken) {
-            fetchData();
-        } else {
-            router.push('/');
         }
 
-    }, [port, router]);
+        if (storedToken) {
+            fetchData()
+        } else {
+            router.push('/')
+        }
+    }, [port, router])
+
+    const handleCancelPackage = (selectedPackage: Package) => {
+        axios
+            .patch(`${port}/packages/${selectedPackage._id}`, {
+                status: 'pending',
+            })
+            .then(() => {
+                alert('Paquete cancelado')
+                router.push('/working-day')
+            })
+            .catch((err) => {
+                console.error(err)
+                alert('Error en la solicitud')
+            })
+    }
+
+    const handleCompletePackage = (selectedPackage: Package) => {
+        axios
+            .patch(`${port}/packages/${selectedPackage._id}`, {
+                status: 'delivered',
+            })
+            .then(() => {
+                alert('Paquete entregado!')
+                router.push('/working-day')
+            })
+            .catch((err) => {
+                console.error(err)
+                alert('Error en la solicitud')
+            })
+    }
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
@@ -55,31 +93,44 @@ export default function Distribution() {
                             <strong className="font-poppins font-bold">
                                 Destino:
                             </strong>{' '}
-                            Heredia 785, CABA
+                            {inProgressPackage?.address}
                         </p>
                         <p className="text-black text-[13px] mb-[1px] font-poppins font-normal">
                             <strong className="font-poppins font-bold">
                                 Número de paquete:
                             </strong>{' '}
-                            #0A235
+                            {'#' +
+                                inProgressPackage._id
+                                    .split('')
+                                    .reverse()
+                                    .join('')
+                                    .slice(0, 5)}
                         </p>
                         <p className="text-black text-[13px] font-poppins font-normal">
                             <strong className="font-poppins font-bold">
                                 Recibe:
                             </strong>{' '}
-                            David Rodríguez
+                            {inProgressPackage?.recipient}
                         </p>
                     </div>
                 </div>
 
                 {/* Container para botones */}
                 <div className="pt-2">
-                    <Link href={'/working-day'}>
-                        <button className="font-poppins font-medium w-full px-4 py-2 mb-4 bg-[#F4C455] rounded-full text-stone-900">
-                            Finalizar
-                        </button>
-                    </Link>
-                    <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px] text-stone-900">
+                    <button
+                        className="font-poppins font-medium w-full px-4 py-2 mb-4 bg-[#F4C455] rounded-full text-stone-900"
+                        onClick={() => {
+                            handleCompletePackage(inProgressPackage)
+                        }}
+                    >
+                        Finalizar
+                    </button>
+                    <button
+                        className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px] text-stone-900"
+                        onClick={() => {
+                            handleCancelPackage(inProgressPackage)
+                        }}
+                    >
                         Cancelar entrega
                     </button>
                 </div>
