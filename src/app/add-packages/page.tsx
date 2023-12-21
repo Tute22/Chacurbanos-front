@@ -25,7 +25,7 @@ export default function AddPackages() {
                 }
             } catch (err) {
                 console.error(err)
-                alert('Error al intentar obtener usuario.')
+                // alert('Error al intentar obtener usuario.')
             }
         }
 

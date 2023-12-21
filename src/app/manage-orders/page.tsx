@@ -19,50 +19,7 @@ import MainContainer from '@/commons/MainContainer'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
-
-interface DayData {
-    info: DateTime
-    number: number
-    day: string | null
-    time: string
-}
-
-interface UserData {
-    _id: string
-    name: string
-    lastName: string
-    email: string
-    password: string
-    role: UserRole.DELIVERY | UserRole.ADMIN
-    status: UserStatus.ENABLED | UserStatus.DISABLED
-    day: UserDay.PENDING | UserDay.IN_PROGRESS | UserDay.FINISH
-    iconUrl: string
-}
-
-type Package = {
-    _id: string
-    address: string
-    recipient: string
-    weight: number
-    date: string
-    status: string
-}
-
-enum UserRole {
-    DELIVERY = 'delivery',
-    ADMIN = 'admin',
-}
-
-enum UserStatus {
-    ENABLED = 'enabled',
-    DISABLED = 'disabled',
-}
-
-enum UserDay {
-    PENDING = 'pending',
-    IN_PROGRESS = 'in progress',
-    FINISH = 'finish',
-}
+import { DayData, UserData, Package } from '@/types/types'
 
 export default function ManageOrders() {
     const [renderedDays, setRenderedDays] = useState<DayData[]>([])
@@ -73,12 +30,10 @@ export default function ManageOrders() {
     const { loginUserData } = useSelector((store: any) => store.userReducer)
 
     const activeUsers = usersData?.filter(
-        (user: UserData) => user.day === 'pending' && user.status !== 'disabled'
-    ).length
-
-    const totalUsers = usersData?.filter(
         (user: UserData) => user.status !== 'disabled'
     ).length
+
+    const totalUsers = usersData?.filter((user: UserData) => user).length
 
     const deliveredPackages = packages?.filter(
         (p: Package) => p.status === 'delivered'
@@ -104,7 +59,7 @@ export default function ManageOrders() {
                 }
             } catch (err) {
                 console.error(err)
-                alert('Error al intentar obtener usuario.')
+                // alert('Error al intentar obtener usuario.')
             }
         }
 
@@ -284,6 +239,7 @@ export default function ManageOrders() {
                                     {' '}
                                     <div className="flex justify-center items-center w-[30px] h-[30px] bg-[#55BBD1] rounded-full">
                                         <h1 className="text-[12px] text-white font-poppins font-semibold">
+                                            +
                                             {
                                                 packages?.filter(
                                                     (p: Package) =>
