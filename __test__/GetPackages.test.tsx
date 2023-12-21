@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import GetPackages from '@/app/get-packages/page'
+import { Providers } from '@/store/providers'
 
 jest.mock('next/navigation', () => ({
     useRouter() {
@@ -13,7 +14,11 @@ jest.mock('next/navigation', () => ({
 
 describe('<GetPackages/>', () => {
     test('renders the GetPackages component', () => {
-        render(<GetPackages />)
+        render(
+            <Providers>
+                <GetPackages />
+            </Providers>
+        )
         const getPackagesElement = screen.getByText(/Obtener Paquetes/)
         expect(getPackagesElement).toBeInTheDocument()
     })

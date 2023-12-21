@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import Deliveries from '@/app/deliveries/page'
+import { Providers } from '@/store/providers'
 
 jest.mock('next/navigation', () => ({
     useRouter() {
@@ -13,7 +14,11 @@ jest.mock('next/navigation', () => ({
 
 describe('<Deliveries/>', () => {
     test('renders the Deliveries component', () => {
-        render(<Deliveries />)
+        render(
+            <Providers>
+                <Deliveries />
+            </Providers>
+        )
         const deliveriesElement = screen.getByText(/Repartidores/)
         expect(deliveriesElement).toBeInTheDocument()
     })
