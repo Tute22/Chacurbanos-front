@@ -43,7 +43,14 @@ export default function Distribution() {
         }
     }, [port, router])
 
-    const handleCancelPackage = (selectedPackage: Package) => {
+    const handleCancelPackage = (
+        selectedPackage: Package | null | undefined
+    ) => {
+        if (!selectedPackage) {
+            // Manejar el caso en el que selectedPackage es null o undefined
+            return
+        }
+
         axios
             .patch(`${port}/packages/${selectedPackage._id}`, {
                 status: 'pending',
@@ -58,7 +65,14 @@ export default function Distribution() {
             })
     }
 
-    const handleCompletePackage = (selectedPackage: Package) => {
+    const handleCompletePackage = (
+        selectedPackage: Package | null | undefined
+    ) => {
+        if (!selectedPackage) {
+            // Manejar el caso en el que selectedPackage es null o undefined
+            return
+        }
+
         axios
             .patch(`${port}/packages/${selectedPackage._id}`, {
                 status: 'delivered',
