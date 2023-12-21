@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 
 export default function Distribution() {
     type Package = {
-        _id: string
+        _id?: string
         address: string
         recipient: string
         weight: number
