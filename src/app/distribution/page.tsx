@@ -45,7 +45,7 @@ export default function Distribution() {
 
     const handleCancelPackage = (selectedPackage: Package) => {
         axios
-            .patch(`${port}/packages/${selectedPackage._id}`, {
+            .patch(`${port}/packages/${selectedPackage?._id}`, {
                 status: 'pending',
             })
             .then(() => {
@@ -60,7 +60,7 @@ export default function Distribution() {
 
     const handleCompletePackage = (selectedPackage: Package) => {
         axios
-            .patch(`${port}/packages/${selectedPackage._id}`, {
+            .patch(`${port}/packages/${selectedPackage?._id}`, {
                 status: 'delivered',
             })
             .then(() => {
