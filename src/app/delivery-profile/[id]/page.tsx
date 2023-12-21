@@ -4,24 +4,19 @@ import { Navbar } from '@/components/Navbar'
 import box from '../../../../public/Box.png'
 import Image from 'next/image'
 import MainContainer from '@/commons/MainContainer'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { setSelectedUserData } from '@/store/slice/userData/userSlice'
+import { Package } from '@/types/types'
+import { setUsersData } from '@/store/slice/dbData/dataSlice'
 
 export default function DeliveryProfile() {
-    type Package = {
-        _id: string
-        address: string
-        recipient: string
-        weight: number
-        date: string
-        status: string
-    }
     const port = process.env.NEXT_PUBLIC_PORT
 
     const router = useRouter()
+    const [usersChanged, setUsersChanged] = useState(false)
     const { data } = useSelector((store: any) => store.dbDataReducer)
     const deliveredPackages = data?.filter(
         (p: Package) => p.status === 'delivered'
@@ -31,25 +26,25 @@ export default function DeliveryProfile() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        // const storedToken = localStorage.getItem('token')
-        // const fetchData = async () => {
-        //     try {
-        //         const response = await axios.get(`${port}/users/${storedToken}`)
-        //         const decodedToken = response.data.decodedToken
-        //         console.log('Token encontrado y decodificado:', decodedToken)
-        //         if (decodedToken.role !== 'admin') {
-        //             router.push('/')
-        //         }
-        //     } catch (err) {
-        //         console.error(err)
-        //         alert('Error al intentar obtener usuario.')
-        //     }
-        // }
-        // if (storedToken) {
-        //     fetchData()
-        // } else {
-        //     router.push('/')
-        // }
+        const storedToken = localStorage.getItem('token')
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${port}/users/${storedToken}`)
+                const decodedToken = response.data.decodedToken
+                console.log('Token encontrado y decodificado:', decodedToken)
+                if (decodedToken.role !== 'admin') {
+                    router.push('/')
+                }
+            } catch (err) {
+                console.error(err)
+                // alert('Error al intentar obtener usuario.')
+            }
+        }
+        if (storedToken) {
+            fetchData()
+        } else {
+            router.push('/')
+        }
 
         axios
             .get(`${port}/users/user/${selectedUserData?._id}`)
@@ -57,7 +52,14 @@ export default function DeliveryProfile() {
                 dispatch(setSelectedUserData(response.data))
             })
             .catch((error) => console.log(error))
-    }, [port, router])
+
+        axios
+            .get(`${port}/users`)
+            .then((response) => {
+                dispatch(setUsersData(response.data))
+            })
+            .catch((error) => console.error(error))
+    }, [port, router, usersChanged])
 
     const handleUserStatus = () => {
         axios
@@ -69,6 +71,7 @@ export default function DeliveryProfile() {
             })
             .then((response) => {
                 dispatch(setSelectedUserData(response.data))
+                setUsersChanged(!usersChanged)
                 // alert("Status del usuario cambiado correctamente")
             })
             .catch((error) => console.log(error))

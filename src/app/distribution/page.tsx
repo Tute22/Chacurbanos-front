@@ -5,16 +5,9 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { Package } from '@/types/types'
 
 export default function Distribution() {
-    type Package = {
-        _id: string
-        address: string
-        recipient: string
-        weight: number
-        date: string
-        status: string
-    }
     const router = useRouter()
 
     const port = process.env.NEXT_PUBLIC_PORT
@@ -32,7 +25,7 @@ export default function Distribution() {
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
                 console.error(err)
-                alert('Error al intentar obtener usuario.')
+                // alert('Error al intentar obtener usuario.')
             }
         }
 

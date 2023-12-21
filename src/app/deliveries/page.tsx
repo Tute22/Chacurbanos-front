@@ -10,36 +10,10 @@ import { useRouter } from 'next/navigation'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedUserData } from '@/store/slice/userData/userSlice'
+import { User } from '@/types/types'
+import axios from 'axios'
 
 export default function Deliveries() {
-    enum UserRole {
-        DELIVERY = 'delivery',
-        ADMIN = 'admin',
-    }
-
-    enum UserStatus {
-        ENABLED = 'enabled',
-        DISABLED = 'disabled',
-    }
-
-    enum UserDay {
-        PENDING = 'pending',
-        IN_PROGRESS = 'in progress',
-        FINISH = 'finish',
-    }
-
-    type User = {
-        _id: string
-        name: string
-        lastName: string
-        email: string
-        password: string
-        role: UserRole.DELIVERY | UserRole.ADMIN
-        status: UserStatus.ENABLED | UserStatus.DISABLED
-        day: UserDay.PENDING | UserDay.IN_PROGRESS | UserDay.FINISH
-        iconUrl: string
-    }
-
     const now = DateTime.local()
 
     const port = process.env.NEXT_PUBLIC_PORT
@@ -49,25 +23,25 @@ export default function Deliveries() {
     const { usersData } = useSelector((store: any) => store.dbDataReducer)
 
     useEffect(() => {
-        // const storedToken = localStorage.getItem('token')
-        // const fetchData = async () => {
-        //     try {
-        //         const response = await axios.get(`${port}/users/${storedToken}`)
-        //         const decodedToken = response.data.decodedToken
-        //         console.log('Token encontrado y decodificado:', decodedToken)
-        //         if (decodedToken.role !== 'admin') {
-        //             router.push('/')
-        //         }
-        //     } catch (err) {
-        //         console.error(err)
-        //         alert('Error al intentar obtener usuario.')
-        //     }
-        // }
-        // if (storedToken) {
-        //     fetchData()
-        // } else {
-        //     router.push('/')
-        // }
+        const storedToken = localStorage.getItem('token')
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${port}/users/${storedToken}`)
+                const decodedToken = response.data.decodedToken
+                console.log('Token encontrado y decodificado:', decodedToken)
+                if (decodedToken.role !== 'admin') {
+                    router.push('/')
+                }
+            } catch (err) {
+                console.error(err)
+                // alert('Error al intentar obtener usuario.')
+            }
+        }
+        if (storedToken) {
+            fetchData()
+        } else {
+            router.push('/')
+        }
     }, [port, router])
 
     return (

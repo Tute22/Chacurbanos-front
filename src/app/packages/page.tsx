@@ -8,23 +8,17 @@ import MainContainer from '@/commons/MainContainer'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Package } from '@/types/types'
+import { setData } from '@/store/slice/dbData/dataSlice'
 
 export default function Packages() {
-    type Package = {
-        _id: string
-        address: string
-        recipient: string
-        weight: number
-        date: string
-        status: string
-    }
-
     const port = process.env.NEXT_PUBLIC_PORT
     const { data } = useSelector((store: any) => store.dbDataReducer)
     const [packagesChanged, setPackagesChanged] = useState(false)
 
     const router = useRouter()
+    const dispatch = useDispatch()
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -49,6 +43,11 @@ export default function Packages() {
         } else {
             router.push('/')
         }
+
+        axios
+            .get(`${port}/packages`)
+            .then((response) => dispatch(setData(response.data)))
+            .catch((error) => console.error(error))
     }, [port, router, packagesChanged])
 
     const handleDelete = (element: Package) => {

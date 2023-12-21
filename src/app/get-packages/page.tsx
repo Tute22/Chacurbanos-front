@@ -7,16 +7,9 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { Package } from '@/types/types'
 
 export default function GetPackages() {
-    type Package = {
-        _id: string
-        address: string
-        recipient: string
-        weight: number
-        date: string
-        status: string
-    }
     // Donde guardaremos todos los paquetes
     const [packages, setPackages] = useState<Package[]>([])
     // Este estado es necesario para chequear que el estado de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
@@ -35,7 +28,7 @@ export default function GetPackages() {
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
                 console.error(err)
-                alert('Error al intentar obtener usuario.')
+                // alert('Error al intentar obtener usuario.')
             }
         }
 
@@ -58,7 +51,6 @@ export default function GetPackages() {
             })
             .then(() => {
                 setPackagesChanged(!packagesChanged)
-                alert('Paquete cancelado')
             })
             .catch((err) => {
                 console.error(err)
@@ -73,7 +65,6 @@ export default function GetPackages() {
             })
             .then(() => {
                 setPackagesChanged(!packagesChanged)
-                alert('Paquete asignado')
             })
             .catch((err) => {
                 console.error(err)

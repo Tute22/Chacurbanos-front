@@ -10,16 +10,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { setSelectedPackage } from '@/store/slice/dbData/dataSlice'
+import { Package } from '@/types/types'
 
 export default function WorkingDay() {
-    type Package = {
-        _id: string
-        address: string
-        recipient: string
-        weight: number
-        date: string
-        status: string
-    }
     const router = useRouter()
     const dispatch = useDispatch()
     // Donde guardaremos todos los paquetes
@@ -38,7 +31,7 @@ export default function WorkingDay() {
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
                 console.error(err)
-                alert('Error al intentar obtener usuario.')
+                // alert('Error al intentar obtener usuario.')
             }
         }
 
