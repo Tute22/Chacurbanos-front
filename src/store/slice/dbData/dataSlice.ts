@@ -5,7 +5,14 @@ export const dbDataSlice = createSlice({
 
     initialState: {
         data: null,
-        selectedPackage: null,
+        selectedPackage: {
+            _id: '',
+            address: '',
+            recipient: '',
+            weight: 0,
+            date: '',
+            status: '',
+        },
         usersData: null,
     },
     reducers: {

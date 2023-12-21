@@ -7,14 +7,14 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 export default function Distribution() {
-    // type Package = {
-    //     _id: string
-    //     address: string
-    //     recipient: string
-    //     weight: number
-    //     date: string
-    //     status: string
-    // }
+    type Package = {
+        _id: string
+        address: string
+        recipient: string
+        weight: number
+        date: string
+        status: string
+    }
     const router = useRouter()
 
     const port = process.env.NEXT_PUBLIC_PORT
@@ -43,35 +43,45 @@ export default function Distribution() {
         }
     }, [port, router])
 
-    // const handleCancelPackage = (selectedPackage: Package) => {
-    //     axios
-    //         .patch(`${port}/packages/${selectedPackage?._id}`, {
-    //             status: 'pending',
-    //         })
-    //         .then(() => {
-    //             alert('Paquete cancelado')
-    //             router.push('/working-day')
-    //         })
-    //         .catch((err) => {
-    //             console.error(err)
-    //             alert('Error en la solicitud')
-    //         })
-    // }
+    const handleCancelPackage = (selectedPackage: Package) => {
+        axios
+            .patch(
+                `${port}/packages/${
+                    selectedPackage?._id && selectedPackage?._id
+                }`,
+                {
+                    status: 'pending',
+                }
+            )
+            .then(() => {
+                alert('Paquete cancelado')
+                router.push('/working-day')
+            })
+            .catch((err) => {
+                console.error(err)
+                alert('Error en la solicitud')
+            })
+    }
 
-    // const handleCompletePackage = (selectedPackage: Package) => {
-    //     axios
-    //         .patch(`${port}/packages/${selectedPackage?._id}`, {
-    //             status: 'delivered',
-    //         })
-    //         .then(() => {
-    //             alert('Paquete entregado!')
-    //             router.push('/working-day')
-    //         })
-    //         .catch((err) => {
-    //             console.error(err)
-    //             alert('Error en la solicitud')
-    //         })
-    // }
+    const handleCompletePackage = (selectedPackage: Package) => {
+        axios
+            .patch(
+                `${port}/packages/${
+                    selectedPackage?._id && selectedPackage?._id
+                }`,
+                {
+                    status: 'delivered',
+                }
+            )
+            .then(() => {
+                alert('Paquete entregado!')
+                router.push('/working-day')
+            })
+            .catch((err) => {
+                console.error(err)
+                alert('Error en la solicitud')
+            })
+    }
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
@@ -119,17 +129,17 @@ export default function Distribution() {
                 <div className="pt-2">
                     <button
                         className="font-poppins font-medium w-full px-4 py-2 mb-4 bg-[#F4C455] rounded-full text-stone-900"
-                        // onClick={() => {
-                        //     handleCompletePackage(inProgressPackage)
-                        // }}
+                        onClick={() => {
+                            handleCompletePackage(inProgressPackage)
+                        }}
                     >
                         Finalizar
                     </button>
                     <button
                         className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px] text-stone-900"
-                        // onClick={() => {
-                        //     handleCancelPackage(inProgressPackage)
-                        // }}
+                        onClick={() => {
+                            handleCancelPackage(inProgressPackage)
+                        }}
                     >
                         Cancelar entrega
                     </button>
