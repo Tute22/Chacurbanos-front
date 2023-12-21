@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { Navbar } from '@/components/Navbar'
 import Image from 'next/image'
-import adminLogo from '../../../public/adminFoto.png'
 import delivery1 from '../../../public/delivery1.png'
 import delivery2 from '../../../public/delivery2.png'
 import { TriangleDownArrow } from '@/commons/icons/TriangleDownArrow'
@@ -70,15 +69,21 @@ export default function ManageOrders() {
     const { usersData, data: packages } = useSelector(
         (store: any) => store.dbDataReducer
     )
+
+    const { loginUserData } = useSelector((store: any) => store.userReducer)
+
     const activeUsers = usersData?.filter(
         (user: UserData) => user.day === 'pending' && user.status !== 'disabled'
     ).length
+
     const totalUsers = usersData?.filter(
         (user: UserData) => user.status !== 'disabled'
     ).length
+
     const deliveredPackages = packages?.filter(
         (p: Package) => p.status === 'delivered'
     ).length
+
     const totalPackages = packages?.length
 
     const port = process.env.NEXT_PUBLIC_PORT
@@ -144,7 +149,13 @@ export default function ManageOrders() {
             <section className="flex justify-center mt-9">
                 <MainContainer title={'Gestionar pedidos'} height={'560px'}>
                     <div className="flex">
-                        <Image src={adminLogo} alt="Admin Logo" width={57} />
+                        <img
+                            src={loginUserData?.user.iconUrl}
+                            alt="admin"
+                            className=" w-[56px] h-[58px]"
+                            style={{ borderRadius: '600px' }}
+                        />
+                        {/* <Image src={adminLogo} alt="Admin Logo" width={57} /> */}
                         <div className="flex flex-col ml-[20px]">
                             <h1 className="text-base font-poppins font-bold">
                                 ¡Hola Admin!

@@ -6,7 +6,9 @@ import Image from 'next/image'
 import MainContainer from '@/commons/MainContainer'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
+import { setSelectedUserData } from '@/store/slice/userData/userSlice'
 
 export default function DeliveryProfile() {
     type Package = {
@@ -26,6 +28,7 @@ export default function DeliveryProfile() {
     )
 
     const { selectedUserData } = useSelector((store: any) => store.userReducer)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         // const storedToken = localStorage.getItem('token')
@@ -47,7 +50,29 @@ export default function DeliveryProfile() {
         // } else {
         //     router.push('/')
         // }
+
+        axios
+            .get(`${port}/users/user/${selectedUserData?._id}`)
+            .then((response) => {
+                dispatch(setSelectedUserData(response.data))
+            })
+            .catch((error) => console.log(error))
     }, [port, router])
+
+    const handleUserStatus = () => {
+        axios
+            .patch(`${port}/users/${selectedUserData._id}`, {
+                status:
+                    selectedUserData?.status === 'disabled'
+                        ? 'enabled'
+                        : 'disabled',
+            })
+            .then((response) => {
+                dispatch(setSelectedUserData(response.data))
+                // alert("Status del usuario cambiado correctamente")
+            })
+            .catch((error) => console.log(error))
+    }
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
@@ -91,8 +116,15 @@ export default function DeliveryProfile() {
                                     type="checkbox"
                                     value=""
                                     className="sr-only peer"
+                                    onClick={() => handleUserStatus()}
                                 />
-                                <div className="w-11 h-6 border-[1px] border-solid border-[#55BBD1] peer-focus:outline-none rounded-full peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:absolute after:top-[2px] before:start-[2px] after:start-[2px] after:border-gray-300 after:border after:rounded-full after:bg-[#F4C455] after:h-5 after:w-5 after:transition-all ring:[#F4C455]"></div>
+                                <div
+                                    className={`w-11 h-6 border-[1px] border-solid border-[#55BBD1]  rounded-full  after:absolute after:top-[2px]  after:border-gray-300 after:border after:rounded-full ${
+                                        selectedUserData?.status === 'disabled'
+                                            ? 'after:start-[2px]'
+                                            : 'after:end-[2px]'
+                                    } after:bg-[#F4C455] after:h-5 after:w-5 after:transition-all ring:[#F4C455]`}
+                                ></div>
                             </label>
                         </div>
                     </div>
