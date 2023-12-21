@@ -7,14 +7,14 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 export default function Distribution() {
-    /* type Package = {
-        _id: string
-        address: string
-        recipient: string
-        weight: number
-        date: string
-        status: string
-    } */
+    // type Package = {
+    //     _id: string
+    //     address: string
+    //     recipient: string
+    //     weight: number
+    //     date: string
+    //     status: string
+    // }
     const router = useRouter()
 
     const port = process.env.NEXT_PUBLIC_PORT
