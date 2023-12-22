@@ -30,7 +30,8 @@ const MainContainer: React.FC<MainContainerProps> = ({
             <div className="bg-[#55BBD1] rounded-lg p-4 w-80 h-[80px] text-white flex flex-wrap justify-between shadow-md">
                 {pathname !== '/login' &&
                     pathname !== '/' &&
-                    pathname !== '/manage-orders' && (
+                    pathname !== '/manage-orders' &&
+                    pathname !== '/declaration' && (
                         <LeftArrowIcon
                             onClick={handleBack}
                             className="w-8 ml-[3px] absolute mx-auto cursor-pointer"
