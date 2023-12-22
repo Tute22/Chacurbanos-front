@@ -8,6 +8,9 @@ interface FormValues {
     confirmPassword: string
     address: string
     packageWeight: string
+    a: string
+    b: string
+    c: string
 }
 
 interface FormErrors {
@@ -29,6 +32,9 @@ export const useValidations = () => {
         confirmPassword: '',
         address: '',
         packageWeight: '',
+        a: '',
+        b: '',
+        c: '',
     })
 
     const [errors, setErrors] = useState<FormErrors>({})
@@ -153,6 +159,10 @@ export const useValidations = () => {
         )
     }
 
+    const isDeclarationComplete = () => {
+        return formValues.a !== '' && formValues.b !== '' && formValues.c !== ''
+    }
+
     const setName = (name: string) => {
         setFormValues((prevState) => ({ ...prevState, name }))
     }
@@ -181,6 +191,18 @@ export const useValidations = () => {
         setFormValues((prevState) => ({ ...prevState, packageWeight }))
     }
 
+    const setDeclarationA = (a: string) => {
+        setFormValues((prevState) => ({ ...prevState, a }))
+    }
+
+    const setDeclarationB = (b: string) => {
+        setFormValues((prevState) => ({ ...prevState, b }))
+    }
+
+    const setDeclarationC = (c: string) => {
+        setFormValues((prevState) => ({ ...prevState, c }))
+    }
+
     return {
         formValues,
         errors,
@@ -201,5 +223,9 @@ export const useValidations = () => {
         isLoginComplete,
         isRegisterComplete,
         isAddPackageComplete,
+        isDeclarationComplete,
+        setDeclarationA,
+        setDeclarationB,
+        setDeclarationC,
     }
 }
