@@ -1,15 +1,15 @@
 'use client'
 import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
-// import axios from 'axios'
-// import { useSelector } from 'react-redux'
-// import { useRouter } from 'next/navigation'
+import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { useRouter } from 'next/navigation'
 import { useValidations } from '@/hooks/validationHooks'
 
 export default function Declaration() {
-    // const port = process.env.NEXT_PUBLIC_PORT
-    // const { loginUserData } = useSelector((store: any) => store.userReducer)
-    // const router = useRouter()
+    const port = process.env.NEXT_PUBLIC_PORT
+    const { loginUserData } = useSelector((store: any) => store.userReducer)
+    const router = useRouter()
 
     const {
         formValues,
@@ -19,18 +19,34 @@ export default function Declaration() {
         isDeclarationComplete,
     } = useValidations()
 
-    // const handleSubmitDeclaration = () => {
-    //     axios
-    //         .patch(`${port}/users/${loginUserData?._id}`, { declaration: true })
-    //         .then(() => {
-    //             router.push('/working-day')
-    //         })
-    //         .catch((error) => {
-    //             console.log(error)
-    //             alert('No hemos podido procesar la solicitud.')
-    //             router.push('/')
-    //         })
-    // }
+    const declarationIsApproved = () => {
+        return (
+            formValues.a === 'No' &&
+            formValues.b === 'No' &&
+            formValues.c === 'No'
+        )
+    }
+
+    const handleSubmitDeclaration = () => {
+        if (declarationIsApproved()) {
+            axios
+                .patch(`${port}/users/${loginUserData?.user._id}`, {
+                    declaration: true,
+                })
+                .then(() => {
+                    alert('Declaración jurada firmada correctamente.')
+                    router.push('/working-day')
+                })
+                .catch((error) => {
+                    alert('No hemos podido procesar la solicitud.')
+                    console.error(error)
+                    router.push('/')
+                })
+        } else {
+            alert('No podes trabajar por 12 horas.')
+            router.push('/')
+        }
+    }
 
     const buttonOpacityClass = isDeclarationComplete()
         ? 'opacity-100'
@@ -141,6 +157,9 @@ export default function Declaration() {
                             </div>
                         </div>
                         <button
+                            onClick={() => {
+                                handleSubmitDeclaration()
+                            }}
                             disabled={!isDeclarationComplete()}
                             className={`font-poppins font-normal w-full px-4 py-2 mt-8 rounded-full bg-[#F4C455] border-solid border-[1px] ${buttonOpacityClass}`}
                         >

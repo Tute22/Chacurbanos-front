@@ -55,6 +55,8 @@ export default function Login() {
             alert('Logueo exitoso!')
             if (user.role === 'admin') {
                 router.push('/manage-orders')
+            } else if (user.declaration === false) {
+                router.push('/declaration')
             } else {
                 router.push('/working-day')
             }
