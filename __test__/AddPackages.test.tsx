@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => ({
 }))
 
 describe('<AddPackages/>', () => {
-    test('renders the AddPackages component', () => {
+    it('renders the AddPackages component', () => {
         render(
             <Providers>
                 <AddPackages />
