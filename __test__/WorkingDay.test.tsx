@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => ({
 }))
 
 describe('<WorkingDay/>', () => {
-    test('renders the WorkingDay component', () => {
+    it('renders the WorkingDay component', () => {
         render(
             <Providers>
                 <WorkingDay />

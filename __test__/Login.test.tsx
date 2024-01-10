@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => ({
 }))
 
 describe('<Login/>', () => {
-    test('renders the Login component', () => {
+    it('renders the Login component', () => {
         render(
             <Providers>
                 <Login />
