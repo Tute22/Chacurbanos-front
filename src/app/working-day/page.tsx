@@ -12,7 +12,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedPackage } from '@/store/slice/dbData/dataSlice'
 import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
-import { setGetPackagesLoading } from '@/store/slice/isLoading/loadingSlice'
+import {
+    setGetPackagesLoading,
+    setStartWorkLoading,
+} from '@/store/slice/isLoading/loadingSlice'
 
 export default function WorkingDay() {
     const router = useRouter()
@@ -88,6 +91,7 @@ export default function WorkingDay() {
 
     const handleClick = () => {
         dispatch(setGetPackagesLoading(true))
+        dispatch(setStartWorkLoading(false))
     }
 
     return (

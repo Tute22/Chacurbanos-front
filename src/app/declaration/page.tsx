@@ -2,15 +2,25 @@
 import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import { useValidations } from '@/hooks/validationHooks'
+import {
+    setDeclarationLoading,
+    setLoginLoading,
+} from '@/store/slice/isLoading/loadingSlice'
+import Spinner from '@/commons/Spinner'
 
 //
 
 export default function Declaration() {
     const port = process.env.NEXT_PUBLIC_PORT
+    const dispatch = useDispatch()
     const { loginUserData } = useSelector((store: any) => store.userReducer)
+    const { declarationLoading } = useSelector(
+        (store: any) => store.loadingReducer
+    )
+
     const router = useRouter()
 
     const {
@@ -30,6 +40,7 @@ export default function Declaration() {
     }
 
     const handleSubmitDeclaration = () => {
+        dispatch(setDeclarationLoading(true))
         if (declarationIsApproved()) {
             axios
                 .patch(`${port}/users/${loginUserData?.user._id}`, {
@@ -56,14 +67,18 @@ export default function Declaration() {
                         })
                         .then(() => {
                             alert('No podes trabajar por 24 horas.')
+                            dispatch(setLoginLoading(false))
+                            dispatch(setDeclarationLoading(false))
                             router.push('/')
                         })
                         .catch((error) => {
+                            dispatch(setDeclarationLoading(false))
                             console.error(error)
                             router.push('/')
                         })
                 })
                 .catch((error) => {
+                    dispatch(setDeclarationLoading(false))
                     console.error(error)
                     router.push('/')
                 })
@@ -185,7 +200,7 @@ export default function Declaration() {
                             disabled={!isDeclarationComplete()}
                             className={`font-poppins font-normal w-full px-4 py-2 mt-8 rounded-full bg-[#F4C455] border-solid border-[1px] ${buttonOpacityClass}`}
                         >
-                            Continuar
+                            {!declarationLoading ? 'Ingresar' : <Spinner />}
                         </button>
                     </div>
                 </MainContainer>

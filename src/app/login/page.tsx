@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '@/store/slice/userData/userSlice'
 import { setData, setUsersData } from '@/store/slice/dbData/dataSlice'
 import {
+    setCreateUserLoading,
+    setIsLoading,
     setLoginLoading,
     setRegisterLoading,
 } from '@/store/slice/isLoading/loadingSlice'
@@ -23,7 +25,7 @@ import { useState } from 'react'
 export default function Login() {
     const router = useRouter()
     const dispatch = useDispatch()
-    const { loginLoading, registerLoading } = useSelector(
+    const { loginLoading, createUserLoading } = useSelector(
         (store: any) => store.loadingReducer
     )
 
@@ -47,7 +49,9 @@ export default function Login() {
     } = useValidations()
 
     const handleClick = () => {
-        dispatch(setRegisterLoading(true))
+        dispatch(setCreateUserLoading(true))
+        dispatch(setRegisterLoading(false))
+        dispatch(setIsLoading(false))
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -95,15 +99,16 @@ export default function Login() {
                     axios.patch(`${port}/users/${loginUserData?.user._id}`, {
                         dateBadDeclaration: '',
                     })
-                    alert('Logueo exitoso!')
+                    // alert('Logueo exitoso!')
                     router.push('/declaration')
                 }
+                dispatch(setLoginLoading(false))
                 alert('No podes trabajar por 24 horas.')
             } else if (user.role === 'admin') {
                 alert('Logueo exitoso!')
                 router.push('/manage-orders')
             } else {
-                alert('Logueo exitoso!')
+                // alert('Logueo exitoso!')
                 router.push('/declaration')
             }
         } catch (error) {
@@ -195,7 +200,7 @@ export default function Login() {
                                     disabled={
                                         !isLoginComplete() ||
                                         loginLoading ||
-                                        registerLoading
+                                        createUserLoading
                                             ? true
                                             : false
                                     }
@@ -208,14 +213,14 @@ export default function Login() {
                             <Link href={'/register'}>
                                 <button
                                     disabled={
-                                        loginLoading || registerLoading
+                                        loginLoading || createUserLoading
                                             ? true
                                             : false
                                     }
                                     onClick={handleClick}
                                     className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]"
                                 >
-                                    {!registerLoading ? (
+                                    {!createUserLoading ? (
                                         'Crear Cuenta'
                                     ) : (
                                         <Spinner />

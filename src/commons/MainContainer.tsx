@@ -2,12 +2,8 @@
 import React, { ReactNode } from 'react'
 import { LeftArrowIcon } from './icons/LeftArrowIcon'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-    setGetPackagesLoading,
-    setLoginLoading,
-    setRegisterLoading,
-} from '@/store/slice/isLoading/loadingSlice'
 import { usePathname, useRouter } from 'next/navigation'
+import { loadingActions } from '@/utils/loadingActions'
 
 interface MainContainerProps {
     title: string
@@ -25,12 +21,6 @@ const MainContainer: React.FC<MainContainerProps> = ({
 
     const dispatch = useDispatch()
     const loadingStates = useSelector((store: any) => store.loadingReducer)
-
-    const loadingActions: Record<string, (payload: boolean) => any> = {
-        ['loginLoading']: setLoginLoading,
-        ['registerLoading']: setRegisterLoading,
-        ['getPackagesLoading']: setGetPackagesLoading,
-    }
 
     const handleBack = () => {
         for (const key in loadingStates) {

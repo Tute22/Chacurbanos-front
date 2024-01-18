@@ -8,11 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '@/store/slice/userData/userSlice'
-import {
-    setGetPackagesLoading,
-    setLoginLoading,
-    setRegisterLoading,
-} from '@/store/slice/isLoading/loadingSlice'
+import { loadingDispatch } from '@/utils/loadingDispatch'
 
 export const Navbar = () => {
     const pathName = usePathname()
@@ -20,21 +16,10 @@ export const Navbar = () => {
     const dispatch = useDispatch()
     const loadingStates = useSelector((store: any) => store.loadingReducer)
 
-    const loadingActions: Record<string, (payload: boolean) => any> = {
-        ['loginLoading']: setLoginLoading,
-        ['registerLoading']: setRegisterLoading,
-        ['getPackagesLoading']: setGetPackagesLoading,
-    }
-
     const handleLogout = () => {
         localStorage.removeItem('token')
         dispatch(setUser(null))
-        for (const key in loadingStates) {
-            const actionCreator = loadingActions[`${key}`]
-            if (actionCreator) {
-                dispatch(actionCreator(false))
-            }
-        }
+        loadingDispatch(dispatch, loadingStates)
         router.push('/')
     }
 
