@@ -22,4 +22,18 @@ describe('<AddPackages/>', () => {
         const addPackagesElement = screen.getByText(/Agregar paquetes/)
         expect(addPackagesElement).toBeInTheDocument()
     })
+
+    it('does not render the AddPackages component with incorrect text', () => {
+        render(
+            <Providers>
+                <AddPackages />
+            </Providers>
+        )
+
+        // Intenta buscar un texto que no debería estar presente
+        const addPackagesElement = screen.queryByText(/Texto incorrecto/)
+
+        // Verifica que el elemento no esté presente
+        expect(addPackagesElement).not.toBeInTheDocument()
+    })
 })
