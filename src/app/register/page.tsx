@@ -15,8 +15,27 @@ export default function Register() {
 
     const port = process.env.NEXT_PUBLIC_PORT
 
+    const MAX_FILE_SIZE_MB = 5
+
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [userImage, setUserImage] = useState<File | null>(null)
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files && e.target.files[0]
+
+        if (file) {
+            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                alert(
+                    `El archivo es demasiado grande. El tamaño máximo permitido es ${MAX_FILE_SIZE_MB} MB.`
+                )
+                e.target.value = ''
+                return
+            }
+
+            setUserImage(file)
+        }
+    }
 
     const handleTogglePassword = () => {
         setShowPassword(!showPassword)
@@ -76,10 +95,30 @@ export default function Register() {
             <Navbar />
             <section className="flex justify-center mt-1">
                 <MainContainer title={'Creá tu cuenta'} height={'90%'}>
-                    <div className="flex justify-center mb-4">
-                        <Camera className="w-24 h-auto text-[#F4C455]" />
-                    </div>
                     <form onSubmit={handleSubmit}>
+                        <div className="flex justify-center mb-4">
+                            {userImage ? (
+                                <img
+                                    src={URL.createObjectURL(userImage)}
+                                    alt="User"
+                                    className="w-24 h-auto rounded-full"
+                                />
+                            ) : (
+                                <label
+                                    htmlFor="upload"
+                                    className="cursor-pointer"
+                                >
+                                    <Camera className="w-24 h-auto text-[#F4C455]" />
+                                </label>
+                            )}
+                            <input
+                                id="upload"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="hidden"
+                            />
+                        </div>
                         <div className="mb-4">
                             <input
                                 type="text"
@@ -176,11 +215,11 @@ export default function Register() {
                             )}
                         </div>
                         <div className="mb-4 relative">
-                            {showPassword ? (
+                            {showConfirmPassword ? (
                                 <button
                                     type="button"
                                     className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
-                                    onClick={handleTogglePassword}
+                                    onClick={handleToggleConfirmPassword}
                                 >
                                     <CloseEyeIcon className="text-gray-400" />
                                 </button>
