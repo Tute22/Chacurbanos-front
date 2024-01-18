@@ -9,10 +9,18 @@ import MainContainer from '@/commons/MainContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '@/store/slice/userData/userSlice'
 import { setData, setUsersData } from '@/store/slice/dbData/dataSlice'
+import {
+    setLoginLoading,
+    setRegisterLoading,
+} from '@/store/slice/isLoading/loadingSlice'
+import Spinner from '@/commons/Spinner'
 
 export default function Login() {
     const router = useRouter()
     const dispatch = useDispatch()
+    const { loginLoading, registerLoading } = useSelector(
+        (store: any) => store.loadingReducer
+    )
 
     const port = process.env.NEXT_PUBLIC_PORT
     const { loginUserData } = useSelector((store: any) => store.userReducer)
@@ -27,12 +35,17 @@ export default function Login() {
         isLoginComplete,
     } = useValidations()
 
+    const handleClick = () => {
+        dispatch(setRegisterLoading(true))
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         const { email, password } = formValues
 
         try {
+            dispatch(setLoginLoading(true))
             const response = await axios.post(`${port}/users/login`, {
                 email,
                 password,
@@ -45,12 +58,16 @@ export default function Login() {
 
             axios
                 .get(`${port}/packages`)
-                .then((response) => dispatch(setData(response.data)))
+                .then((response) => {
+                    dispatch(setData(response.data))
+                })
                 .catch((error) => console.error(error))
 
             axios
                 .get(`${port}/users`)
-                .then((response) => dispatch(setUsersData(response.data)))
+                .then((response) => {
+                    dispatch(setUsersData(response.data))
+                })
                 .catch((error) => console.error(error))
 
             if (
@@ -77,6 +94,7 @@ export default function Login() {
                 router.push('/declaration')
             }
         } catch (error) {
+            dispatch(setLoginLoading(false))
             alert('Datos inválidos')
             console.error(error)
         }
@@ -145,16 +163,34 @@ export default function Login() {
                                 <button
                                     onSubmit={handleSubmit}
                                     className={`font-poppins font-semibold w-full px-4 py-2 bg-[#F4C455] rounded-full ${buttonOpacityClass}`}
-                                    disabled={!isLoginComplete()}
+                                    disabled={
+                                        !isLoginComplete() ||
+                                        loginLoading ||
+                                        registerLoading
+                                            ? true
+                                            : false
+                                    }
                                 >
-                                    Ingresar
+                                    {!loginLoading ? 'Ingresar' : <Spinner />}
                                 </button>
                             </div>
                         </form>
                         <div>
                             <Link href={'/register'}>
-                                <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]">
-                                    Crear Cuenta
+                                <button
+                                    disabled={
+                                        loginLoading || registerLoading
+                                            ? true
+                                            : false
+                                    }
+                                    onClick={handleClick}
+                                    className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]"
+                                >
+                                    {!registerLoading ? (
+                                        'Crear Cuenta'
+                                    ) : (
+                                        <Spinner />
+                                    )}
                                 </button>
                             </Link>
                         </div>
