@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
 import axios from 'axios'
 import MainContainer from '@/commons/MainContainer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '@/store/slice/userData/userSlice'
 import { setData, setUsersData } from '@/store/slice/dbData/dataSlice'
 
@@ -15,6 +15,7 @@ export default function Login() {
     const dispatch = useDispatch()
 
     const port = process.env.NEXT_PUBLIC_PORT
+    const { loginUserData } = useSelector((store: any) => store.userReducer)
 
     const {
         formValues,
@@ -52,13 +53,28 @@ export default function Login() {
                 .then((response) => dispatch(setUsersData(response.data)))
                 .catch((error) => console.error(error))
 
-            alert('Logueo exitoso!')
-            if (user.role === 'admin') {
+            if (
+                user.declaration === false &&
+                user.role === 'delivery' &&
+                user.dateBadDeclaration !== ''
+            ) {
+                const dateBadDeclaration = new Date(user.dateBadDeclaration)
+                dateBadDeclaration.setDate(dateBadDeclaration.getDate() + 1)
+
+                if (new Date() > dateBadDeclaration) {
+                    axios.patch(`${port}/users/${loginUserData?.user._id}`, {
+                        dateBadDeclaration: '',
+                    })
+                    alert('Logueo exitoso!')
+                    router.push('/declaration')
+                }
+                alert('No podes trabajar por 24 horas.')
+            } else if (user.role === 'admin') {
+                alert('Logueo exitoso!')
                 router.push('/manage-orders')
-            } else if (user.declaration === false) {
-                router.push('/declaration')
             } else {
-                router.push('/working-day')
+                alert('Logueo exitoso!')
+                router.push('/declaration')
             }
         } catch (error) {
             alert('Datos inválidos')

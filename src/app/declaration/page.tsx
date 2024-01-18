@@ -43,8 +43,28 @@ export default function Declaration() {
                     router.push('/')
                 })
         } else {
-            alert('No podes trabajar por 12 horas.')
-            router.push('/')
+            axios
+                .patch(`${port}/users/${loginUserData?.user._id}`, {
+                    dateBadDeclaration: new Date().toString(),
+                })
+                .then(() => {
+                    axios
+                        .patch(`${port}/users/${loginUserData?.user._id}`, {
+                            declaration: false,
+                        })
+                        .then(() => {
+                            alert('No podes trabajar por 24 horas.')
+                            router.push('/')
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                            router.push('/')
+                        })
+                })
+                .catch((error) => {
+                    console.error(error)
+                    router.push('/')
+                })
         }
     }
 
