@@ -260,7 +260,7 @@ export default function ManageOrders() {
                         </div>
                     </div>
                     <br />
-                    <div>
+                    <div className="mt-4">
                         <Link href={'/add-packages'}>
                             <button className="bg-[#F4C455] py-1 w-[280px] rounded-full font-poppins font-medium">
                                 <div className="flex justify-center items-center">
