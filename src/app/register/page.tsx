@@ -10,11 +10,8 @@ import axios from 'axios'
 import MainContainer from '@/commons/MainContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '@/commons/Spinner'
-import {
-    setCreateUserLoading,
-    setIsLoading,
-    setRegisterLoading,
-} from '@/store/slice/isLoading/loadingSlice'
+import { setCreateUserLoading, setIsLoading, setRegisterLoading } from '@/store/slice/isLoading/loadingSlice'
+import { useState } from 'react'
 
 export default function Register() {
     const router = useRouter()
@@ -22,6 +19,36 @@ export default function Register() {
     const loadingStates = useSelector((store: any) => store.loadingReducer)
 
     const port = process.env.NEXT_PUBLIC_PORT
+
+    const MAX_FILE_SIZE_MB = 5
+
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [userImage, setUserImage] = useState<File | null>(null)
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files && e.target.files[0]
+
+        if (file) {
+            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                alert(
+                    `El archivo es demasiado grande. El tamaño máximo permitido es ${MAX_FILE_SIZE_MB} MB.`
+                )
+                e.target.value = ''
+                return
+            }
+
+            setUserImage(file)
+        }
+    }
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword)
+    }
+
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword)
+    }
 
     const {
         formValues,
@@ -82,14 +109,34 @@ export default function Register() {
     // value={confirmPassword} onChange={(e)=> setConfirmPassword(e.currentTarget.value)} onBlur={(e) => handleValidation.handleConfirmPassword(e.currentTarget.value)} required
 
     return (
-        <main className="bg-[#AEE3EF] h-screen overflow-auto">
+        <main className="bg-[#AEE3EF] h-screen">
             <Navbar />
             <section className="flex justify-center mt-1">
                 <MainContainer title={'Creá tu cuenta'} height={'90%'}>
-                    <div className="flex justify-center mb-4">
-                        <Camera className="w-24 h-auto text-[#F4C455]" />
-                    </div>
                     <form onSubmit={handleSubmit}>
+                        <div className="flex justify-center mb-4">
+                            {userImage ? (
+                                <img
+                                    src={URL.createObjectURL(userImage)}
+                                    alt="User"
+                                    className="w-24 h-auto rounded-full"
+                                />
+                            ) : (
+                                <label
+                                    htmlFor="upload"
+                                    className="cursor-pointer"
+                                >
+                                    <Camera className="w-24 h-auto text-[#F4C455]" />
+                                </label>
+                            )}
+                            <input
+                                id="upload"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="hidden"
+                            />
+                        </div>
                         <div className="mb-4">
                             <input
                                 type="text"
@@ -148,10 +195,26 @@ export default function Register() {
                                 </span>
                             )}
                         </div>
-                        <div className="mb-4">
-                            <CloseEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" />
+                        <div className="mb-4 relative">
+                            {showPassword ? (
+                                <button
+                                    type="button"
+                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                    onClick={handleTogglePassword}
+                                >
+                                    <CloseEyeIcon className="text-gray-400" />
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                    onClick={handleTogglePassword}
+                                >
+                                    <OpenEyeIcon className="text-gray-400 " />
+                                </button>
+                            )}
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="**********"
                                 value={formValues.password}
@@ -169,10 +232,26 @@ export default function Register() {
                                 </span>
                             )}
                         </div>
-                        <div className="mb-4">
-                            <OpenEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" />
+                        <div className="mb-4 relative">
+                            {showConfirmPassword ? (
+                                <button
+                                    type="button"
+                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                    onClick={handleToggleConfirmPassword}
+                                >
+                                    <CloseEyeIcon className="text-gray-400" />
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                    onClick={handleToggleConfirmPassword}
+                                >
+                                    <OpenEyeIcon className="text-gray-400 " />
+                                </button>
+                            )}
                             <input
-                                type="password"
+                                type={showConfirmPassword ? 'text' : 'password'}
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="Confirmar contraseña"
                                 value={formValues.confirmPassword}
