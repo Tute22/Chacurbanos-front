@@ -23,6 +23,7 @@ export default function Login() {
     )
 
     const port = process.env.NEXT_PUBLIC_PORT
+    const { loginUserData } = useSelector((store: any) => store.userReducer)
 
     const {
         formValues,
@@ -69,13 +70,28 @@ export default function Login() {
                 })
                 .catch((error) => console.error(error))
 
-            // alert('Logueo exitoso!')
-            if (user.role === 'admin') {
+            if (
+                user.declaration === false &&
+                user.role === 'delivery' &&
+                user.dateBadDeclaration !== ''
+            ) {
+                const dateBadDeclaration = new Date(user.dateBadDeclaration)
+                dateBadDeclaration.setDate(dateBadDeclaration.getDate() + 1)
+
+                if (new Date() > dateBadDeclaration) {
+                    axios.patch(`${port}/users/${loginUserData?.user._id}`, {
+                        dateBadDeclaration: '',
+                    })
+                    alert('Logueo exitoso!')
+                    router.push('/declaration')
+                }
+                alert('No podes trabajar por 24 horas.')
+            } else if (user.role === 'admin') {
+                alert('Logueo exitoso!')
                 router.push('/manage-orders')
-            } else if (user.declaration === false) {
-                router.push('/declaration')
             } else {
-                router.push('/working-day')
+                alert('Logueo exitoso!')
+                router.push('/declaration')
             }
         } catch (error) {
             dispatch(setLoginLoading(false))
