@@ -8,9 +8,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedPackage } from '@/store/slice/dbData/dataSlice'
 import { Package } from '@/types/types'
+import Spinner from '@/commons/Spinner'
+import { setGetPackagesLoading } from '@/store/slice/isLoading/loadingSlice'
 
 export default function WorkingDay() {
     const router = useRouter()
@@ -19,6 +21,9 @@ export default function WorkingDay() {
     const [packages, setPackages] = useState<Package[]>([])
     // Este estado es necesario para chequear que el estado de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
     const [packagesChanged, setPackagesChanged] = useState(false)
+    const { getPackagesLoading } = useSelector(
+        (store: any) => store.loadingReducer
+    )
     const port = process.env.NEXT_PUBLIC_PORT
 
     useEffect(() => {
@@ -79,6 +84,10 @@ export default function WorkingDay() {
 
     const handleDispatchSelectedPackage = (selectedPackage: Package) => {
         dispatch(setSelectedPackage(selectedPackage))
+    }
+
+    const handleClick = () => {
+        dispatch(setGetPackagesLoading(true))
     }
 
     return (
@@ -284,8 +293,15 @@ export default function WorkingDay() {
                 <br />
                 <div>
                     <Link href={'/get-packages'}>
-                        <button className="bg-[#F4C455] text-lg py-1 w-80 rounded-full font-poppins font-medium mt-2">
-                            Obtener paquetes
+                        <button
+                            onClick={handleClick}
+                            className="bg-[#F4C455] text-lg py-1 w-80 rounded-full font-poppins font-medium mt-2"
+                        >
+                            {!getPackagesLoading ? (
+                                'Obtener paquetes'
+                            ) : (
+                                <Spinner />
+                            )}
                         </button>
                     </Link>
                 </div>
