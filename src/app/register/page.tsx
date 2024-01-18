@@ -8,9 +8,18 @@ import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
 import axios from 'axios'
 import MainContainer from '@/commons/MainContainer'
+import { useDispatch, useSelector } from 'react-redux'
+import Spinner from '@/commons/Spinner'
+import {
+    setCreateUserLoading,
+    setIsLoading,
+    setRegisterLoading,
+} from '@/store/slice/isLoading/loadingSlice'
 
 export default function Register() {
     const router = useRouter()
+    const dispatch = useDispatch()
+    const loadingStates = useSelector((store: any) => store.loadingReducer)
 
     const port = process.env.NEXT_PUBLIC_PORT
 
@@ -27,7 +36,7 @@ export default function Register() {
         setEmail,
         setPassword,
         setConfirmPassword,
-        isRegisterComplete
+        isRegisterComplete,
     } = useValidations()
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -36,6 +45,7 @@ export default function Register() {
         const { name, lastName, email, password } = formValues
 
         try {
+            dispatch(setCreateUserLoading(true))
             await axios.post(`${port}/users`, {
                 name,
                 lastName,
@@ -43,14 +53,26 @@ export default function Register() {
                 password,
             })
 
+            dispatch(setCreateUserLoading(false))
             alert('Usuario Registrado')
             router.push('/')
         } catch (err) {
             console.error(err)
+            dispatch(setCreateUserLoading(false))
             alert(
                 'Error al intentar registrar usuario. Verifica tus datos e intenta nuevamente.'
             )
         }
+    }
+
+    const handleClick = () => {
+        dispatch(setIsLoading(true))
+        dispatch(setCreateUserLoading(false))
+    }
+
+    const handleClick2 = () => {
+        dispatch(setRegisterLoading(true))
+        dispatch(setCreateUserLoading(false))
     }
 
     const buttonOpacityClass = isRegisterComplete()
@@ -173,11 +195,16 @@ export default function Register() {
                         </div>
                         <div className="mb-4">
                             <button
+                                onClick={handleClick2}
                                 type="submit"
                                 className={`font-poppins font-medium w-full px-4 py-2 bg-[#F4C455] rounded-full ${buttonOpacityClass}`}
                                 disabled={!isRegisterComplete()}
                             >
-                                Crear
+                                {!loadingStates.registerLoading ? (
+                                    'Crear'
+                                ) : (
+                                    <Spinner />
+                                )}
                             </button>
                         </div>
 
@@ -191,8 +218,15 @@ export default function Register() {
                         </div>
                         <div className="mb-4 mt-4">
                             <Link href="/">
-                                <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]">
-                                    Iniciar Sesión
+                                <button
+                                    onClick={handleClick}
+                                    className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]"
+                                >
+                                    {!loadingStates.isLoading ? (
+                                        'Iniciar Sesión'
+                                    ) : (
+                                        <Spinner />
+                                    )}
                                 </button>
                             </Link>
                         </div>

@@ -8,6 +8,12 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { Package } from '@/types/types'
+import {
+    setGetPackagesLoading,
+    setStartWorkLoading,
+} from '@/store/slice/isLoading/loadingSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import Spinner from '@/commons/Spinner'
 
 export default function GetPackages() {
     // Donde guardaremos todos los paquetes
@@ -15,6 +21,10 @@ export default function GetPackages() {
     // Este estado es necesario para chequear que el estado de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
     const [packagesChanged, setPackagesChanged] = useState(false)
     const router = useRouter()
+    const dispatch = useDispatch()
+    const { startWorkLoading } = useSelector(
+        (store: any) => store.loadingReducer
+    )
 
     const port = process.env.NEXT_PUBLIC_PORT
 
@@ -72,6 +82,11 @@ export default function GetPackages() {
             })
     }
 
+    const handleClick = () => {
+        dispatch(setStartWorkLoading(true))
+        dispatch(setGetPackagesLoading(false))
+    }
+
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
             <Navbar />
@@ -119,10 +134,11 @@ export default function GetPackages() {
             <div className="mb-4 mt-5 flex justify-center">
                 <Link href={'/working-day'}>
                     <button
+                        onClick={handleClick}
                         type="submit"
                         className="w-80 py-1 bg-[#F4C455] rounded-full font-poppins font-bold"
                     >
-                        Iniciar Jornada
+                        {!startWorkLoading ? 'Iniciar Jornada' : <Spinner />}
                     </button>
                 </Link>
             </div>
