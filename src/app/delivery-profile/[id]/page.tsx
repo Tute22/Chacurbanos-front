@@ -30,7 +30,7 @@ export default function DeliveryProfile() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${port}/users/${storedToken}`)
-                const decodedToken = response.data.decodedToken
+                const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
                 if (decodedToken.role !== 'admin') {
                     router.push('/')

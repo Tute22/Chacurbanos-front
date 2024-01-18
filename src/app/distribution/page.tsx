@@ -21,7 +21,7 @@ export default function Distribution() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${port}/users/${storedToken}`)
-                const decodedToken = response.data.decodedToken
+                const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
                 console.error(err)
