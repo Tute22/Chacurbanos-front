@@ -8,11 +8,23 @@ import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
 import axios from 'axios'
 import MainContainer from '@/commons/MainContainer'
+import { useState } from 'react'
 
 export default function Register() {
     const router = useRouter()
 
     const port = process.env.NEXT_PUBLIC_PORT
+
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword)
+    }
+
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword)
+    }
 
     const {
         formValues,
@@ -27,7 +39,7 @@ export default function Register() {
         setEmail,
         setPassword,
         setConfirmPassword,
-        isRegisterComplete
+        isRegisterComplete,
     } = useValidations()
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -60,7 +72,7 @@ export default function Register() {
     // value={confirmPassword} onChange={(e)=> setConfirmPassword(e.currentTarget.value)} onBlur={(e) => handleValidation.handleConfirmPassword(e.currentTarget.value)} required
 
     return (
-        <main className="bg-[#AEE3EF] h-screen overflow-auto">
+        <main className="bg-[#AEE3EF] h-screen">
             <Navbar />
             <section className="flex justify-center mt-1">
                 <MainContainer title={'Creá tu cuenta'} height={'90%'}>
@@ -126,10 +138,26 @@ export default function Register() {
                                 </span>
                             )}
                         </div>
-                        <div className="mb-4">
-                            <CloseEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" />
+                        <div className="mb-4 relative">
+                            {showPassword ? (
+                                <button
+                                    type="button"
+                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                    onClick={handleTogglePassword}
+                                >
+                                    <CloseEyeIcon className="text-gray-400" />
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                    onClick={handleTogglePassword}
+                                >
+                                    <OpenEyeIcon className="text-gray-400 " />
+                                </button>
+                            )}
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="**********"
                                 value={formValues.password}
@@ -147,10 +175,26 @@ export default function Register() {
                                 </span>
                             )}
                         </div>
-                        <div className="mb-4">
-                            <OpenEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" />
+                        <div className="mb-4 relative">
+                            {showPassword ? (
+                                <button
+                                    type="button"
+                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                    onClick={handleTogglePassword}
+                                >
+                                    <CloseEyeIcon className="text-gray-400" />
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                    onClick={handleToggleConfirmPassword}
+                                >
+                                    <OpenEyeIcon className="text-gray-400 " />
+                                </button>
+                            )}
                             <input
-                                type="password"
+                                type={showConfirmPassword ? 'text' : 'password'}
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="Confirmar contraseña"
                                 value={formValues.confirmPassword}

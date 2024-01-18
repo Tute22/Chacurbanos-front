@@ -14,6 +14,11 @@ import {
     setRegisterLoading,
 } from '@/store/slice/isLoading/loadingSlice'
 import Spinner from '@/commons/Spinner'
+import { CloseEyeIcon } from '@/commons/icons/CloseEyeIcon'
+import { OpenEyeIcon } from '@/commons/icons/OpenEyeIcon'
+import { UserLogin } from '@/commons/icons/UserLogin'
+import { LockIcon } from '@/commons/icons/LockIcon'
+import { useState } from 'react'
 
 export default function Login() {
     const router = useRouter()
@@ -24,6 +29,12 @@ export default function Login() {
 
     const port = process.env.NEXT_PUBLIC_PORT
     const { loginUserData } = useSelector((store: any) => store.userReducer)
+
+    const [showPassword, setShowPassword] = useState(false)
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword)
+    }
 
     const {
         formValues,
@@ -117,10 +128,10 @@ export default function Login() {
                     <MainContainer title={'Iniciar Sesión'} height="">
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4 gap-5">
-                                {/* <UserLogin className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" /> */}
+                                <UserLogin className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" />
                                 <input
                                     type="email"
-                                    className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
+                                    className="font-poppins font-normal w-full px-4 py-2 border pl-9 rounded-lg focus:outline-none"
                                     placeholder="nombre@mail.com"
                                     value={formValues.email}
                                     onBlur={(e) =>
@@ -138,11 +149,27 @@ export default function Login() {
                                 )}
                             </div>
                             <div className="mb-4">
-                                {/* <LockIcon className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" />
-                  <CloseEyeIcon className=" text-gray-400 w-5 h-6 mr-2 ml-[253px] mt-2 absolute" /> */}
+                                <LockIcon className=" text-gray-400 w-6 h-6 mr-2 ml-1 mt-2 absolute" />
+                                {showPassword ? (
+                                    <button
+                                        type="button"
+                                        className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                        onClick={handleTogglePassword}
+                                    >
+                                        <CloseEyeIcon className="text-gray-400" />
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
+                                        onClick={handleTogglePassword}
+                                    >
+                                        <OpenEyeIcon className="text-gray-400 " />
+                                    </button>
+                                )}
                                 <input
-                                    type="password"
-                                    className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
+                                    type={showPassword ? 'text' : 'password'}
+                                    className="font-poppins font-normal w-full px-4 py-2 pl-9 border rounded-lg focus:outline-none"
                                     placeholder="**********"
                                     value={formValues.password}
                                     onChange={(e) =>
