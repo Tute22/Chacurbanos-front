@@ -64,6 +64,8 @@ export default function Login() {
 
             const { user, token } = response.data
 
+            console.log('TOKEEEEEN >>>', token)
+
             localStorage.setItem('token', token)
             dispatch(setUser(response.data))
 
