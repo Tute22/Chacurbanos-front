@@ -10,7 +10,11 @@ import axios from 'axios'
 import MainContainer from '@/commons/MainContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '@/commons/Spinner'
-import { setCreateUserLoading, setIsLoading, setRegisterLoading } from '@/store/slice/isLoading/loadingSlice'
+import {
+    setCreateUserLoading,
+    setIsLoading,
+    setRegisterLoading,
+} from '@/store/slice/isLoading/loadingSlice'
 import { useState } from 'react'
 
 export default function Register() {
