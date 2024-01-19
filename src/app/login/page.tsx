@@ -231,7 +231,7 @@ export default function Login() {
                         </div>
                         <div className="text-center mt-4">
                             <a
-                                href="#"
+                                href="/forgot-password"
                                 className="font-poppins font-normal inline-block text-sm"
                             >
                                 OLVIDÉ MI CONTRASEÑA
