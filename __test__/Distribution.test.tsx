@@ -22,4 +22,18 @@ describe('<Distribution/>', () => {
         const distributionElement = screen.getByText(/Reparto en curso/)
         expect(distributionElement).toBeInTheDocument()
     })
+
+    it('does not render the AddPackages component with incorrect text', () => {
+        render(
+            <Providers>
+                <Distribution />
+            </Providers>
+        )
+
+        // Intenta buscar un texto que no debería estar presente
+        const addPackagesElement = screen.queryByText(/Texto incorrecto/)
+
+        // Verifica que el elemento no esté presente
+        expect(addPackagesElement).not.toBeInTheDocument()
+    })
 })
