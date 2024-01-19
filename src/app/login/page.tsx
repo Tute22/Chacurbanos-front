@@ -68,8 +68,6 @@ export default function Login() {
 
             const { user, token } = response.data
 
-            console.log('TOKEEEEEN >>>', token)
-
             localStorage.setItem('token', token)
             dispatch(setUser(response.data))
 
@@ -107,6 +105,9 @@ export default function Login() {
             } else if (user.role === 'admin') {
                 alert('Logueo exitoso!')
                 router.push('/manage-orders')
+            } else if (user.declaration === true) {
+                alert('Logueo exitoso!')
+                router.push('/working-day')
             } else {
                 // alert('Logueo exitoso!')
                 router.push('/declaration')
