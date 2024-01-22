@@ -72,7 +72,6 @@ export default function DeliveryProfile() {
             .then((response) => {
                 dispatch(setSelectedUserData(response.data))
                 setUsersChanged(!usersChanged)
-                // alert("Status del usuario cambiado correctamente")
             })
             .catch((error) => console.log(error))
     }

@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { Package } from '@/types/types'
 import { setData } from '@/store/slice/dbData/dataSlice'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Packages() {
     const port = process.env.NEXT_PUBLIC_PORT
@@ -55,13 +57,26 @@ export default function Packages() {
             .delete(`${port}/packages/${element._id}`)
             .then(() => {
                 setPackagesChanged(!packagesChanged)
-                alert('Paquete eliminado correctamente')
+                toast.success('Paquete eliminado correctamente')
             })
             .catch((error) => console.error(error))
     }
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <Navbar />
             <MainContainer title={'Paquetes'} height={'600px'}>
                 <div className="flex">

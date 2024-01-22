@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Package } from '@/types/types'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Distribution() {
     const router = useRouter()
@@ -47,12 +49,12 @@ export default function Distribution() {
                 }
             )
             .then(() => {
-                alert('Paquete cancelado')
+                toast.info('Paquete cancelado')
                 router.push('/working-day')
             })
             .catch((err) => {
                 console.error(err)
-                alert('Error en la solicitud')
+                toast.error('Error en la solicitud')
             })
     }
 
@@ -67,17 +69,32 @@ export default function Distribution() {
                 }
             )
             .then(() => {
-                alert('Paquete entregado!')
-                router.push('/working-day')
+                toast.success('Paquete entregado!')
+                setTimeout(() => {
+                    router.push('/working-day')
+                }, 1500)
             })
             .catch((err) => {
                 console.error(err)
-                alert('Error en la solicitud')
+                toast.error('Error en la solicitud')
             })
     }
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <Navbar />
             {/* distribution screen */}
             <MainContainer title={'Reparto en curso'} height="620px">

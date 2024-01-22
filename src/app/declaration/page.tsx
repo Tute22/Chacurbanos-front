@@ -5,11 +5,10 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import { useValidations } from '@/hooks/validationHooks'
-import {
-    setDeclarationLoading,
-    setLoginLoading,
-} from '@/store/slice/isLoading/loadingSlice'
+import { setDeclarationLoading } from '@/store/slice/isLoading/loadingSlice'
 import Spinner from '@/commons/Spinner'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 //
 
@@ -47,13 +46,17 @@ export default function Declaration() {
                     declaration: true,
                 })
                 .then(() => {
-                    alert('Declaración jurada firmada correctamente.')
-                    router.push('/working-day')
+                    toast.success('Declaración jurada firmada correctamente.')
+                    setTimeout(() => {
+                        router.push('/working-day')
+                    }, 1000)
                 })
                 .catch((error) => {
-                    alert('No hemos podido procesar la solicitud.')
+                    toast.warning('No hemos podido procesar la solicitud.')
                     console.error(error)
-                    router.push('/')
+                    setTimeout(() => {
+                        router.push('/')
+                    }, 1000)
                 })
         } else {
             axios
@@ -66,19 +69,22 @@ export default function Declaration() {
                             declaration: false,
                         })
                         .then(() => {
-                            alert('No podes trabajar por 24 horas.')
-                            dispatch(setLoginLoading(false))
-                            dispatch(setDeclarationLoading(false))
-                            router.push('/')
+                            toast.error('No podes trabajar por 24 horas.')
+                            setTimeout(() => {
+                                router.push('/')
+                            }, 1000)
                         })
                         .catch((error) => {
-                            dispatch(setDeclarationLoading(false))
+                            toast.warning(
+                                'No hemos podido procesar la solicitud.'
+                            )
                             console.error(error)
-                            router.push('/')
+                            setTimeout(() => {
+                                router.push('/')
+                            }, 1000)
                         })
                 })
                 .catch((error) => {
-                    dispatch(setDeclarationLoading(false))
                     console.error(error)
                     router.push('/')
                 })
@@ -91,6 +97,19 @@ export default function Declaration() {
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <Navbar />
             <section className="flex justify-center">
                 <MainContainer title={'Declaración jurada'} height={''}>

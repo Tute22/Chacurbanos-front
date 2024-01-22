@@ -15,6 +15,7 @@ import { OpenEyeIcon } from '@/commons/icons/OpenEyeIcon'
 import { UserLogin } from '@/commons/icons/UserLogin'
 import { LockIcon } from '@/commons/icons/LockIcon'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 export default function Login() {
     const router = useRouter()
@@ -90,19 +91,21 @@ export default function Login() {
                     return true
                 }
                 setIsLoading(false)
-                alert('No podes trabajar por 24 horas.')
+                toast.error('No podes trabajar por 24 horas.')
             } else if (user.role === 'admin') {
-                alert('Logueo exitoso!')
+                toast.success('Logueo exitoso!')
                 router.push('/manage-orders')
             } else if (user.declaration === true) {
-                alert('Logueo exitoso!')
-                router.push('/working-day')
+                toast.success('Logueo exitoso!')
+                setTimeout(() => {
+                    router.push('/working-day')
+                }, 1000)
             } else {
                 router.push('/declaration')
             }
         } catch (error) {
             setIsLoading(false)
-            alert('Datos inválidos')
+            toast.warning('Datos inválidos')
             console.error(error)
         }
     }

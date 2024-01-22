@@ -16,6 +16,8 @@ import {
     setGetPackagesLoading,
     setStartWorkLoading,
 } from '@/store/slice/isLoading/loadingSlice'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function WorkingDay() {
     const router = useRouter()
@@ -62,11 +64,11 @@ export default function WorkingDay() {
             })
             .then(() => {
                 setPackagesChanged(true)
-                alert('Paquete cancelado')
+                toast.info('Paquete cancelado')
             })
             .catch((err) => {
                 console.error(err)
-                alert('Error en la solicitud')
+                toast.error('Error en la solicitud')
             })
     }
 
@@ -77,11 +79,11 @@ export default function WorkingDay() {
             })
             .then(() => {
                 setPackagesChanged(true)
-                alert('Paquete asignado!')
+                toast.success('Paquete asignado!')
             })
             .catch((err) => {
                 console.error(err)
-                alert('Error en la solicitud')
+                toast.error('Error en la solicitud')
             })
     }
 
@@ -96,6 +98,19 @@ export default function WorkingDay() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <Navbar />
             <div className="flex flex-col justify-center items-center">
                 <section className="bg-white w-80 h-[275px] mt-6 m-4 rounded-xl p-4 shadow-md ">

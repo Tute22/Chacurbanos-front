@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import MainContainer from '@/commons/MainContainer'
 import { useValidations } from '@/hooks/validationHooks'
 import axios from 'axios'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function ForgotPassword() {
     const port = process.env.NEXT_PUBLIC_PORT
@@ -20,12 +22,12 @@ export default function ForgotPassword() {
                 email: email,
             })
 
-            alert(
+            toast.info(
                 'Se ha enviado un correo electrónico para restablecer la contraseña.'
             )
         } catch (err) {
             console.error(err)
-            alert(
+            toast.error(
                 'Error al intentar enviar el correo electrónico. Verifica tu correo e inténtalo nuevamente.'
             )
         }
@@ -33,6 +35,20 @@ export default function ForgotPassword() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
+            <Navbar />
             <section className="flex justify-center">
                 <MainContainer title={'Recuperar Contraseña'} height={'90%'}>
                     <form onSubmit={handleSubmit}>
