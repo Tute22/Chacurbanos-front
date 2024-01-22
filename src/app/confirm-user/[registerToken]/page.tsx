@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import MainContainer from '@/commons/MainContainer'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 //
 export default function ConfirmUserPage(props: any) {
     const router = useRouter()
@@ -22,11 +24,11 @@ export default function ConfirmUserPage(props: any) {
                 }
             )
 
-            alert('Contraseña restablecida exitosamente.')
+            toast.success('Contraseña restablecida exitosamente.')
             router.push('/')
         } catch (err) {
             console.error(err)
-            alert(
+            toast.error(
                 'Error al intentar restablecer la contraseña. Verifica tus datos e intenta nuevamente.'
             )
         }
@@ -34,6 +36,19 @@ export default function ConfirmUserPage(props: any) {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <section className="flex justify-center mt-1">
                 <MainContainer title={'Restablecer Contraseña'} height={'90%'}>
                     <form onSubmit={handleSubmit}>

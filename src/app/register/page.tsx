@@ -16,6 +16,8 @@ import {
     setRegisterLoading,
 } from '@/store/slice/isLoading/loadingSlice'
 import { useState } from 'react'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function Register() {
     const router = useRouter()
@@ -35,7 +37,7 @@ export default function Register() {
 
         if (file) {
             if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                alert(
+                toast.warning(
                     `El archivo es demasiado grande. El tamaño máximo permitido es ${MAX_FILE_SIZE_MB} MB.`
                 )
                 e.target.value = ''
@@ -85,12 +87,14 @@ export default function Register() {
             })
 
             dispatch(setCreateUserLoading(false))
-            alert('Usuario Registrado')
-            router.push('/')
+            toast.success('Usuario Registrado')
+            setTimeout(() => {
+                router.push('/')
+            }, 1000)
         } catch (err) {
             console.error(err)
             dispatch(setCreateUserLoading(false))
-            alert(
+            toast.error(
                 'Error al intentar registrar usuario. Verifica tus datos e intenta nuevamente.'
             )
         }
@@ -114,6 +118,19 @@ export default function Register() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <Navbar />
             <section className="flex justify-center mt-1">
                 <MainContainer title={'Creá tu cuenta'} height={'90%'}>

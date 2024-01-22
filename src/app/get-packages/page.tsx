@@ -3,7 +3,6 @@ import MainContainer from '@/commons/MainContainer'
 import { CheckboxCheck } from '@/commons/icons/CheckboxCheck'
 import { CheckboxEmpty } from '@/commons/icons/CheckboxEmpty'
 import { Navbar } from '@/components/Navbar'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
@@ -14,6 +13,8 @@ import {
 } from '@/store/slice/isLoading/loadingSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '@/commons/Spinner'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function GetPackages() {
     // Donde guardaremos todos los paquetes
@@ -64,7 +65,7 @@ export default function GetPackages() {
             })
             .catch((err) => {
                 console.error(err)
-                alert('Error en la solicitud')
+                toast.error('Error en la solicitud')
             })
     }
 
@@ -78,17 +79,34 @@ export default function GetPackages() {
             })
             .catch((err) => {
                 console.error(err)
-                alert('Error en la solicitud')
+                toast.error('Error en la solicitud')
             })
     }
 
     const handleClick = () => {
+        toast.info('Obtuviste paquete/s')
+        setTimeout(() => {
+            router.push('/working-day')
+        }, 1500)
         dispatch(setStartWorkLoading(true))
         dispatch(setGetPackagesLoading(false))
     }
 
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <Navbar />
             <section className="flex items-center flex-col h-[82%] mt-2">
                 <MainContainer title={'Obtener Paquetes'} height={'600px'}>
@@ -124,7 +142,6 @@ export default function GetPackages() {
                                 <p className="ml-3 border-dotted border-l border-black h-12 w-1"></p>
                                 <div className="ml-4 text-xs">
                                     <p>{p.address}</p>
-                                    {/* <p>CABA</p> */}
                                 </div>
                             </div>
                         ))}
@@ -132,7 +149,7 @@ export default function GetPackages() {
             </section>
 
             <div className="mb-4 mt-5 flex justify-center">
-                <Link href={'/working-day'}>
+                <div>
                     <button
                         onClick={handleClick}
                         type="submit"
@@ -140,7 +157,7 @@ export default function GetPackages() {
                     >
                         {!startWorkLoading ? 'Iniciar Jornada' : <Spinner />}
                     </button>
-                </Link>
+                </div>
             </div>
         </main>
     )

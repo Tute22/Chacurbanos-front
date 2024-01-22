@@ -5,6 +5,8 @@ import { useValidations } from '@/hooks/validationHooks'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function AddPackages() {
     const router = useRouter()
@@ -25,7 +27,7 @@ export default function AddPackages() {
                 }
             } catch (err) {
                 console.error(err)
-                // alert('Error al intentar obtener usuario.')
+                // toast.error('Error al intentar obtener usuario.')
             }
         }
 
@@ -61,10 +63,11 @@ export default function AddPackages() {
                 weight: packageWeight,
                 date: deliveryDate,
             })
-            alert('Paquete agregado!')
+
+            toast.success('Paquete agregado!')
         } catch (err) {
             console.error(err)
-            alert(
+            toast.warning(
                 'Error al intentar crear un paquete nuevo. Verifica los datos e intenta nuevamente.'
             )
         }
@@ -76,6 +79,19 @@ export default function AddPackages() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <Navbar />
             <MainContainer title={'Agregar paquetes'} height={'80%'}>
                 <form
