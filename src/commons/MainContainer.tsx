@@ -42,14 +42,22 @@ const MainContainer: React.FC<MainContainerProps> = ({
                 {pathname !== '/login' &&
                     pathname !== '/' &&
                     pathname !== '/manage-orders' &&
-                    pathname !== '/declaration' && (
+                    pathname !== '/declaration' &&
+                    pathname !== '/forgot-password' && (
                         <LeftArrowIcon
                             onClick={handleBack}
                             className="w-8 ml-[3px] absolute mx-auto cursor-pointer"
                         />
                     )}
+                {pathname === '/forgot-password' && (
+                    <LeftArrowIcon
+                        onClick={handleBack}
+                        className="w-8 absolute mx-auto cursor-pointer"
+                    />
+                )}
+
                 <div className="w-fit mx-auto">
-                    <h3 className="text-lg font-poppins font-semibold h-[32px] flex items-center">
+                    <h3 className="text-lg font-poppins ml-3 font-semibold h-[32px] flex items-center">
                         {title}
                     </h3>
                 </div>

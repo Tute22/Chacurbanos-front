@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Navbar } from '@/components/Navbar'
 import MainContainer from '@/commons/MainContainer'
 import { useValidations } from '@/hooks/validationHooks'
 import axios from 'axios'
@@ -34,8 +33,7 @@ export default function ForgotPassword() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
-            <Navbar />
-            <section className="flex justify-center mt-1">
+            <section className="flex justify-center">
                 <MainContainer title={'Recuperar Contraseña'} height={'90%'}>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
