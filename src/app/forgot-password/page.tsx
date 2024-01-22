@@ -48,7 +48,6 @@ export default function ForgotPassword() {
                 theme="light"
                 transition={Slide}
             />
-            <Navbar />
             <section className="flex justify-center">
                 <MainContainer title={'Recuperar Contraseña'} height={'90%'}>
                     <form onSubmit={handleSubmit}>
