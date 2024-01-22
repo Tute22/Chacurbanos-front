@@ -34,7 +34,7 @@ export default function ConfirmUserPage(props: any) {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
-            <section className="flex justify-center mt-1">
+            <section className="flex justify-center">
                 <MainContainer title={'Restablecer Contraseña'} height={'90%'}>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
