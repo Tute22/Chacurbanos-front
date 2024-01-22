@@ -9,12 +9,6 @@ import MainContainer from '@/commons/MainContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '@/store/slice/userData/userSlice'
 import { setData, setUsersData } from '@/store/slice/dbData/dataSlice'
-import {
-    setCreateUserLoading,
-    setIsLoading,
-    setLoginLoading,
-    setRegisterLoading,
-} from '@/store/slice/isLoading/loadingSlice'
 import Spinner from '@/commons/Spinner'
 import { CloseEyeIcon } from '@/commons/icons/CloseEyeIcon'
 import { OpenEyeIcon } from '@/commons/icons/OpenEyeIcon'
@@ -25,13 +19,11 @@ import { useState } from 'react'
 export default function Login() {
     const router = useRouter()
     const dispatch = useDispatch()
-    const { loginLoading, createUserLoading } = useSelector(
-        (store: any) => store.loadingReducer
-    )
 
     const port = process.env.NEXT_PUBLIC_PORT
     const { loginUserData } = useSelector((store: any) => store.userReducer)
 
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [showPassword, setShowPassword] = useState(false)
 
     const handleTogglePassword = () => {
@@ -48,19 +40,13 @@ export default function Login() {
         isLoginComplete,
     } = useValidations()
 
-    const handleClick = () => {
-        dispatch(setCreateUserLoading(true))
-        dispatch(setRegisterLoading(false))
-        dispatch(setIsLoading(false))
-    }
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         const { email, password } = formValues
 
         try {
-            dispatch(setLoginLoading(true))
+            setIsLoading(true)
             const response = await axios.post(`${port}/users/login`, {
                 email,
                 password,
@@ -94,13 +80,16 @@ export default function Login() {
                 dateBadDeclaration.setDate(dateBadDeclaration.getDate() + 1)
 
                 if (new Date() > dateBadDeclaration) {
-                    axios.patch(`${port}/users/${loginUserData?.user._id}`, {
-                        dateBadDeclaration: '',
-                    })
-                    // alert('Logueo exitoso!')
+                    await axios.patch(
+                        `${port}/users/${loginUserData?.user?._id}`,
+                        {
+                            dateBadDeclaration: '',
+                        }
+                    )
                     router.push('/declaration')
+                    return true
                 }
-                dispatch(setLoginLoading(false))
+                setIsLoading(false)
                 alert('No podes trabajar por 24 horas.')
             } else if (user.role === 'admin') {
                 alert('Logueo exitoso!')
@@ -109,11 +98,10 @@ export default function Login() {
                 alert('Logueo exitoso!')
                 router.push('/working-day')
             } else {
-                // alert('Logueo exitoso!')
                 router.push('/declaration')
             }
         } catch (error) {
-            dispatch(setLoginLoading(false))
+            setIsLoading(false)
             alert('Datos inválidos')
             console.error(error)
         }
@@ -199,33 +187,22 @@ export default function Login() {
                                     onSubmit={handleSubmit}
                                     className={`font-poppins font-semibold w-full px-4 py-2 bg-[#F4C455] rounded-full ${buttonOpacityClass}`}
                                     disabled={
-                                        !isLoginComplete() ||
-                                        loginLoading ||
-                                        createUserLoading
+                                        !isLoginComplete() || isLoading
                                             ? true
                                             : false
                                     }
                                 >
-                                    {!loginLoading ? 'Ingresar' : <Spinner />}
+                                    {!isLoading ? 'Ingresar' : <Spinner />}
                                 </button>
                             </div>
                         </form>
                         <div>
                             <Link href={'/register'}>
                                 <button
-                                    disabled={
-                                        loginLoading || createUserLoading
-                                            ? true
-                                            : false
-                                    }
-                                    onClick={handleClick}
+                                    disabled={isLoading ? true : false}
                                     className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]"
                                 >
-                                    {!createUserLoading ? (
-                                        'Crear Cuenta'
-                                    ) : (
-                                        <Spinner />
-                                    )}
+                                    Crear Cuenta
                                 </button>
                             </Link>
                         </div>
