@@ -49,7 +49,7 @@ export default function ConfirmUserPage(props: any) {
                 theme="light"
                 transition={Slide}
             />
-            <section className="flex justify-center mt-1">
+            <section className="flex justify-center">
                 <MainContainer title={'Restablecer Contraseña'} height={'90%'}>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
