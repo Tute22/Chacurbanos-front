@@ -32,6 +32,12 @@ export default function GetPackages() {
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
 
+        // CHEQUEA SI ESTA LOGUEADO
+        const isAuth = JSON.parse(`${localStorage.getItem('isAuth')}`)
+        if (!isAuth) {
+            router.push('/login')
+        }
+
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${port}/users/${storedToken}`)
