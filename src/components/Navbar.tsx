@@ -7,10 +7,15 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { setUser } from '@/store/slice/userData/userSlice'
+import { setSelectedUserData, setUser } from '@/store/slice/userData/userSlice'
 import { loadingDispatch } from '@/utils/loadingDispatch'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import {
+    setData,
+    setSelectedPackage,
+    setUsersData,
+} from '@/store/slice/dbData/dataSlice'
 
 export const Navbar = () => {
     const pathName = usePathname()
@@ -19,8 +24,22 @@ export const Navbar = () => {
     const loadingStates = useSelector((store: any) => store.loadingReducer)
 
     const handleLogout = () => {
+        localStorage.removeItem('isAuth')
         localStorage.removeItem('token')
         dispatch(setUser(null))
+        dispatch(setSelectedUserData(null))
+        dispatch(setData(null))
+        dispatch(
+            setSelectedPackage({
+                _id: '',
+                address: '',
+                recipient: '',
+                weight: 0,
+                date: '',
+                status: '',
+            })
+        )
+        dispatch(setUsersData(null))
         loadingDispatch(dispatch, loadingStates)
         toast.success('Hasta la proximaaaa')
         setTimeout(() => {
