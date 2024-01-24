@@ -7,11 +7,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axiosInstance from '../../../axiosConfig'
 import { Package } from '@/types/types'
-import {
-    setGetPackagesLoading,
-    setStartWorkLoading,
-} from '@/store/slice/isLoading/loadingSlice'
-import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '@/commons/Spinner'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -22,10 +17,7 @@ export default function GetPackages() {
     // Este estado es necesario para chequear que el estado de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
     const [packagesChanged, setPackagesChanged] = useState(false)
     const router = useRouter()
-    const dispatch = useDispatch()
-    const { startWorkLoading } = useSelector(
-        (store: any) => store.loadingReducer
-    )
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -90,12 +82,11 @@ export default function GetPackages() {
     }
 
     const handleClick = () => {
+        setIsLoading(true)
         toast.info('Obtuviste paquete/s')
         setTimeout(() => {
             router.push('/working-day')
         }, 1500)
-        dispatch(setStartWorkLoading(true))
-        dispatch(setGetPackagesLoading(false))
     }
 
     return (
@@ -161,7 +152,7 @@ export default function GetPackages() {
                         type="submit"
                         className="w-80 py-1 bg-[#F4C455] rounded-full font-poppins font-bold"
                     >
-                        {!startWorkLoading ? 'Iniciar Jornada' : <Spinner />}
+                        {!isLoading ? 'Iniciar Jornada' : <Spinner />}
                     </button>
                 </div>
             </div>

@@ -8,21 +8,14 @@ import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
 import axiosInstance from '../../../axiosConfig'
 import MainContainer from '@/commons/MainContainer'
-import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '@/commons/Spinner'
-import {
-    setCreateUserLoading,
-    setIsLoading,
-    setRegisterLoading,
-} from '@/store/slice/isLoading/loadingSlice'
 import { useState } from 'react'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Register() {
     const router = useRouter()
-    const dispatch = useDispatch()
-    const loadingStates = useSelector((store: any) => store.loadingReducer)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const MAX_FILE_SIZE_MB = 5
 
@@ -76,7 +69,7 @@ export default function Register() {
         const { name, lastName, email, password } = formValues
 
         try {
-            dispatch(setCreateUserLoading(true))
+            setIsLoading(true)
             await axiosInstance.post(`/users`, {
                 name,
                 lastName,
@@ -84,28 +77,17 @@ export default function Register() {
                 password,
             })
 
-            dispatch(setCreateUserLoading(false))
             toast.success('Usuario Registrado')
             setTimeout(() => {
                 router.push('/')
             }, 1000)
         } catch (err) {
+            setIsLoading(false)
             console.error(err)
-            dispatch(setCreateUserLoading(false))
             toast.error(
                 'Error al intentar registrar usuario. Verifica tus datos e intenta nuevamente.'
             )
         }
-    }
-
-    const handleClick = () => {
-        dispatch(setIsLoading(true))
-        dispatch(setCreateUserLoading(false))
-    }
-
-    const handleClick2 = () => {
-        dispatch(setRegisterLoading(true))
-        dispatch(setCreateUserLoading(false))
     }
 
     const buttonOpacityClass = isRegisterComplete()
@@ -293,16 +275,11 @@ export default function Register() {
                         </div>
                         <div className="mb-4">
                             <button
-                                onClick={handleClick2}
                                 type="submit"
                                 className={`font-poppins font-medium w-full px-4 py-2 bg-[#F4C455] rounded-full ${buttonOpacityClass}`}
                                 disabled={!isRegisterComplete()}
                             >
-                                {!loadingStates.registerLoading ? (
-                                    'Crear'
-                                ) : (
-                                    <Spinner />
-                                )}
+                                {!isLoading ? 'Crear' : <Spinner />}
                             </button>
                         </div>
 
@@ -316,15 +293,8 @@ export default function Register() {
                         </div>
                         <div className="mb-4 mt-4">
                             <Link href="/">
-                                <button
-                                    onClick={handleClick}
-                                    className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]"
-                                >
-                                    {!loadingStates.isLoading ? (
-                                        'Iniciar Sesión'
-                                    ) : (
-                                        <Spinner />
-                                    )}
+                                <button className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px]">
+                                    Iniciar Sesión
                                 </button>
                             </Link>
                         </div>

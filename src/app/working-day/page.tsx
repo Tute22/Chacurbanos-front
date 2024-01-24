@@ -8,14 +8,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import axiosInstance from '../../../axiosConfig'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setSelectedPackage } from '@/store/slice/dbData/dataSlice'
 import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
-import {
-    setGetPackagesLoading,
-    setStartWorkLoading,
-} from '@/store/slice/isLoading/loadingSlice'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -26,9 +22,7 @@ export default function WorkingDay() {
     const [packages, setPackages] = useState<Package[]>([])
     // Este estado es necesario para chequear que el estado de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
     const [packagesChanged, setPackagesChanged] = useState(false)
-    const { getPackagesLoading } = useSelector(
-        (store: any) => store.loadingReducer
-    )
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -99,8 +93,7 @@ export default function WorkingDay() {
     }
 
     const handleClick = () => {
-        dispatch(setGetPackagesLoading(true))
-        dispatch(setStartWorkLoading(false))
+        setIsLoading(true)
     }
 
     return (
@@ -257,7 +250,6 @@ export default function WorkingDay() {
                                                 <div className="text-sm">
                                                     {p.address}
                                                 </div>
-                                                {/* <div className="text-sm">CABA</div> */}
                                             </div>
                                         </div>
                                         <div className="flex flex-col flex-grow items-end">
@@ -270,51 +262,6 @@ export default function WorkingDay() {
                                 </div>
                             ))}
                     </div>
-
-                    {/* <div
-                        className={`border border-solid border-black rounded-xl`}
-                    >
-                        <div className="flex py-[10px] pl-[1px]">
-                            <Image src={box} alt="box" width={50} height={50} />
-                            <div className="flex-col border-l-2 border-black border-dotted">
-                                <div className="ml-2 font-poppins font-medium">
-                                    <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                        #0A235
-                                    </div>
-                                    <div className="text-sm">Gorriti 345,</div>
-                                    // <div className="text-sm">CABA</div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col flex-grow items-end">
-                                <div className="mb-4 text-xs font-poppins font-bold bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl">
-                                    ENTREGADO
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <br />
-                    <div
-                        className={`border border-solid border-black rounded-xl`}
-                    >
-                        <div className="flex py-[10px] pl-[1px]">
-                            <Image src={box} alt="box" width={50} height={50} />
-                            <div className="flex-col border-l-2 border-black border-dotted">
-                                <div className="ml-2 font-poppins font-medium">
-                                    <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                        #0A235
-                                    </div>
-                                    <div className="text-sm">Malabia 789,</div>
-                                    // <div className="text-sm">CABA</div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col flex-grow items-end">
-                                <div className="mb-4 text-xs font-poppins font-bold bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl">
-                                    ENTREGADO
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                 </section>
                 <br />
                 <div>
@@ -323,11 +270,7 @@ export default function WorkingDay() {
                             onClick={handleClick}
                             className="bg-[#F4C455] text-lg py-1 w-80 rounded-full font-poppins font-medium mt-2"
                         >
-                            {!getPackagesLoading ? (
-                                'Obtener paquetes'
-                            ) : (
-                                <Spinner />
-                            )}
+                            {!isLoading ? 'Obtener paquetes' : <Spinner />}
                         </button>
                     </Link>
                 </div>

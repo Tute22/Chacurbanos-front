@@ -1,9 +1,7 @@
 'use client'
 import React, { ReactNode } from 'react'
 import { LeftArrowIcon } from './icons/LeftArrowIcon'
-import { useDispatch, useSelector } from 'react-redux'
 import { usePathname, useRouter } from 'next/navigation'
-import { loadingActions } from '@/utils/loadingActions'
 
 interface MainContainerProps {
     title: string
@@ -19,16 +17,7 @@ const MainContainer: React.FC<MainContainerProps> = ({
     const pathname = usePathname()
     const router = useRouter()
 
-    const dispatch = useDispatch()
-    const loadingStates = useSelector((store: any) => store.loadingReducer)
-
     const handleBack = () => {
-        for (const key in loadingStates) {
-            const actionCreator = loadingActions[`${key}`]
-            if (actionCreator) {
-                dispatch(actionCreator(false))
-            }
-        }
         router.back()
     }
 

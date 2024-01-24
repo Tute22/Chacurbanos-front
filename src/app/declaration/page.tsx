@@ -2,22 +2,17 @@
 import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
 import axiosInstance from '../../../axiosConfig'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import { useValidations } from '@/hooks/validationHooks'
-import { setDeclarationLoading } from '@/store/slice/isLoading/loadingSlice'
 import Spinner from '@/commons/Spinner'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-//
+import { useState } from 'react'
 
 export default function Declaration() {
-    const dispatch = useDispatch()
     const { loginUserData } = useSelector((store: any) => store.userReducer)
-    const { declarationLoading } = useSelector(
-        (store: any) => store.loadingReducer
-    )
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const router = useRouter()
 
@@ -38,7 +33,7 @@ export default function Declaration() {
     }
 
     const handleSubmitDeclaration = () => {
-        dispatch(setDeclarationLoading(true))
+        setIsLoading(true)
         if (declarationIsApproved()) {
             axiosInstance
                 .patch(`/users/${loginUserData?.user._id}`, {
@@ -84,6 +79,7 @@ export default function Declaration() {
                         })
                 })
                 .catch((error) => {
+                    setIsLoading(false)
                     console.error(error)
                     router.push('/')
                 })
@@ -218,7 +214,7 @@ export default function Declaration() {
                             disabled={!isDeclarationComplete()}
                             className={`font-poppins font-normal w-full px-4 py-2 mt-8 rounded-full bg-[#F4C455] border-solid border-[1px] ${buttonOpacityClass}`}
                         >
-                            {!declarationLoading ? 'Ingresar' : <Spinner />}
+                            {!isLoading ? 'Ingresar' : <Spinner />}
                         </button>
                     </div>
                 </MainContainer>
