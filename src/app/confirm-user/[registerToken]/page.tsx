@@ -2,14 +2,13 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
+import axiosInstance from '../../../../axiosConfig'
 import MainContainer from '@/commons/MainContainer'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 //
 export default function ConfirmUserPage(props: any) {
     const router = useRouter()
-    const port = process.env.NEXT_PUBLIC_PORT
 
     const [password, setPassword] = useState('')
 
@@ -17,8 +16,8 @@ export default function ConfirmUserPage(props: any) {
         e.preventDefault()
 
         try {
-            await axios.patch(
-                `${port}/users/set-password/${props.params.registerToken}`,
+            await axiosInstance.patch(
+                `/users/set-password/${props.params.registerToken}`,
                 {
                     password: password,
                 }

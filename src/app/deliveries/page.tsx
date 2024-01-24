@@ -11,15 +11,10 @@ import { CircularProgressbar } from 'react-circular-progressbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedUserData } from '@/store/slice/userData/userSlice'
 import { User } from '@/types/types'
-import axios from 'axios'
-
-//
+import axiosInstance from '../../../axiosConfig'
 
 export default function Deliveries() {
     const now = DateTime.local()
-
-    const port = process.env.NEXT_PUBLIC_PORT
-
     const router = useRouter()
     const dispatch = useDispatch()
     const { usersData } = useSelector((store: any) => store.dbDataReducer)
@@ -28,7 +23,9 @@ export default function Deliveries() {
         const storedToken = localStorage.getItem('token')
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`)
+                const response = await axiosInstance.get(
+                    `/users/${storedToken}`
+                )
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
                 if (decodedToken.role !== 'admin') {
@@ -44,7 +41,7 @@ export default function Deliveries() {
         } else {
             router.push('/')
         }
-    }, [port, router])
+    }, [router])
 
     return (
         <main className="bg-[#AEE3EF] h-screen">

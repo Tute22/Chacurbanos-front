@@ -3,13 +3,11 @@
 import React, { useState } from 'react'
 import MainContainer from '@/commons/MainContainer'
 import { useValidations } from '@/hooks/validationHooks'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function ForgotPassword() {
-    const port = process.env.NEXT_PUBLIC_PORT
-
     const [email, setEmail] = useState('')
 
     const { errors, validateEmail } = useValidations()
@@ -18,7 +16,7 @@ export default function ForgotPassword() {
         e.preventDefault()
 
         try {
-            await axios.post(`${port}/users/reset-password`, {
+            await axiosInstance.post(`/users/reset-password`, {
                 email: email,
             })
 

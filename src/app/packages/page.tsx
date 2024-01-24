@@ -6,7 +6,7 @@ import Image from 'next/image'
 import box from '../../../public/Box.png'
 import MainContainer from '@/commons/MainContainer'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { Package } from '@/types/types'
@@ -15,7 +15,6 @@ import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Packages() {
-    const port = process.env.NEXT_PUBLIC_PORT
     const { data } = useSelector((store: any) => store.dbDataReducer)
     const [packagesChanged, setPackagesChanged] = useState(false)
 
@@ -27,7 +26,9 @@ export default function Packages() {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`)
+                const response = await axiosInstance.get(
+                    `/users/${storedToken}`
+                )
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
 
@@ -46,15 +47,15 @@ export default function Packages() {
             router.push('/')
         }
 
-        axios
-            .get(`${port}/packages`)
+        axiosInstance
+            .get(`/packages`)
             .then((response) => dispatch(setData(response.data)))
             .catch((error) => console.error(error))
-    }, [port, router, packagesChanged])
+    }, [router, packagesChanged])
 
     const handleDelete = (element: Package) => {
-        axios
-            .delete(`${port}/packages/${element._id}`)
+        axiosInstance
+            .delete(`/packages/${element._id}`)
             .then(() => {
                 setPackagesChanged(!packagesChanged)
                 toast.success('Paquete eliminado correctamente')

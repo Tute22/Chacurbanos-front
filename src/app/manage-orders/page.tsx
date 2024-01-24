@@ -16,7 +16,7 @@ import {
 } from '@/utils/calendar'
 import Link from 'next/link'
 import MainContainer from '@/commons/MainContainer'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import { DayData, UserData, Package } from '@/types/types'
@@ -41,8 +41,6 @@ export default function ManageOrders() {
 
     const totalPackages = packages?.length
 
-    const port = process.env.NEXT_PUBLIC_PORT
-
     const router = useRouter()
 
     useEffect(() => {
@@ -50,7 +48,9 @@ export default function ManageOrders() {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`)
+                const response = await axiosInstance.get(
+                    `/users/${storedToken}`
+                )
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
 
@@ -68,7 +68,7 @@ export default function ManageOrders() {
         } else {
             router.push('/')
         }
-    }, [port, router])
+    }, [router])
 
     const now = DateTime.local()
     const formattedDate = now.toFormat('dd/MM/yy')

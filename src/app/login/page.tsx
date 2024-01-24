@@ -4,7 +4,7 @@ import mainLogo from '../../../public/mainLogo.png'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import MainContainer from '@/commons/MainContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '@/store/slice/userData/userSlice'
@@ -21,7 +21,6 @@ export default function Login() {
     const router = useRouter()
     const dispatch = useDispatch()
 
-    const port = process.env.NEXT_PUBLIC_PORT
     const { loginUserData } = useSelector((store: any) => store.userReducer)
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -48,7 +47,7 @@ export default function Login() {
 
         try {
             setIsLoading(true)
-            const response = await axios.post(`${port}/users/login`, {
+            const response = await axiosInstance.post(`/users/login`, {
                 email,
                 password,
             })
@@ -58,15 +57,15 @@ export default function Login() {
             localStorage.setItem('token', token)
             dispatch(setUser(response.data))
 
-            axios
-                .get(`${port}/packages`)
+            axiosInstance
+                .get(`/packages`)
                 .then((response) => {
                     dispatch(setData(response.data))
                 })
                 .catch((error) => console.error(error))
 
-            axios
-                .get(`${port}/users`)
+            axiosInstance
+                .get(`/users`)
                 .then((response) => {
                     dispatch(setUsersData(response.data))
                 })
@@ -81,8 +80,8 @@ export default function Login() {
                 dateBadDeclaration.setDate(dateBadDeclaration.getDate() + 1)
 
                 if (new Date() > dateBadDeclaration) {
-                    await axios.patch(
-                        `${port}/users/${loginUserData?.user?._id}`,
+                    await axiosInstance.patch(
+                        `/users/${loginUserData?.user?._id}`,
                         {
                             dateBadDeclaration: '',
                         }

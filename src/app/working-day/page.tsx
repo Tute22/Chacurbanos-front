@@ -7,7 +7,7 @@ import box from '../../../public/Box.png'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedPackage } from '@/store/slice/dbData/dataSlice'
 import { Package } from '@/types/types'
@@ -29,14 +29,15 @@ export default function WorkingDay() {
     const { getPackagesLoading } = useSelector(
         (store: any) => store.loadingReducer
     )
-    const port = process.env.NEXT_PUBLIC_PORT
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`)
+                const response = await axiosInstance.get(
+                    `/users/${storedToken}`
+                )
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
@@ -51,15 +52,15 @@ export default function WorkingDay() {
             router.push('/')
         }
 
-        axios
-            .get(`${port}/packages`)
+        axiosInstance
+            .get(`/packages`)
             .then((response) => setPackages(response.data))
             .catch((error) => console.error(error))
-    }, [port, router, packagesChanged])
+    }, [router, packagesChanged])
 
     const handleCancelPackage = (selectedPackage: Package) => {
-        axios
-            .patch(`${port}/packages/${selectedPackage._id}`, {
+        axiosInstance
+            .patch(`/packages/${selectedPackage._id}`, {
                 status: 'pending',
             })
             .then(() => {
@@ -73,8 +74,8 @@ export default function WorkingDay() {
     }
 
     const handleDeliveryPackage = (selectedPackage: Package) => {
-        axios
-            .patch(`${port}/packages/${selectedPackage._id}`, {
+        axiosInstance
+            .patch(`/packages/${selectedPackage._id}`, {
                 status: 'in progress',
             })
             .then(() => {

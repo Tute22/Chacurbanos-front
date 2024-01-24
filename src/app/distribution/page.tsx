@@ -1,7 +1,7 @@
 'use client'
 import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -12,7 +12,6 @@ import 'react-toastify/dist/ReactToastify.css'
 export default function Distribution() {
     const router = useRouter()
 
-    const port = process.env.NEXT_PUBLIC_PORT
     const { selectedPackage: inProgressPackage } = useSelector(
         (store: any) => store.dbDataReducer
     )
@@ -22,7 +21,9 @@ export default function Distribution() {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`)
+                const response = await axiosInstance.get(
+                    `/users/${storedToken}`
+                )
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
@@ -36,14 +37,12 @@ export default function Distribution() {
         } else {
             router.push('/')
         }
-    }, [port, router])
+    }, [router])
 
     const handleCancelPackage = (selectedPackage: Package) => {
-        axios
+        axiosInstance
             .patch(
-                `${port}/packages/${
-                    selectedPackage?._id && selectedPackage?._id
-                }`,
+                `/packages/${selectedPackage?._id && selectedPackage?._id}`,
                 {
                     status: 'pending',
                 }
@@ -59,11 +58,9 @@ export default function Distribution() {
     }
 
     const handleCompletePackage = (selectedPackage: Package) => {
-        axios
+        axiosInstance
             .patch(
-                `${port}/packages/${
-                    selectedPackage?._id && selectedPackage?._id
-                }`,
+                `/packages/${selectedPackage?._id && selectedPackage?._id}`,
                 {
                     status: 'delivered',
                 }
