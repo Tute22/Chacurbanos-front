@@ -6,9 +6,8 @@ import { LogoutDoorIcon } from '@/commons/icons/LogoutDoorIcon'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/slice/userData/userSlice'
-import { loadingDispatch } from '@/utils/loadingDispatch'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -16,12 +15,10 @@ export const Navbar = () => {
     const pathName = usePathname()
     const router = useRouter()
     const dispatch = useDispatch()
-    const loadingStates = useSelector((store: any) => store.loadingReducer)
 
     const handleLogout = () => {
         localStorage.removeItem('token')
         dispatch(setUser(null))
-        loadingDispatch(dispatch, loadingStates)
         toast.success('Hasta la proximaaaa')
         setTimeout(() => {
             router.push('/')

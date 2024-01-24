@@ -7,9 +7,11 @@ import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Spinner from '@/commons/Spinner'
 
 export default function AddPackages() {
     const router = useRouter()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -53,6 +55,7 @@ export default function AddPackages() {
     const [deliveryDate, setDeliveryDate] = useState('')
 
     const handleSubmit = async (e: React.FormEvent) => {
+        setIsLoading(true)
         e.preventDefault()
         try {
             const { name, address, packageWeight } = formValues
@@ -66,6 +69,7 @@ export default function AddPackages() {
 
             toast.success('Paquete agregado!')
         } catch (err) {
+            setIsLoading(false)
             console.error(err)
             toast.warning(
                 'Error al intentar crear un paquete nuevo. Verifica los datos e intenta nuevamente.'
@@ -167,7 +171,7 @@ export default function AddPackages() {
                             type="submit"
                             className={`w-72 py-1 font-bold bg-[#F4C455] rounded-full font-poppins ${buttonOpacityClass}`}
                         >
-                            Agregar
+                            {!isLoading ? 'Agregar' : <Spinner />}
                         </button>
                     </div>
                 </form>

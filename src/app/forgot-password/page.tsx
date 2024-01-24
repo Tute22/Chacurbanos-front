@@ -6,13 +6,16 @@ import { useValidations } from '@/hooks/validationHooks'
 import axiosInstance from '../../../axiosConfig'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Spinner from '@/commons/Spinner'
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const { errors, validateEmail } = useValidations()
 
     const handleSubmit = async (e: React.FormEvent) => {
+        setIsLoading(true)
         e.preventDefault()
 
         try {
@@ -24,6 +27,7 @@ export default function ForgotPassword() {
                 'Se ha enviado un correo electrónico para restablecer la contraseña.'
             )
         } catch (err) {
+            setIsLoading(false)
             console.error(err)
             toast.error(
                 'Error al intentar enviar el correo electrónico. Verifica tu correo e inténtalo nuevamente.'
@@ -74,7 +78,7 @@ export default function ForgotPassword() {
                                 type="submit"
                                 className="font-poppins font-medium w-full px-4 py-2 bg-[#F4C455] rounded-full"
                             >
-                                Enviar
+                                {!isLoading ? 'Enviar' : <Spinner />}
                             </button>
                         </div>
                     </form>

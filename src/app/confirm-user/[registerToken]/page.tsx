@@ -6,15 +6,17 @@ import axiosInstance from '../../../../axiosConfig'
 import MainContainer from '@/commons/MainContainer'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-//
+import Spinner from '@/commons/Spinner'
+
 export default function ConfirmUserPage(props: any) {
     const router = useRouter()
 
     const [password, setPassword] = useState('')
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-
+        setIsLoading(true)
         try {
             await axiosInstance.patch(
                 `/users/set-password/${props.params.registerToken}`,
@@ -24,8 +26,11 @@ export default function ConfirmUserPage(props: any) {
             )
 
             toast.success('Contraseña restablecida exitosamente.')
-            router.push('/')
+            setTimeout(() => {
+                router.push('/')
+            }, 1500)
         } catch (err) {
+            setIsLoading(false)
             console.error(err)
             toast.error(
                 'Error al intentar restablecer la contraseña. Verifica tus datos e intenta nuevamente.'
@@ -68,7 +73,7 @@ export default function ConfirmUserPage(props: any) {
                                 type="submit"
                                 className="font-poppins font-medium w-full px-4 py-2 bg-[#F4C455] rounded-full"
                             >
-                                Enviar
+                                {!isLoading ? 'Enviar' : <Spinner />}
                             </button>
                         </div>
                     </form>
