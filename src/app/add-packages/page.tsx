@@ -3,7 +3,7 @@ import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
 import { useValidations } from '@/hooks/validationHooks'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -11,14 +11,14 @@ import 'react-toastify/dist/ReactToastify.css'
 export default function AddPackages() {
     const router = useRouter()
 
-    const port = process.env.NEXT_PUBLIC_PORT
-
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`)
+                const response = await axiosInstance.get(
+                    `/users/${storedToken}`
+                )
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
 
@@ -36,7 +36,7 @@ export default function AddPackages() {
         } else {
             router.push('/')
         }
-    }, [port, router])
+    }, [router])
 
     const {
         formValues,
@@ -57,7 +57,7 @@ export default function AddPackages() {
         try {
             const { name, address, packageWeight } = formValues
 
-            await axios.post(`${port}/packages`, {
+            await axiosInstance.post(`/packages`, {
                 address: address,
                 recipient: name,
                 weight: packageWeight,

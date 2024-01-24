@@ -6,7 +6,7 @@ import { Navbar } from '@/components/Navbar'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useValidations } from '@/hooks/validationHooks'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import MainContainer from '@/commons/MainContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '@/commons/Spinner'
@@ -23,8 +23,6 @@ export default function Register() {
     const router = useRouter()
     const dispatch = useDispatch()
     const loadingStates = useSelector((store: any) => store.loadingReducer)
-
-    const port = process.env.NEXT_PUBLIC_PORT
 
     const MAX_FILE_SIZE_MB = 5
 
@@ -79,7 +77,7 @@ export default function Register() {
 
         try {
             dispatch(setCreateUserLoading(true))
-            await axios.post(`${port}/users`, {
+            await axiosInstance.post(`/users`, {
                 name,
                 lastName,
                 email,

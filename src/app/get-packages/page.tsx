@@ -5,7 +5,7 @@ import { CheckboxEmpty } from '@/commons/icons/CheckboxEmpty'
 import { Navbar } from '@/components/Navbar'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import { Package } from '@/types/types'
 import {
     setGetPackagesLoading,
@@ -27,14 +27,14 @@ export default function GetPackages() {
         (store: any) => store.loadingReducer
     )
 
-    const port = process.env.NEXT_PUBLIC_PORT
-
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`)
+                const response = await axiosInstance.get(
+                    `/users/${storedToken}`
+                )
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
@@ -49,15 +49,15 @@ export default function GetPackages() {
             router.push('/')
         }
 
-        axios
-            .get(`${port}/packages`)
+        axiosInstance
+            .get(`/packages`)
             .then((response) => setPackages(response.data))
             .catch((error) => console.error(error))
-    }, [port, router, packagesChanged])
+    }, [router, packagesChanged])
 
     const handleDisablePackage = (selectedPackage: Package) => {
-        axios
-            .patch(`${port}/packages/${selectedPackage._id}`, {
+        axiosInstance
+            .patch(`/packages/${selectedPackage._id}`, {
                 status: 'disabled',
             })
             .then(() => {
@@ -70,8 +70,8 @@ export default function GetPackages() {
     }
 
     const handleSetPendingPackage = (selectedPackage: Package) => {
-        axios
-            .patch(`${port}/packages/${selectedPackage._id}`, {
+        axiosInstance
+            .patch(`/packages/${selectedPackage._id}`, {
                 status: 'pending',
             })
             .then(() => {

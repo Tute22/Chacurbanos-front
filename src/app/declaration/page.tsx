@@ -1,7 +1,7 @@
 'use client'
 import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
-import axios from 'axios'
+import axiosInstance from '../../../axiosConfig'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import { useValidations } from '@/hooks/validationHooks'
@@ -13,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css'
 //
 
 export default function Declaration() {
-    const port = process.env.NEXT_PUBLIC_PORT
     const dispatch = useDispatch()
     const { loginUserData } = useSelector((store: any) => store.userReducer)
     const { declarationLoading } = useSelector(
@@ -41,8 +40,8 @@ export default function Declaration() {
     const handleSubmitDeclaration = () => {
         dispatch(setDeclarationLoading(true))
         if (declarationIsApproved()) {
-            axios
-                .patch(`${port}/users/${loginUserData?.user._id}`, {
+            axiosInstance
+                .patch(`/users/${loginUserData?.user._id}`, {
                     declaration: true,
                 })
                 .then(() => {
@@ -59,13 +58,13 @@ export default function Declaration() {
                     }, 1000)
                 })
         } else {
-            axios
-                .patch(`${port}/users/${loginUserData?.user._id}`, {
+            axiosInstance
+                .patch(`/users/${loginUserData?.user._id}`, {
                     dateBadDeclaration: new Date().toString(),
                 })
                 .then(() => {
-                    axios
-                        .patch(`${port}/users/${loginUserData?.user._id}`, {
+                    axiosInstance
+                        .patch(`/users/${loginUserData?.user._id}`, {
                             declaration: false,
                         })
                         .then(() => {

@@ -7,14 +7,12 @@ import MainContainer from '@/commons/MainContainer'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
+import axiosInstance from '../../../../axiosConfig'
 import { setSelectedUserData } from '@/store/slice/userData/userSlice'
 import { Package } from '@/types/types'
 import { setUsersData } from '@/store/slice/dbData/dataSlice'
 
 export default function DeliveryProfile() {
-    const port = process.env.NEXT_PUBLIC_PORT
-
     const router = useRouter()
     const [usersChanged, setUsersChanged] = useState(false)
     const { data } = useSelector((store: any) => store.dbDataReducer)
@@ -29,7 +27,9 @@ export default function DeliveryProfile() {
         const storedToken = localStorage.getItem('token')
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${port}/users/${storedToken}`)
+                const response = await axiosInstance.get(
+                    `/users/${storedToken}`
+                )
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
                 if (decodedToken.role !== 'admin') {
@@ -46,24 +46,24 @@ export default function DeliveryProfile() {
             router.push('/')
         }
 
-        axios
-            .get(`${port}/users/user/${selectedUserData?._id}`)
+        axiosInstance
+            .get(`/users/user/${selectedUserData?._id}`)
             .then((response) => {
                 dispatch(setSelectedUserData(response.data))
             })
             .catch((error) => console.log(error))
 
-        axios
-            .get(`${port}/users`)
+        axiosInstance
+            .get(`/users`)
             .then((response) => {
                 dispatch(setUsersData(response.data))
             })
             .catch((error) => console.error(error))
-    }, [port, router, usersChanged])
+    }, [router, usersChanged])
 
     const handleUserStatus = () => {
-        axios
-            .patch(`${port}/users/${selectedUserData._id}`, {
+        axiosInstance
+            .patch(`/users/${selectedUserData._id}`, {
                 status:
                     selectedUserData?.status === 'disabled'
                         ? 'enabled'
