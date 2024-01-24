@@ -19,6 +19,7 @@
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18",
     "react-toastify": "^10.0.4",
+    "redux-persist": "^6.0.0",
     "semver": "^7.5.4"
   },
   "devDependencies": {
