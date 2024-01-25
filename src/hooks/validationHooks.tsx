@@ -40,7 +40,7 @@ export const useValidations = () => {
     const [errors, setErrors] = useState<FormErrors>({})
 
     const validateName = (name: string) => {
-        if (/^[A-Za-z]+$/.test(name)) {
+        if (/^[A-Za-zÁ-Úá-ú\s]+$/.test(name)) {
             setErrors((prevErrors) => ({ ...prevErrors, name: '' }))
             return true
         } else {
@@ -53,7 +53,7 @@ export const useValidations = () => {
     }
 
     const validateLastName = (lastName: string) => {
-        if (/^[A-Za-z]+$/.test(lastName)) {
+        if (/^[A-Za-zÁ-Úá-ú\s]+$/.test(lastName)) {
             setErrors((prevErrors) => ({ ...prevErrors, lastName: '' }))
             return true
         } else {
@@ -109,7 +109,7 @@ export const useValidations = () => {
     }
 
     const validateAddress = (address: string) => {
-        if (/^[A-Za-z0-9\s]*$/.test(address)) {
+        if (/^[A-Za-zÁ-Úá-ú0-9\s]*$/.test(address)) {
             setErrors((prevErrors) => ({ ...prevErrors, address: '' }))
             return true
         } else {

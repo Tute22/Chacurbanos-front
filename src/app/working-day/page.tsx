@@ -137,12 +137,7 @@ export default function WorkingDay() {
                                         <div className="flex-col border-l-2 border-black border-dotted">
                                             <div className="ml-2 font-poppins font-medium">
                                                 <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                                    {'#' +
-                                                        p._id
-                                                            .split('')
-                                                            .reverse()
-                                                            .join('')
-                                                            .slice(0, 5)}
+                                                    {'#' + p._id.slice(19)}
                                                 </div>
                                                 <div className="text-sm">
                                                     {p.address}
@@ -248,12 +243,7 @@ export default function WorkingDay() {
                                         <div className="flex-col border-l-2 border-black border-dotted">
                                             <div className="ml-2 font-poppins font-medium">
                                                 <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                                    {'#' +
-                                                        p._id
-                                                            .split('')
-                                                            .reverse()
-                                                            .join('')
-                                                            .slice(0, 5)}
+                                                    {'#' + p._id.slice(19)}
                                                 </div>
                                                 <div className="text-sm">
                                                     {p.address}

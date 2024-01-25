@@ -114,12 +114,7 @@ export default function Packages() {
                                     <div className="flex-col border-l-2 border-black border-dotted">
                                         <div className="ml-2 font-poppins font-medium">
                                             <h1 className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                                {'#' +
-                                                    element._id
-                                                        .split('')
-                                                        .reverse()
-                                                        .join('')
-                                                        .slice(0, 5)}
+                                                {'#' + element._id.slice(19)}
                                             </h1>
                                             <p className="text-sm text-black">
                                                 {element.address.split(',')[0]},
