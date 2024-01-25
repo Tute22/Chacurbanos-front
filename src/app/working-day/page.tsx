@@ -28,12 +28,12 @@ export default function WorkingDay() {
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
 
-        // CHEQUEA SI ESTA LOGUEADO
-        const isAuth = JSON.parse(`${localStorage.getItem('isAuth')}`)
+        // CHEQUEA SI ESTA LOGUEADO ("""""ESTO ROMPE LA DECLARACION JURADA AL INTENTAR LOGUEAR""""")
+        // const isAuth = JSON.parse(`${localStorage.getItem('isAuth')}`)
 
-        if (!isAuth) {
-            router.push('/login')
-        }
+        // if (!isAuth) {
+        //     router.push('/login')
+        // }
 
         const fetchData = async () => {
             try {
