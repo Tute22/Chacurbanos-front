@@ -16,11 +16,12 @@ export default function DeliveryProfile() {
     const router = useRouter()
     const [usersChanged, setUsersChanged] = useState(false)
     const { data } = useSelector((store: any) => store.dbDataReducer)
-    const deliveredPackages = data?.filter(
-        (p: Package) => p.status === 'delivered'
-    )
 
     const { selectedUserData } = useSelector((store: any) => store.userReducer)
+    const deliveredPackages = data?.filter(
+        (p: Package) =>
+            p.status === 'delivered' && p.deliveredBy === selectedUserData._id
+    )
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -171,6 +172,7 @@ export default function DeliveryProfile() {
                 <main className="max-h-[280.5px] scroll-content ">
                     {deliveredPackages?.map((p: Package) => (
                         <div
+                            key={p._id}
                             className={`border border-solid border-black rounded-xl mb-3 `}
                         >
                             <div className="flex py-[10px] pl-[1px]">
