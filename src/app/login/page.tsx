@@ -93,11 +93,9 @@ export default function Login() {
                 toast.error('No podes trabajar por 24 horas.')
             } else if (user.role === 'admin') {
                 toast.success('Logueo exitoso!')
-                localStorage.setItem('isAuth', 'true')
                 router.push('/manage-orders')
             } else if (user.declaration === true) {
                 toast.success('Logueo exitoso!')
-                localStorage.setItem('isAuth', 'true')
                 setTimeout(() => {
                     router.push('/working-day')
                 }, 1000)
