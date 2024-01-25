@@ -8,6 +8,8 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Spinner from '@/commons/Spinner'
 
+//
+
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
