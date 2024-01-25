@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import { useValidations } from '@/hooks/validationHooks'
 import Spinner from '@/commons/Spinner'
-import { ToastContainer, toast, Slide } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useState } from 'react'
 
@@ -92,19 +92,6 @@ export default function Declaration() {
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
-            <ToastContainer
-                position="top-center"
-                autoClose={2500}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                transition={Slide}
-            />
             <Navbar />
             <section className="flex justify-center">
                 <MainContainer title={'Declaración jurada'} height={''}>

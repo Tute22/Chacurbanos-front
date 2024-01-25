@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedPackage } from '@/store/slice/dbData/dataSlice'
 import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
-import { ToastContainer, toast, Slide } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function WorkingDay() {
@@ -103,19 +103,6 @@ export default function WorkingDay() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
-            <ToastContainer
-                position="top-center"
-                autoClose={2500}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                transition={Slide}
-            />
             <Navbar />
             <div className="flex flex-col justify-center items-center">
                 <section className="bg-white w-80 h-[275px] mt-6 m-4 rounded-xl p-4 shadow-md ">

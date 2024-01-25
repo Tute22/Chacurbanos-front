@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { Package } from '@/types/types'
 import { setData } from '@/store/slice/dbData/dataSlice'
-import { ToastContainer, toast, Slide } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Packages() {
@@ -65,19 +65,6 @@ export default function Packages() {
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
-            <ToastContainer
-                position="top-center"
-                autoClose={2500}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                transition={Slide}
-            />
             <Navbar />
             <MainContainer title={'Paquetes'} height={'600px'}>
                 <div className="flex">

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import axiosInstance from '../../../axiosConfig'
 import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
-import { ToastContainer, toast, Slide } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { useSelector } from 'react-redux'
 
@@ -101,19 +101,6 @@ export default function GetPackages() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
-            <ToastContainer
-                position="top-center"
-                autoClose={2500}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                transition={Slide}
-            />
             <Navbar />
             <section className="flex items-center flex-col h-[82%] mt-2">
                 <MainContainer title={'Obtener Paquetes'} height={'600px'}>

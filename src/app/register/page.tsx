@@ -10,7 +10,7 @@ import axiosInstance from '../../../axiosConfig'
 import MainContainer from '@/commons/MainContainer'
 import Spinner from '@/commons/Spinner'
 import { useState } from 'react'
-import { ToastContainer, toast, Slide } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Register() {
@@ -98,19 +98,6 @@ export default function Register() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
-            <ToastContainer
-                position="top-center"
-                autoClose={2500}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                transition={Slide}
-            />
             <Navbar />
             <section className="flex justify-center mt-1">
                 <MainContainer title={'Creá tu cuenta'} height={'90%'}>
