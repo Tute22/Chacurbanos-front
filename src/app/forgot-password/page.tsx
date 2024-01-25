@@ -8,6 +8,8 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Spinner from '@/commons/Spinner'
 
+//
+
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -26,6 +28,10 @@ export default function ForgotPassword() {
             toast.info(
                 'Se ha enviado un correo electrónico para restablecer la contraseña.'
             )
+
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 2000)
         } catch (err) {
             setIsLoading(false)
             console.error(err)
