@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 import { setSelectedUserData, setUser } from '@/store/slice/userData/userSlice'
-import { ToastContainer, toast, Slide } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {
     setData,
@@ -45,19 +45,6 @@ export const Navbar = () => {
 
     return (
         <>
-            <ToastContainer
-                position="top-center"
-                autoClose={2500}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                transition={Slide}
-            />
             <nav className="h-14 bg-[#AEE3EF] shadow-nav py-2 px-8 flex justify-between">
                 <Link href={'/'}>
                     {' '}

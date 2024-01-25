@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import MainContainer from '@/commons/MainContainer'
 import { useValidations } from '@/hooks/validationHooks'
 import axiosInstance from '../../../axiosConfig'
-import { ToastContainer, toast, Slide } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Spinner from '@/commons/Spinner'
 
@@ -37,19 +37,6 @@ export default function ForgotPassword() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
-            <ToastContainer
-                position="top-center"
-                autoClose={2500}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                transition={Slide}
-            />
             <section className="flex justify-center">
                 <MainContainer title={'Recuperar Contraseña'} height={'90%'}>
                     <form onSubmit={handleSubmit}>

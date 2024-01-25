@@ -5,9 +5,9 @@ import { useValidations } from '@/hooks/validationHooks'
 import { useState, useEffect } from 'react'
 import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
-import { ToastContainer, toast, Slide } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import Spinner from '@/commons/Spinner'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function AddPackages() {
     const router = useRouter()
@@ -88,19 +88,6 @@ export default function AddPackages() {
 
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
-            <ToastContainer
-                position="top-center"
-                autoClose={2500}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss={false}
-                draggable={false}
-                pauseOnHover={false}
-                theme="light"
-                transition={Slide}
-            />
             <Navbar />
             <MainContainer title={'Agregar paquetes'} height={'80%'}>
                 <form
