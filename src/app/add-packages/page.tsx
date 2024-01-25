@@ -71,9 +71,13 @@ export default function AddPackages() {
                 recipient: name,
                 weight: packageWeight,
                 date: deliveryDate,
+                deliveredBy: '',
             })
 
             toast.success('Paquete agregado!')
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 1000)
         } catch (err) {
             setIsLoading(false)
             console.error(err)

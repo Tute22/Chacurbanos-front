@@ -7,6 +7,7 @@ export type Package = {
     weight: number
     date: string
     status: string
+    deliveredBy: string
 }
 
 export enum UserRole {
