@@ -22,7 +22,6 @@ export const Navbar = () => {
     const dispatch = useDispatch()
 
     const handleLogout = () => {
-        localStorage.removeItem('isAuth')
         localStorage.removeItem('token')
         dispatch(setUser(null))
         dispatch(setSelectedUserData(null))
