@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import axiosInstance from '../../../axiosConfig'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedPackage } from '@/store/slice/dbData/dataSlice'
 import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
@@ -23,12 +23,14 @@ export default function WorkingDay() {
     // Este estado es necesario para chequear que el estado de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
     const [packagesChanged, setPackagesChanged] = useState(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const { loginUserData } = useSelector((store: any) => store.userReducer)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
 
         // CHEQUEA SI ESTA LOGUEADO
         const isAuth = JSON.parse(`${localStorage.getItem('isAuth')}`)
+
         if (!isAuth) {
             router.push('/login')
         }
@@ -54,7 +56,12 @@ export default function WorkingDay() {
 
         axiosInstance
             .get(`/packages`)
-            .then((response) => setPackages(response.data))
+            .then((response) => {
+                const filteredPackages = response.data.filter(
+                    (e: any) => e.deliveredBy === loginUserData.user._id
+                )
+                setPackages(filteredPackages)
+            })
             .catch((error) => console.error(error))
     }, [router, packagesChanged])
 
@@ -96,6 +103,11 @@ export default function WorkingDay() {
         setIsLoading(true)
     }
 
+    // se agrego solo para poder ir a la vista del mapa sin tener que cancelar e iniciar de nuevo, click en la fotito de la caja
+    const handleMap = () => {
+        router.push('/distribution')
+    }
+
     return (
         <main className="bg-[#AEE3EF] h-screen">
             <ToastContainer
@@ -123,8 +135,10 @@ export default function WorkingDay() {
                         {packages
                             .filter(
                                 (p) =>
-                                    p.status === 'in progress' ||
-                                    p.status === 'pending'
+                                    (p.deliveredBy ===
+                                        loginUserData?.user._id &&
+                                        p.status === 'pending') ||
+                                    p.status === 'in progress'
                             )
                             .map((p) => (
                                 <div
@@ -133,6 +147,8 @@ export default function WorkingDay() {
                                 >
                                     <div className="flex py-[10px] pl-[1px]">
                                         <Image
+                                            className="cursor-pointer"
+                                            onClick={handleMap}
                                             src={box}
                                             alt="box"
                                             width={50}
@@ -188,6 +204,11 @@ export default function WorkingDay() {
                                                     >
                                                         <button
                                                             className="bg-[#F4C455] text-sm py-1 px-3 rounded-full font-poppins font-medium"
+                                                            disabled={packages.some(
+                                                                (e: any) =>
+                                                                    e.status ===
+                                                                    'in progress'
+                                                            )}
                                                             onClick={() => {
                                                                 handleDeliveryPackage(
                                                                     p
@@ -217,15 +238,22 @@ export default function WorkingDay() {
                     </div>
                     <div className="text-[#55BBD1] font-poppins font-light text-sm mb-3">
                         {
-                            packages.filter((p) => p.status === 'delivered')
-                                .length
+                            packages.filter(
+                                (p) =>
+                                    p.status === 'delivered' &&
+                                    p.deliveredBy === loginUserData?.user._id
+                            ).length
                         }{' '}
                         paquetes entregados
                     </div>
 
                     <div className="overflow-y-auto h-[215px] w-[18.5rem] pr-[7px]">
                         {packages
-                            .filter((p) => p.status === 'delivered')
+                            .filter(
+                                (p) =>
+                                    p.status === 'delivered' &&
+                                    p.deliveredBy === loginUserData?.user._id
+                            )
                             .map((p) => (
                                 <div
                                     className={`border border-solid border-black rounded-xl mb-3`}

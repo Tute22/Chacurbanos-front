@@ -10,6 +10,7 @@ import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useSelector } from 'react-redux'
 
 export default function GetPackages() {
     // Donde guardaremos todos los paquetes
@@ -18,6 +19,9 @@ export default function GetPackages() {
     const [packagesChanged, setPackagesChanged] = useState(false)
     const router = useRouter()
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const { loginUserData } = useSelector((store: any) => store.userReducer)
+    // console.log(loginUserData.user._id);
+    console.log('packages --->', packages)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -49,14 +53,25 @@ export default function GetPackages() {
 
         axiosInstance
             .get(`/packages`)
-            .then((response) => setPackages(response.data))
+            .then((response) => {
+                const filteredPackages = response.data.filter(
+                    (e: any) =>
+                        (e.status !== 'delivered' && e.deliveredBy === '') ||
+                        e.deliveredBy === loginUserData.user._id
+                )
+
+                setPackages(filteredPackages)
+            })
             .catch((error) => console.error(error))
     }, [router, packagesChanged])
 
     const handleDisablePackage = (selectedPackage: Package) => {
+        console.log('selectedPackage -->', selectedPackage)
+
         axiosInstance
             .patch(`/packages/${selectedPackage._id}`, {
                 status: 'disabled',
+                deliveredBy: '',
             })
             .then(() => {
                 setPackagesChanged(!packagesChanged)
@@ -71,6 +86,7 @@ export default function GetPackages() {
         axiosInstance
             .patch(`/packages/${selectedPackage._id}`, {
                 status: 'pending',
+                deliveredBy: loginUserData.user._id,
             })
             .then(() => {
                 setPackagesChanged(!packagesChanged)
@@ -119,7 +135,10 @@ export default function GetPackages() {
                                 p.status === 'pending'
                         )
                         .map((p) => (
-                            <div className="border border-solid border-black h-[60px] rounded-xl my-2 flex items-center flex-row">
+                            <div
+                                key={p._id}
+                                className="border border-solid border-black h-[60px] rounded-xl my-2 flex items-center flex-row"
+                            >
                                 {p.status === 'pending' ? (
                                     <button
                                         onClick={() => handleDisablePackage(p)}
