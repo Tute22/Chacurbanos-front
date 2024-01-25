@@ -101,6 +101,12 @@ export default function WorkingDay() {
         router.push('/distribution')
     }
 
+    const isInProgress = () => {
+        return packages.some((e: any) => e.status === 'in progress')
+    }
+
+    const buttonOpacityClass = !isInProgress() ? 'opacity-100' : 'opacity-50'
+
     return (
         <main className="bg-[#AEE3EF] h-screen">
             <Navbar />
@@ -178,12 +184,8 @@ export default function WorkingDay() {
                                                         href={'/distribution'}
                                                     >
                                                         <button
-                                                            className="bg-[#F4C455] text-sm py-1 px-3 rounded-full font-poppins font-medium"
-                                                            disabled={packages.some(
-                                                                (e: any) =>
-                                                                    e.status ===
-                                                                    'in progress'
-                                                            )}
+                                                            className={`bg-[#F4C455] text-sm py-1 px-3 rounded-full font-poppins font-medium ${buttonOpacityClass}`}
+                                                            disabled={isInProgress()}
                                                             onClick={() => {
                                                                 handleDeliveryPackage(
                                                                     p
