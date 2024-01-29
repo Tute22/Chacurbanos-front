@@ -26,9 +26,7 @@ export default function ConfirmUserPage(props: any) {
             )
 
             toast.success('Contraseña restablecida exitosamente.')
-            setTimeout(() => {
-                router.push('/')
-            }, 1500)
+            router.push('/')
         } catch (err) {
             setIsLoading(false)
             console.error(err)

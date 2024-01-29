@@ -70,9 +70,7 @@ export default function AddPackages() {
 
             toast.success('Paquete agregado!')
             setIsLoading(false)
-            setTimeout(() => {
-                router.push('/manage-orders')
-            }, 1000)
+            router.push('/manage-orders')
         } catch (err) {
             setIsLoading(false)
             console.error(err)

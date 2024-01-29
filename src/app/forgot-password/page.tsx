@@ -28,10 +28,7 @@ export default function ForgotPassword() {
             toast.info(
                 'Se ha enviado un correo electrónico para restablecer la contraseña.'
             )
-
-            setTimeout(() => {
-                setIsLoading(false)
-            }, 2000)
+            setIsLoading(false)
         } catch (err) {
             setIsLoading(false)
             console.error(err)

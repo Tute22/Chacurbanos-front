@@ -38,9 +38,7 @@ export const Navbar = () => {
         )
         dispatch(setUsersData(null))
         toast.success('Hasta la proximaaaa')
-        setTimeout(() => {
-            router.push('/')
-        }, 1500)
+        router.push('/')
     }
 
     return (

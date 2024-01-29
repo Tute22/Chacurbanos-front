@@ -41,16 +41,12 @@ export default function Declaration() {
                 })
                 .then(() => {
                     toast.success('Declaración jurada firmada correctamente.')
-                    setTimeout(() => {
-                        router.push('/working-day')
-                    }, 1000)
+                    router.push('/working-day')
                 })
                 .catch((error) => {
                     toast.warning('No hemos podido procesar la solicitud.')
                     console.error(error)
-                    setTimeout(() => {
-                        router.push('/')
-                    }, 1000)
+                    router.push('/')
                 })
         } else {
             axiosInstance
@@ -64,18 +60,14 @@ export default function Declaration() {
                         })
                         .then(() => {
                             toast.error('No podes trabajar por 24 horas.')
-                            setTimeout(() => {
-                                router.push('/')
-                            }, 1000)
+                            router.push('/')
                         })
                         .catch((error) => {
                             toast.warning(
                                 'No hemos podido procesar la solicitud.'
                             )
                             console.error(error)
-                            setTimeout(() => {
-                                router.push('/')
-                            }, 1000)
+                            router.push('/')
                         })
                 })
                 .catch((error) => {

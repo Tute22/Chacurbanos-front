@@ -94,9 +94,7 @@ export default function GetPackages() {
     const handleClick = () => {
         setIsLoading(true)
         toast.info('Obtuviste paquete/s')
-        setTimeout(() => {
-            router.push('/working-day')
-        }, 1500)
+        router.push('/working-day')
     }
 
     return (
