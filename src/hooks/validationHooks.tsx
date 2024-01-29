@@ -42,7 +42,7 @@ export const useValidations = () => {
     const validateName = (name: string) => {
         if (/^[A-Za-zÁ-Úá-ú\s]+$/.test(name)) {
             setErrors((prevErrors) => ({ ...prevErrors, name: '' }))
-            return true
+            return name
         } else {
             setErrors((prevErrors) => ({
                 ...prevErrors,
@@ -141,6 +141,10 @@ export const useValidations = () => {
         )
     }
 
+    const isLoginFormValid = () => {
+        return errors.email === '' && errors.password === ''
+    }
+
     const isRegisterComplete = () => {
         return (
             formValues.name.trim() !== '' &&
@@ -148,6 +152,16 @@ export const useValidations = () => {
             formValues.email.trim() !== '' &&
             formValues.password.trim() !== '' &&
             formValues.confirmPassword.trim() !== ''
+        )
+    }
+
+    const isRegisterFormValid = () => {
+        return (
+            errors.name === '' &&
+            errors.lastName === '' &&
+            errors.email === '' &&
+            errors.password === '' &&
+            errors.confirmPassword === ''
         )
     }
 
@@ -222,6 +236,8 @@ export const useValidations = () => {
         setPackageWeight,
         isLoginComplete,
         isRegisterComplete,
+        isLoginFormValid,
+        isRegisterFormValid,
         isAddPackageComplete,
         isDeclarationComplete,
         setDeclarationA,
