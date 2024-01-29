@@ -78,9 +78,7 @@ export default function Register() {
             })
 
             toast.success('Usuario Registrado')
-            setTimeout(() => {
-                router.push('/')
-            }, 1000)
+            router.push('/')
         } catch (err) {
             setIsLoading(false)
             console.error(err)

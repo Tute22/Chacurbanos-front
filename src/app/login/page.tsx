@@ -96,9 +96,7 @@ export default function Login() {
                 router.push('/manage-orders')
             } else if (user.declaration === true) {
                 toast.success('Logueo exitoso!')
-                setTimeout(() => {
-                    router.push('/working-day')
-                }, 1000)
+                router.push('/working-day')
             } else {
                 router.push('/declaration')
             }

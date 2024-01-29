@@ -67,9 +67,7 @@ export default function Distribution() {
             )
             .then(() => {
                 toast.success('Paquete entregado!')
-                setTimeout(() => {
-                    router.push('/working-day')
-                }, 1500)
+                router.push('/working-day')
             })
             .catch((err) => {
                 console.error(err)
