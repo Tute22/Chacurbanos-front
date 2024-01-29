@@ -59,14 +59,20 @@ export default function Register() {
         setLastName,
         setEmail,
         setPassword,
-        setConfirmPassword,
         isRegisterComplete,
+        setConfirmPassword,
+        isRegisterFormValid,
     } = useValidations()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         const { name, lastName, email, password } = formValues
+
+        if (!isRegisterFormValid()) {
+            toast.error('Completa bien el formulario.')
+            return
+        }
 
         try {
             setIsLoading(true)
@@ -79,20 +85,17 @@ export default function Register() {
 
             toast.success('Usuario Registrado')
             router.push('/')
-        } catch (err) {
+        } catch (err: any) {
             setIsLoading(false)
             console.error(err)
-            toast.error(
-                'Error al intentar registrar usuario. Verifica tus datos e intenta nuevamente.'
-            )
+            toast.error(`${err.response.data.message}`)
         }
     }
 
-    const buttonOpacityClass = isRegisterComplete()
-        ? 'opacity-100'
-        : 'opacity-50'
-
-    // value={confirmPassword} onChange={(e)=> setConfirmPassword(e.currentTarget.value)} onBlur={(e) => handleValidation.handleConfirmPassword(e.currentTarget.value)} required
+    const buttonOpacityClass =
+        isRegisterComplete() && isRegisterFormValid()
+            ? 'opacity-100'
+            : 'opacity-50'
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
@@ -129,10 +132,10 @@ export default function Register() {
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="Nombre"
                                 value={formValues.name}
-                                onChange={(e) => setName(e.currentTarget.value)}
-                                onBlur={(e) =>
+                                onChange={(e) => {
                                     validateName(e.currentTarget.value)
-                                }
+                                    setName(e.currentTarget.value)
+                                }}
                                 required
                             />{' '}
                             {errors.name && (
@@ -147,12 +150,10 @@ export default function Register() {
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="Apellido"
                                 value={formValues.lastName}
-                                onChange={(e) =>
-                                    setLastName(e.currentTarget.value)
-                                }
-                                onBlur={(e) =>
+                                onChange={(e) => {
                                     validateLastName(e.currentTarget.value)
-                                }
+                                    setLastName(e.currentTarget.value)
+                                }}
                                 required
                             />{' '}
                             {errors.lastName && (
@@ -167,12 +168,10 @@ export default function Register() {
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="Email@contraseña.com"
                                 value={formValues.email}
-                                onChange={(e) =>
-                                    setEmail(e.currentTarget.value)
-                                }
-                                onBlur={(e) =>
+                                onChange={(e) => {
                                     validateEmail(e.currentTarget.value)
-                                }
+                                    setEmail(e.currentTarget.value)
+                                }}
                                 required
                             />{' '}
                             {errors.email && (
@@ -204,12 +203,14 @@ export default function Register() {
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="**********"
                                 value={formValues.password}
-                                onChange={(e) =>
-                                    setPassword(e.currentTarget.value)
-                                }
-                                onBlur={(e) =>
+                                onChange={(e) => {
                                     validatePassword(e.currentTarget.value)
-                                }
+                                    setPassword(e.currentTarget.value)
+                                    validateConfirmPassword(
+                                        formValues.confirmPassword,
+                                        e.currentTarget.value
+                                    )
+                                }}
                                 required
                             />{' '}
                             {errors.password && (
@@ -241,15 +242,19 @@ export default function Register() {
                                 className="font-poppins font-normal w-full px-4 py-2 border rounded-lg focus:outline-none"
                                 placeholder="Confirmar contraseña"
                                 value={formValues.confirmPassword}
-                                onChange={(e) =>
-                                    setConfirmPassword(e.currentTarget.value)
-                                }
-                                onBlur={(e) =>
+                                onChange={(e) => {
                                     validateConfirmPassword(
                                         e.currentTarget.value,
                                         formValues.password
                                     )
-                                }
+                                    setConfirmPassword(e.currentTarget.value)
+                                }}
+                                onBlur={(e) => {
+                                    validateConfirmPassword(
+                                        e.currentTarget.value,
+                                        formValues.password
+                                    )
+                                }}
                                 required
                             />{' '}
                             {errors.confirmPassword && (
@@ -262,7 +267,12 @@ export default function Register() {
                             <button
                                 type="submit"
                                 className={`font-poppins font-medium w-full px-4 py-2 bg-[#F4C455] rounded-full ${buttonOpacityClass}`}
-                                disabled={!isRegisterComplete()}
+                                disabled={
+                                    isRegisterComplete() &&
+                                    isRegisterFormValid()
+                                        ? false
+                                        : true
+                                }
                             >
                                 {!isLoading ? 'Crear' : <Spinner />}
                             </button>

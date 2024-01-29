@@ -71,7 +71,11 @@ export default function Login() {
                 })
                 .catch((error) => console.error(error))
 
-            if (
+            if (user.status === 'disabled') {
+                toast.error('Este usuario esta deshabilitado momentaneamente.')
+                setIsLoading(false)
+                return
+            } else if (
                 user.declaration === false &&
                 user.role === 'delivery' &&
                 user.dateBadDeclaration !== ''
