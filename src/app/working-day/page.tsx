@@ -116,6 +116,16 @@ export default function WorkingDay() {
                         <div>Repartos pendientes</div>
                         <TriangleDownArrow className="w-6 ml-[3px]" />
                     </div>
+                    <div className="text-[#55BBD1] font-poppins font-light text-sm mb-3">
+                        {packages.filter(
+                            (p) =>
+                                p.deliveredBy === loginUserData?.user._id &&
+                                (p.status === 'pending' ||
+                                    p.status === 'in progress')
+                        ).length === 0
+                            ? 'No tienes paquetes asignados'
+                            : null}
+                    </div>
 
                     <div className="overflow-y-auto h-[215px] w-[18.5rem] pr-[7px]">
                         {packages
