@@ -51,7 +51,7 @@ export default function GetPackages() {
         axiosInstance
             .get(`/packages`)
             .then((response) => {
-                const filteredPackages = response.data.filter(
+                const filteredPackages = response.data?.filter(
                     (e: any) =>
                         (e.status !== 'delivered' && e.deliveredBy === '') ||
                         e.deliveredBy === loginUserData.user._id
@@ -111,7 +111,7 @@ export default function GetPackages() {
                     <p className="mt-2 border-t border-1 border-dashed border-black mb-2"></p>
 
                     {packages
-                        .filter(
+                        ?.filter(
                             (p: Package) =>
                                 p.status === 'disabled' ||
                                 p.status === 'pending'
