@@ -116,8 +116,8 @@ export default function WorkingDay() {
                         <TriangleDownArrow className="w-6 ml-[3px]" />
                     </div>
                     <div className="text-[#55BBD1] font-poppins font-light text-sm mb-3">
-                        {packages.filter(
-                            (p) =>
+                        {packages?.filter(
+                            (p: Package) =>
                                 p.deliveredBy === loginUserData?.user._id &&
                                 (p.status === 'pending' ||
                                     p.status === 'in progress')
