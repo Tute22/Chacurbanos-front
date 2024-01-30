@@ -31,7 +31,7 @@ export default function Login() {
     }
 
     const handleSet = async () => {
-        if (loginUserData.user && loginUserData?.user?._id) {
+        if (loginUserData?.user && loginUserData?.user?._id) {
             const response = await axiosInstance.get(
                 `/users/user/${loginUserData.user._id}`
             )
