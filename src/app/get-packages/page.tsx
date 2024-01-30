@@ -10,17 +10,20 @@ import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setData } from '@/store/slice/dbData/dataSlice'
 
 export default function GetPackages() {
-    // Donde guardaremos todos los paquetes
-    const [packages, setPackages] = useState<Package[]>([])
-    // Este estado es necesario para chequear que el estado de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
+    // Este estado es necesario para chequear que el estado de redux de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
     const [packagesChanged, setPackagesChanged] = useState(false)
     const router = useRouter()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const { loginUserData } = useSelector((store: any) => store.userReducer)
+
+    const dispatch = useDispatch()
     // console.log(loginUserData.user._id);
+    const { data: packages } = useSelector((store: any) => store.dbDataReducer)
+
     console.log('packages --->', packages)
 
     useEffect(() => {
@@ -54,7 +57,7 @@ export default function GetPackages() {
                         e.deliveredBy === loginUserData.user._id
                 )
 
-                setPackages(filteredPackages)
+                dispatch(setData(filteredPackages))
             })
             .catch((error) => console.error(error))
     }, [router, packagesChanged])
@@ -109,11 +112,11 @@ export default function GetPackages() {
 
                     {packages
                         .filter(
-                            (p) =>
+                            (p: Package) =>
                                 p.status === 'disabled' ||
                                 p.status === 'pending'
                         )
-                        .map((p) => (
+                        .map((p: Package) => (
                             <div
                                 key={p._id}
                                 className="border border-solid border-black h-[60px] rounded-xl my-2 flex items-center flex-row"

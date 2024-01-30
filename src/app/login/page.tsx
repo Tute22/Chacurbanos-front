@@ -14,7 +14,7 @@ import { CloseEyeIcon } from '@/commons/icons/CloseEyeIcon'
 import { OpenEyeIcon } from '@/commons/icons/OpenEyeIcon'
 import { UserLogin } from '@/commons/icons/UserLogin'
 import { LockIcon } from '@/commons/icons/LockIcon'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 export default function Login() {
@@ -29,6 +29,52 @@ export default function Login() {
     const handleTogglePassword = () => {
         setShowPassword(!showPassword)
     }
+
+    const handleSet = async () => {
+        if (loginUserData.user && loginUserData?.user?._id) {
+            const response = await axiosInstance.get(
+                `/users/user/${loginUserData.user._id}`
+            )
+            const user = response.data
+
+            if (user?.role === 'admin') {
+                router.push('/manage-orders')
+            } else {
+                if (
+                    user?.declaration === false &&
+                    user?.role === 'delivery' &&
+                    user?.dateBadDeclaration !== ''
+                ) {
+                    const dateBadDeclaration = new Date(
+                        user?.dateBadDeclaration
+                    )
+                    dateBadDeclaration.setDate(dateBadDeclaration.getDate() + 1)
+
+                    if (new Date() > dateBadDeclaration) {
+                        axiosInstance.patch(`/users/${user?._id}`, {
+                            dateBadDeclaration: '',
+                        })
+                        router.push('/declaration')
+                        return
+                    }
+                    setIsLoading(false)
+                    toast.error('No podes trabajar por 24 horas.')
+                } else if (user?.role === 'admin') {
+                    toast.success('Logueo exitoso!')
+                    router.push('/manage-orders')
+                } else if (user?.declaration === true) {
+                    toast.success('Logueo exitoso!')
+                    router.push('/working-day')
+                } else {
+                    router.push('/declaration')
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        handleSet()
+    }, [])
 
     const {
         formValues,
