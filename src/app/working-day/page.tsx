@@ -117,7 +117,7 @@ export default function WorkingDay() {
                     </div>
                     <div className="text-[#55BBD1] font-poppins font-light text-sm mb-3">
                         {packages.filter(
-                            (p) =>
+                            (p: Package) =>
                                 p.deliveredBy === loginUserData?.user._id &&
                                 (p.status === 'pending' ||
                                     p.status === 'in progress')

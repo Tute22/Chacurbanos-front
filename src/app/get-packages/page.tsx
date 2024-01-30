@@ -111,7 +111,8 @@ export default function GetPackages() {
                     <p className="mt-2 border-t border-1 border-dashed border-black mb-2"></p>
 
                     {packages.filter(
-                        (p) => p.status === 'disabled' || p.status === 'pending'
+                        (p: Package) =>
+                            p.status === 'disabled' || p.status === 'pending'
                     ).length === 0 ? (
                         <div className="text-[#55BBD1] font-poppins font-bold text-base mb-3 flex justify-center items-center h-full">
                             No hay paquetes para agregar
