@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import axiosInstance from '../../../axiosConfig'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedPackage } from '@/store/slice/dbData/dataSlice'
+import { setData, setSelectedPackage } from '@/store/slice/dbData/dataSlice'
 import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
 import { toast } from 'react-toastify'
@@ -18,12 +18,11 @@ import 'react-toastify/dist/ReactToastify.css'
 export default function WorkingDay() {
     const router = useRouter()
     const dispatch = useDispatch()
-    // Donde guardaremos todos los paquetes
-    const [packages, setPackages] = useState<Package[]>([])
-    // Este estado es necesario para chequear que el estado de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
+    // Este estado es necesario para chequear que el estado de redux de packages haya cambiado, y asi ejecutar de nuevo el useEffect. Si usamos "packages" en arr de dependencias hace loop infinito
     const [packagesChanged, setPackagesChanged] = useState(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const { loginUserData } = useSelector((store: any) => store.userReducer)
+    const { data: packages } = useSelector((store: any) => store.dbDataReducer)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -53,7 +52,7 @@ export default function WorkingDay() {
                 const filteredPackages = response.data.filter(
                     (e: any) => e.deliveredBy === loginUserData.user._id
                 )
-                setPackages(filteredPackages)
+                dispatch(setData(filteredPackages))
             })
             .catch((error) => console.error(error))
     }, [router, packagesChanged])
@@ -102,7 +101,7 @@ export default function WorkingDay() {
     }
 
     const isInProgress = () => {
-        return packages.some((e: any) => e.status === 'in progress')
+        return packages?.some((e: any) => e.status === 'in progress')
     }
 
     const buttonOpacityClass = !isInProgress() ? 'opacity-100' : 'opacity-50'
@@ -129,14 +128,14 @@ export default function WorkingDay() {
 
                     <div className="overflow-y-auto h-[215px] w-[18.5rem] pr-[7px]">
                         {packages
-                            .filter(
-                                (p) =>
+                            ?.filter(
+                                (p: Package) =>
                                     (p.deliveredBy ===
                                         loginUserData?.user._id &&
                                         p.status === 'pending') ||
                                     p.status === 'in progress'
                             )
-                            .map((p) => (
+                            .map((p: Package) => (
                                 <div
                                     key={p._id}
                                     className={`border border-solid border-black rounded-xl mb-3`}
@@ -225,8 +224,8 @@ export default function WorkingDay() {
                     </div>
                     <div className="text-[#55BBD1] font-poppins font-light text-sm mb-3">
                         {
-                            packages.filter(
-                                (p) =>
+                            packages?.filter(
+                                (p: Package) =>
                                     p.status === 'delivered' &&
                                     p.deliveredBy === loginUserData?.user._id
                             ).length
@@ -236,12 +235,12 @@ export default function WorkingDay() {
 
                     <div className="overflow-y-auto h-[215px] w-[18.5rem] pr-[7px]">
                         {packages
-                            .filter(
-                                (p) =>
+                            ?.filter(
+                                (p: Package) =>
                                     p.status === 'delivered' &&
                                     p.deliveredBy === loginUserData?.user._id
                             )
-                            .map((p) => (
+                            .map((p: Package) => (
                                 <div
                                     className={`border border-solid border-black rounded-xl mb-3`}
                                 >

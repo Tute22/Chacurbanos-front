@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { Package } from '@/types/types'
 import { setData } from '@/store/slice/dbData/dataSlice'
-import { toast } from 'react-toastify'
+import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function Packages() {
@@ -65,6 +65,19 @@ export default function Packages() {
 
     return (
         <div className="bg-[#AEE3EF] h-screen">
+            <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+                theme="light"
+                transition={Slide}
+            />
             <Navbar />
             <MainContainer title={'Paquetes'} height={'600px'}>
                 <div className="flex">
@@ -114,7 +127,12 @@ export default function Packages() {
                                     <div className="flex-col border-l-2 border-black border-dotted">
                                         <div className="ml-2 font-poppins font-medium">
                                             <h1 className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                                {'#' + element._id.slice(19)}
+                                                {'#' +
+                                                    element._id
+                                                        .split('')
+                                                        .reverse()
+                                                        .join('')
+                                                        .slice(0, 5)}
                                             </h1>
                                             <p className="text-sm text-black">
                                                 {element.address.split(',')[0]},
