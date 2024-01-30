@@ -110,7 +110,7 @@ export default function GetPackages() {
                     </p>
                     <p className="mt-2 border-t border-1 border-dashed border-black mb-2"></p>
 
-                    {packages.filter(
+                    {packages?.filter(
                         (p: Package) =>
                             p.status === 'disabled' || p.status === 'pending'
                     ).length === 0 ? (
