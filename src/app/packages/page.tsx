@@ -63,8 +63,6 @@ export default function Packages() {
             .catch((error) => console.error(error))
     }
 
-    console.log('sleected day ---> ', selectedDay)
-
     return (
         <div className="bg-[#AEE3EF] h-screen">
             <ToastContainer

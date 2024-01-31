@@ -32,9 +32,11 @@ export default function ManageOrders() {
 
     const totalUsers = usersData?.filter((user: UserData) => user).length
 
-    const deliveredPackages = packages?.filter((p: Package) => p.status === 'delivered').length
+    const deliveredPackages = packages?.filter((p: Package) => p.status === 'delivered' && handleDisplayPackages(p, selectedDay)).length
 
-    const totalPackages = packages?.length
+    const totalPackages = packages?.filter((p: Package) => handleDisplayPackages(p, selectedDay)).length
+    const packagesPercentage = isNaN(deliveredPackages / totalPackages) ? 0 : Math.round((deliveredPackages / totalPackages) * 100)
+    const usersPercentage = isNaN(activeUsers / totalUsers) ? 0 : Math.round((activeUsers / totalUsers) * 100)
 
     const router = useRouter()
 
@@ -113,8 +115,6 @@ export default function ManageOrders() {
             )
         }
     }
-
-    console.log('selected day ---> ', selectedDay)
 
     let month
     let secondMonth
@@ -198,7 +198,7 @@ export default function ManageOrders() {
                             </div>
                         </div>
                         <div className="flex justify-between w-[250px] mb-4">
-                            <CircularProgressbar className="w-[75px] h-[75px]" value={70} text="70%" />
+                            <CircularProgressbar className="w-[75px] h-[75px]" value={usersPercentage} text={`${usersPercentage}%`} />
                             <div>
                                 <h1 className="text-sm font-poppins font-bold">Repartidores</h1>
                                 <h3 className="text-xs font-poppins font-light">{`${activeUsers}/${totalUsers} Habilitados`}</h3>
@@ -213,7 +213,7 @@ export default function ManageOrders() {
                         </div>
                         <div className="flex justify-between border-b-2 border-[#55BBD1] border-dotted w-[250px] mb-3"></div>
                         <div className="flex justify-between w-[250px] mb-4">
-                            <CircularProgressbar className="w-[75px] h-[75px]" value={66} text="66%" />
+                            <CircularProgressbar className="w-[75px] h-[75px]" value={packagesPercentage} text={`${packagesPercentage}%`} />
 
                             <div>
                                 <h1 className="text-sm font-poppins font-bold">Paquetes</h1>
@@ -237,7 +237,7 @@ export default function ManageOrders() {
                         </div>
                     </div>
                     <br />
-                    <div>
+                    <div className="mt-4">
                         <Link href={'/add-packages'}>
                             <button className="bg-[#F4C455] py-1 w-[280px] rounded-full font-poppins font-medium">
                                 <div className="flex justify-center items-center">
