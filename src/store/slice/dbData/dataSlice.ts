@@ -14,6 +14,7 @@ export const dbDataSlice = createSlice({
             status: '',
         },
         usersData: null,
+        selectedDay: '',
     },
     reducers: {
         setData: (state, { payload }) => {
@@ -25,8 +26,11 @@ export const dbDataSlice = createSlice({
         setUsersData: (state, { payload }) => {
             state.usersData = payload
         },
+        setSelectedDay: (state, { payload }) => {
+            state.selectedDay = payload
+        },
     },
 })
 
-export const { setData, setSelectedPackage, setUsersData } = dbDataSlice.actions
+export const { setData, setSelectedPackage, setUsersData, setSelectedDay } = dbDataSlice.actions
 export default dbDataSlice.reducer

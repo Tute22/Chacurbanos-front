@@ -10,11 +10,7 @@ import { useDispatch } from 'react-redux'
 import { setSelectedUserData, setUser } from '@/store/slice/userData/userSlice'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {
-    setData,
-    setSelectedPackage,
-    setUsersData,
-} from '@/store/slice/dbData/dataSlice'
+import { setData, setSelectedDay, setSelectedPackage, setUsersData } from '@/store/slice/dbData/dataSlice'
 
 export const Navbar = () => {
     const pathName = usePathname()
@@ -37,6 +33,7 @@ export const Navbar = () => {
             })
         )
         dispatch(setUsersData(null))
+        dispatch(setSelectedDay(null))
         toast.success('Hasta la proximaaaa')
         router.push('/')
     }
@@ -47,12 +44,7 @@ export const Navbar = () => {
                 <Link href={'/'}>
                     {' '}
                     {/* Despues cambiar a working-day para repartidor y manage-orders para admin */}
-                    <Image
-                        src={navbarLogo}
-                        width={56}
-                        height={160}
-                        alt="navbarLogo"
-                    />
+                    <Image src={navbarLogo} width={56} height={160} alt="navbarLogo" />
                 </Link>
                 {pathName === '/register' ? (
                     ''
