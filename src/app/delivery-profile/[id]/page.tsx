@@ -19,6 +19,10 @@ export default function DeliveryProfile() {
 
     const { selectedUserData } = useSelector((store: any) => store.userReducer)
     const deliveredPackages = data?.filter((p: Package) => p.status === 'delivered' && p.deliveredBy === selectedUserData._id)
+    const pendingPackages = data?.filter(
+        (p: Package) =>
+            (p.status === 'pending' && p.deliveredBy === selectedUserData._id) || (p.status === 'in progress' && p.deliveredBy === selectedUserData._id)
+    )
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -116,7 +120,35 @@ export default function DeliveryProfile() {
                         <h3 className="text-lg font-poppins font-bold">Repartos pendientes</h3>
                         <TriangleDownArrow className=" w-[18px] h-6  ml-[3px] -rotate-90" />
                     </div>
-                    <p className="mt-1 text-[13px] font-poppins font-normal">Sin repartos</p>
+
+                    {pendingPackages.length ? (
+                        <div className="mt-4">
+                            {pendingPackages?.map((p: Package) => (
+                                <div key={p._id} className={`border border-solid border-black rounded-xl mb-3 `}>
+                                    <div className="flex py-[10px] pl-[1px]">
+                                        <Image src={box} alt="box" width={50} height={50} />
+                                        <div className="flex-col border-l-2 border-black border-dotted">
+                                            <div className="ml-2 font-poppins font-medium">
+                                                <div className="text-[#55BBD1] font-poppins font-semibold text-sm">{'#' + p._id.slice(19)}</div>
+                                                <div className="text-sm"> {p.address}</div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col flex-grow items-end">
+                                            <div
+                                                className={`mb-4 text-xs font-poppins font-bold ${
+                                                    p.status === 'pending' ? 'bg-[#F4C455]' : 'bg-[#8AB2FF]'
+                                                }  py-0.5 px-4 rounded-l-2xl`}
+                                            >
+                                                {p.status === 'pending' ? 'PENDIENTE' : 'EN PROGRESO'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="mt-1 text-[13px] font-poppins font-normal">Sin repartos</p>
+                    )}
                 </div>
             </div>
 
@@ -138,7 +170,6 @@ export default function DeliveryProfile() {
                                     <div className="ml-2 font-poppins font-medium">
                                         <div className="text-[#55BBD1] font-poppins font-semibold text-sm">{'#' + p._id.slice(19)}</div>
                                         <div className="text-sm"> {p.address}</div>
-                                        {/* <div className="text-sm">CABA</div> */}
                                     </div>
                                 </div>
                                 <div className="flex flex-col flex-grow items-end">
