@@ -12,18 +12,14 @@ import 'react-toastify/dist/ReactToastify.css'
 export default function Distribution() {
     const router = useRouter()
 
-    const { selectedPackage: inProgressPackage } = useSelector(
-        (store: any) => store.dbDataReducer
-    )
+    const { selectedPackage: inProgressPackage } = useSelector((store: any) => store.dbDataReducer)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
 
         const fetchData = async () => {
             try {
-                const response = await axiosInstance.get(
-                    `/users/${storedToken}`
-                )
+                const response = await axiosInstance.get(`/users/${storedToken}`)
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
@@ -41,12 +37,9 @@ export default function Distribution() {
 
     const handleCancelPackage = (selectedPackage: Package) => {
         axiosInstance
-            .patch(
-                `/packages/${selectedPackage?._id && selectedPackage?._id}`,
-                {
-                    status: 'pending',
-                }
-            )
+            .patch(`/packages/${selectedPackage?._id && selectedPackage?._id}`, {
+                status: 'pending',
+            })
             .then(() => {
                 toast.info('Paquete cancelado')
                 router.push('/working-day')
@@ -59,12 +52,9 @@ export default function Distribution() {
 
     const handleCompletePackage = (selectedPackage: Package) => {
         axiosInstance
-            .patch(
-                `/packages/${selectedPackage?._id && selectedPackage?._id}`,
-                {
-                    status: 'delivered',
-                }
-            )
+            .patch(`/packages/${selectedPackage?._id && selectedPackage?._id}`, {
+                status: 'delivered',
+            })
             .then(() => {
                 toast.success('Paquete entregado!')
                 router.push('/working-day')
@@ -92,27 +82,13 @@ export default function Distribution() {
                     {/* Container con info de envio  */}
                     <div className="py-5 pl-[0.5px]">
                         <p className="text-black text-[13px] mb-[1px] font-poppins font-normal">
-                            <strong className="font-poppins font-bold">
-                                Destino:
-                            </strong>{' '}
-                            {inProgressPackage?.address}
+                            <strong className="font-poppins font-bold">Destino:</strong> {inProgressPackage?.address}
                         </p>
                         <p className="text-black text-[13px] mb-[1px] font-poppins font-normal">
-                            <strong className="font-poppins font-bold">
-                                Número de paquete:
-                            </strong>{' '}
-                            {'#' +
-                                inProgressPackage._id
-                                    .split('')
-                                    .reverse()
-                                    .join('')
-                                    .slice(0, 5)}
+                            <strong className="font-poppins font-bold">Número de paquete:</strong> {'#' + inProgressPackage._id.slice(19)}
                         </p>
                         <p className="text-black text-[13px] font-poppins font-normal">
-                            <strong className="font-poppins font-bold">
-                                Recibe:
-                            </strong>{' '}
-                            {inProgressPackage?.recipient}
+                            <strong className="font-poppins font-bold">Recibe:</strong> {inProgressPackage?.recipient}
                         </p>
                     </div>
                 </div>
