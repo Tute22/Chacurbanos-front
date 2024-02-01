@@ -59,7 +59,9 @@ export default function Distribution() {
         getCurrentLocation()
     }, [router])
 
-    const reverseGeocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${currentLocationCoordinates?.lat},${currentLocationCoordinates?.lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS}`
+    const reverseGeocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${currentLocationCoordinates.lat},${currentLocationCoordinates.lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS}`
+
+    console.log(reverseGeocodeURL)
 
     axios
         .get(reverseGeocodeURL)
