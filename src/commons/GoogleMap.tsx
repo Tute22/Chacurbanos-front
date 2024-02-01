@@ -5,7 +5,7 @@ interface GoogleMapProps {
 }
 
 export const GoogleMap: React.FC<GoogleMapProps> = ({ addresses }) => {
-    const apiKey = 'AIzaSyA0INTjpXZCJF-GDbbiE5KCblQ0sEImPsE' // Reemplaza con tu clave de API de Google Maps
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS // Reemplaza con tu clave de API de Google Maps
     const query = addresses.map((address) => `+${encodeURIComponent(address)}`).join('')
 
     console.log(query)
