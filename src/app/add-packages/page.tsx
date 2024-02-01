@@ -18,9 +18,7 @@ export default function AddPackages() {
 
         const fetchData = async () => {
             try {
-                const response = await axiosInstance.get(
-                    `/users/${storedToken}`
-                )
+                const response = await axiosInstance.get(`/users/${storedToken}`)
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
 
@@ -40,19 +38,10 @@ export default function AddPackages() {
         }
     }, [router])
 
-    const {
-        formValues,
-        errors,
-        validateAddress,
-        validateName,
-        validatePackage,
-        setAddress,
-        setName,
-        setPackageWeight,
-        isAddPackageComplete,
-    } = useValidations()
+    const { formValues, errors, validateAddress, validateName, validatePackage, setAddress, setName, setPackageWeight, isAddPackageComplete } = useValidations()
 
     const [deliveryDate, setDeliveryDate] = useState('')
+    const packageDate = new Date(deliveryDate).setDate(new Date(deliveryDate).getDate() + 1)
 
     const handleSubmit = async (e: React.FormEvent) => {
         setIsLoading(true)
@@ -64,7 +53,7 @@ export default function AddPackages() {
                 address: address,
                 recipient: name,
                 weight: packageWeight,
-                date: deliveryDate,
+                date: new Date(packageDate).toString(),
                 deliveredBy: '',
             })
 
@@ -74,40 +63,27 @@ export default function AddPackages() {
         } catch (err) {
             setIsLoading(false)
             console.error(err)
-            toast.warning(
-                'Error al intentar crear un paquete nuevo. Verifica los datos e intenta nuevamente.'
-            )
+            toast.warning('Error al intentar crear un paquete nuevo. Verifica los datos e intenta nuevamente.')
         }
     }
 
-    const buttonOpacityClass = isAddPackageComplete()
-        ? 'opacity-100'
-        : 'opacity-50'
+    const buttonOpacityClass = isAddPackageComplete() ? 'opacity-100' : 'opacity-50'
 
     return (
         <main className="bg-[#AEE3EF] h-screen font-poppins font-normal">
             <Navbar />
             <MainContainer title={'Agregar paquetes'} height={'80%'}>
-                <form
-                    className="flex justify-center flex-col"
-                    onSubmit={handleSubmit}
-                >
+                <form className="flex justify-center flex-col" onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
                             className="border border-solid border-black rounded-lg p-2 w-full"
                             placeholder="Dirección"
                             value={formValues.address}
                             onChange={(e) => setAddress(e.currentTarget.value)}
-                            onBlur={(e) =>
-                                validateAddress(e.currentTarget.value)
-                            }
+                            onBlur={(e) => validateAddress(e.currentTarget.value)}
                             required
                         />{' '}
-                        {errors.address && (
-                            <span className="text-red-600 text-xs">
-                                {errors.address}
-                            </span>
-                        )}
+                        {errors.address && <span className="text-red-600 text-xs">{errors.address}</span>}
                     </div>
                     <div className="mb-4">
                         <input
@@ -118,30 +94,18 @@ export default function AddPackages() {
                             onBlur={(e) => validateName(e.currentTarget.value)}
                             required
                         />{' '}
-                        {errors.name && (
-                            <span className="text-red-600 text-xs">
-                                {errors.name}
-                            </span>
-                        )}
+                        {errors.name && <span className="text-red-600 text-xs">{errors.name}</span>}
                     </div>
                     <div className="mb-4">
                         <input
                             className="border border-solid border-black rounded-lg p-2 w-full"
                             placeholder="Peso del paquete (Kg)"
                             value={formValues.packageWeight}
-                            onChange={(e) =>
-                                setPackageWeight(e.currentTarget.value)
-                            }
-                            onBlur={(e) =>
-                                validatePackage(e.currentTarget.value)
-                            }
+                            onChange={(e) => setPackageWeight(e.currentTarget.value)}
+                            onBlur={(e) => validatePackage(e.currentTarget.value)}
                             required
                         />{' '}
-                        {errors.packageWeight && (
-                            <span className="text-red-600 text-xs">
-                                {errors.packageWeight}
-                            </span>
-                        )}
+                        {errors.packageWeight && <span className="text-red-600 text-xs">{errors.packageWeight}</span>}
                     </div>
                     <p className="mt-3">Fecha de entrega</p>
                     <p className="mt-2 border-t border-1 border-dashed border-black"></p>
@@ -157,10 +121,7 @@ export default function AddPackages() {
                         required
                     />
                     <div className="mt-64 flex justify-center">
-                        <button
-                            type="submit"
-                            className={`w-72 py-1 font-bold bg-[#F4C455] rounded-full font-poppins ${buttonOpacityClass}`}
-                        >
+                        <button type="submit" className={`w-72 py-1 font-bold bg-[#F4C455] rounded-full font-poppins ${buttonOpacityClass}`}>
                             {!isLoading ? 'Agregar' : <Spinner />}
                         </button>
                     </div>

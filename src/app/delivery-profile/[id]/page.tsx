@@ -11,18 +11,21 @@ import axiosInstance from '../../../../axiosConfig'
 import { setSelectedUserData } from '@/store/slice/userData/userSlice'
 import { Package } from '@/types/types'
 import { setUsersData } from '@/store/slice/dbData/dataSlice'
+import { handleDisplayPackages } from '@/utils/handlePackages'
 
 export default function DeliveryProfile() {
     const router = useRouter()
     const [usersChanged, setUsersChanged] = useState(false)
-    const { data } = useSelector((store: any) => store.dbDataReducer)
+    const { data, selectedDay } = useSelector((store: any) => store.dbDataReducer)
 
     const { selectedUserData } = useSelector((store: any) => store.userReducer)
-    const deliveredPackages = data?.filter((p: Package) => p.status === 'delivered' && p.deliveredBy === selectedUserData._id)
-    const pendingPackages = data?.filter(
-        (p: Package) =>
-            (p.status === 'pending' && p.deliveredBy === selectedUserData._id) || (p.status === 'in progress' && p.deliveredBy === selectedUserData._id)
+    const deliveredPackages = data?.filter(
+        (p: Package) => p.status === 'delivered' && p.deliveredBy === selectedUserData._id && handleDisplayPackages(p, selectedDay, false)
     )
+    const pendingPackages = data
+        ?.filter((p: Package) => p.deliveredBy === selectedUserData._id && handleDisplayPackages(p, selectedDay, true))
+        .filter((p: Package) => p.status === 'pending' || p.status === 'in progress')
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -130,7 +133,7 @@ export default function DeliveryProfile() {
                                         <div className="flex-col border-l-2 border-black border-dotted">
                                             <div className="ml-2 font-poppins font-medium">
                                                 <div className="text-[#55BBD1] font-poppins font-semibold text-sm">{'#' + p._id.slice(19)}</div>
-                                                <div className="text-sm"> {p.address}</div>
+                                                <div className="text-sm">{`${p.address.slice(0, 14)}...`}</div>
                                             </div>
                                         </div>
                                         <div className="flex flex-col flex-grow items-end">
@@ -169,7 +172,7 @@ export default function DeliveryProfile() {
                                 <div className="flex-col border-l-2 border-black border-dotted">
                                     <div className="ml-2 font-poppins font-medium">
                                         <div className="text-[#55BBD1] font-poppins font-semibold text-sm">{'#' + p._id.slice(19)}</div>
-                                        <div className="text-sm"> {p.address}</div>
+                                        <div className="text-sm">{`${p.address.slice(0, 14)}...`}</div>
                                     </div>
                                 </div>
                                 <div className="flex flex-col flex-grow items-end">

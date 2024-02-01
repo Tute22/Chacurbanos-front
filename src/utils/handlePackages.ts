@@ -1,6 +1,7 @@
 import { Package } from '@/types/types'
+import { dateFormater } from './dateFormatter'
 
-export const handleDisplayPackages = (p: Package, selectedDay: any) => {
+export const handleDisplayPackages = (p: Package, selectedDay: any, totalPackages: boolean) => {
     let today = new Date().toLocaleDateString('es-AR').split('/')
 
     const day = today[0].length === 1 ? `0${today[0]}` : today[0]
@@ -9,9 +10,13 @@ export const handleDisplayPackages = (p: Package, selectedDay: any) => {
     today = `${today[2]}-${month}-${day}`
     if (selectedDay) {
         let selectedDate = selectedDay.stringDate.split('/')
+        // año - mes - dia
         selectedDate = `${selectedDate[2]}-${selectedDate[1]}-${selectedDate[0]}`
-        if (selectedDate === p.date) {
-            if (selectedDate < today && p.status === 'delivered') {
+
+        if (selectedDate === dateFormater(new Date(p.date))) {
+            if (selectedDate <= today && totalPackages) {
+                return p
+            } else if (selectedDate <= today && p.status === 'delivered') {
                 return p
             } else if (p.status === 'pending' || p.status === 'disabled') {
                 return p
@@ -19,7 +24,7 @@ export const handleDisplayPackages = (p: Package, selectedDay: any) => {
         }
     } else {
         //@ts-expect-error -- no borrar :)🐷
-        if ((today === p.date && p.status === 'pending') || (today === p.date && p.status === 'disabled')) {
+        if ((today === dateFormater(new Date(p.date)) && p.status === 'pending') || (today === dateFormater(new Date(p.date)) && p.status === 'disabled')) {
             return p
         }
     }
