@@ -3,16 +3,24 @@ import MainContainer from '@/commons/MainContainer'
 import { Navbar } from '@/components/Navbar'
 import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Package } from '@/types/types'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { GoogleMap } from '@/commons/GoogleMap'
+import axios from 'axios'
+
+type LocationState = {
+    lat: number | null
+    lng: number | null
+}
 
 export default function Distribution() {
     const router = useRouter()
-
     const { selectedPackage: inProgressPackage } = useSelector((store: any) => store.dbDataReducer)
+    const [currentLocationCoordinates, setCurrentLocationCoordinates] = useState<LocationState>({ lat: null, lng: null })
+    const [currentLocationStr, setCurrentLocationStr] = useState('')
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -28,12 +36,44 @@ export default function Distribution() {
             }
         }
 
+        const getCurrentLocation = () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords
+                        setCurrentLocationCoordinates({ lat: latitude, lng: longitude })
+                    },
+                    (error) => {
+                        console.error(error)
+                    }
+                )
+            }
+        }
+
         if (storedToken) {
             fetchData()
         } else {
             router.push('/')
         }
+
+        getCurrentLocation()
     }, [router])
+
+    const reverseGeocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${currentLocationCoordinates?.lat},${currentLocationCoordinates?.lng}&key=AIzaSyA0INTjpXZCJF-GDbbiE5KCblQ0sEImPsE`
+
+    axios
+        .get(reverseGeocodeURL)
+        .then((response) => {
+            const data = response.data
+            const address = data.results[0].formatted_address
+            // console.log(`Address: ${address}`);
+            setCurrentLocationStr(address)
+        })
+        .catch((error) => {
+            console.log('Error reverse geocoding:', error)
+        })
+
+    console.log('IN PROGRESS PACKAGE >>>', inProgressPackage)
 
     const handleCancelPackage = (selectedPackage: Package) => {
         axiosInstance
@@ -71,15 +111,9 @@ export default function Distribution() {
             {/* distribution screen */}
             <MainContainer title={'Reparto en curso'} height="620px">
                 <div className="py-1 px-[0.5px]">
-                    <iframe
-                        src={
-                            'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52503.699211042076!2d-58.7351501216974!3d-34.66780282629255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcbf8707ca9e95%3A0x7a4b25f03463e529!2sSan%20Antonio%20de%20Padua%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1700170849337!5m2!1ses-419!2sar'
-                        }
-                        className="h-[360px] w-full rounded-lg border border-slate-800"
-                        loading="lazy"
-                    ></iframe>
+                    <GoogleMap addresses={[currentLocationStr, inProgressPackage.address]} />
 
-                    {/* Container con info de envio  */}
+                    {/* Container con info de envío  */}
                     <div className="py-5 pl-[0.5px]">
                         <p className="text-black text-[13px] mb-[1px] font-poppins font-normal">
                             <strong className="font-poppins font-bold">Destino:</strong> {inProgressPackage?.address}

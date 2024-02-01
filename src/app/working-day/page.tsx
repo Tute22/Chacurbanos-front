@@ -14,6 +14,7 @@ import { Package } from '@/types/types'
 import Spinner from '@/commons/Spinner'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { MapIcon } from '@/commons/icons/MapIcon'
 
 export default function WorkingDay() {
     const router = useRouter()
@@ -29,9 +30,7 @@ export default function WorkingDay() {
 
         const fetchData = async () => {
             try {
-                const response = await axiosInstance.get(
-                    `/users/${storedToken}`
-                )
+                const response = await axiosInstance.get(`/users/${storedToken}`)
                 const decodedToken = response.data
                 console.log('Token encontrado y decodificado:', decodedToken)
             } catch (err) {
@@ -49,9 +48,7 @@ export default function WorkingDay() {
         axiosInstance
             .get(`/packages`)
             .then((response) => {
-                const filteredPackages = response.data.filter(
-                    (e: any) => e.deliveredBy === loginUserData.user._id
-                )
+                const filteredPackages = response.data.filter((e: any) => e.deliveredBy === loginUserData.user._id)
                 dispatch(setData(filteredPackages))
             })
             .catch((error) => console.error(error))
@@ -95,11 +92,6 @@ export default function WorkingDay() {
         setIsLoading(true)
     }
 
-    // se agrego solo para poder ir a la vista del mapa sin tener que cancelar e iniciar de nuevo, click en la fotito de la caja
-    const handleMap = () => {
-        router.push('/distribution')
-    }
-
     const isInProgress = () => {
         return packages?.some((e: any) => e.status === 'in progress')
     }
@@ -116,92 +108,58 @@ export default function WorkingDay() {
                         <TriangleDownArrow className="w-6 ml-[3px]" />
                     </div>
                     <div className="text-[#55BBD1] font-poppins font-light text-sm mb-3">
-                        {packages?.filter(
-                            (p: Package) =>
-                                p.deliveredBy === loginUserData?.user._id &&
-                                (p.status === 'pending' ||
-                                    p.status === 'in progress')
-                        ).length === 0
+                        {packages?.filter((p: Package) => p.deliveredBy === loginUserData?.user._id && (p.status === 'pending' || p.status === 'in progress'))
+                            .length === 0
                             ? 'No tienes paquetes asignados'
                             : null}
                     </div>
 
                     <div className="overflow-y-auto h-[215px] w-[18.5rem] pr-[7px]">
                         {packages
-                            ?.filter(
-                                (p: Package) =>
-                                    (p.deliveredBy ===
-                                        loginUserData?.user._id &&
-                                        p.status === 'pending') ||
-                                    p.status === 'in progress'
-                            )
+                            ?.filter((p: Package) => (p.deliveredBy === loginUserData?.user._id && p.status === 'pending') || p.status === 'in progress')
                             .map((p: Package) => (
-                                <div
-                                    key={p._id}
-                                    className={`border border-solid border-black rounded-xl mb-3`}
-                                >
+                                <div key={p._id} className={`border border-solid border-black rounded-xl mb-3`}>
                                     <div className="flex py-[10px] pl-[1px]">
-                                        <Image
-                                            className="cursor-pointer"
-                                            onClick={handleMap}
-                                            src={box}
-                                            alt="box"
-                                            width={50}
-                                            height={50}
-                                        />
+                                        <Image src={box} alt="box" width={60} height={60} />
                                         <div className="flex-col border-l-2 border-black border-dotted">
                                             <div className="ml-2 font-poppins font-medium">
-                                                <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                                    {'#' + p._id.slice(19)}
-                                                </div>
-                                                <div className="text-sm">
-                                                    {p.address}
-                                                </div>
+                                                <div className="text-[#55BBD1] font-poppins font-semibold text-sm">{'#' + p._id.slice(19)}</div>
+                                                <div className="text-xs font-semibold">{`${p.address.slice(0, 14)}...`}</div>
                                                 {/* <div className="text-sm">CABA</div> */}
                                             </div>
                                         </div>
                                         <div className="flex flex-col flex-grow items-end">
                                             <div
                                                 className={`mb-4 text-xs font-poppins font-bold ${
-                                                    p.status === 'pending'
-                                                        ? 'bg-[#232324] bg-opacity-20'
-                                                        : p.status ===
-                                                            'in progress'
-                                                          ? 'bg-[#8AB2FF]'
-                                                          : ''
+                                                    p.status === 'pending' ? 'bg-[#232324] bg-opacity-20' : p.status === 'in progress' ? 'bg-[#8AB2FF]' : ''
                                                 } py-0.5 px-4 rounded-l-2xl`}
                                             >
-                                                {p.status === 'pending'
-                                                    ? 'PENDIENTE'
-                                                    : p.status === 'in progress'
-                                                      ? 'EN CURSO'
-                                                      : ''}
+                                                {p.status === 'pending' ? 'PENDIENTE' : p.status === 'in progress' ? 'EN CURSO' : ''}
                                             </div>
                                             <div className="pr-3">
                                                 {p.status === 'in progress' ? (
-                                                    <button
-                                                        onClick={() => {
-                                                            handleCancelPackage(
-                                                                p
-                                                            )
-                                                        }}
-                                                    >
-                                                        <TrashIcon className="w-6 text-red" />
-                                                    </button>
+                                                    <div className="flex gap-2">
+                                                        <button>
+                                                            <Link href={'/distribution'}>
+                                                                <MapIcon className="w-6 text-green-500" />
+                                                            </Link>
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                handleCancelPackage(p)
+                                                            }}
+                                                        >
+                                                            <TrashIcon className="w-6 text-red" />
+                                                        </button>
+                                                    </div>
                                                 ) : (
-                                                    <Link
-                                                        href={'/distribution'}
-                                                    >
+                                                    <Link href={'/distribution'}>
                                                         <button
                                                             className={`bg-[#F4C455] text-sm py-1 px-3 rounded-full font-poppins font-medium ${buttonOpacityClass}`}
                                                             disabled={isInProgress()}
                                                             onClick={() => {
-                                                                handleDeliveryPackage(
-                                                                    p
-                                                                )
-                                                                handleDispatchSelectedPackage(
-                                                                    p
-                                                                )
+                                                                handleDeliveryPackage(p)
+                                                                handleDispatchSelectedPackage(p)
                                                             }}
                                                         >
                                                             Iniciar
@@ -223,48 +181,25 @@ export default function WorkingDay() {
                         <TriangleDownArrow className="w-6 ml-[3px]" />
                     </div>
                     <div className="text-[#55BBD1] font-poppins font-light text-sm mb-3">
-                        {
-                            packages?.filter(
-                                (p: Package) =>
-                                    p.status === 'delivered' &&
-                                    p.deliveredBy === loginUserData?.user._id
-                            ).length
-                        }{' '}
-                        paquetes entregados
+                        {packages?.filter((p: Package) => p.status === 'delivered' && p.deliveredBy === loginUserData?.user._id).length} paquetes entregados
                     </div>
 
                     <div className="overflow-y-auto h-[215px] w-[18.5rem] pr-[7px]">
                         {packages
-                            ?.filter(
-                                (p: Package) =>
-                                    p.status === 'delivered' &&
-                                    p.deliveredBy === loginUserData?.user._id
-                            )
+                            ?.filter((p: Package) => p.status === 'delivered' && p.deliveredBy === loginUserData?.user._id)
                             .map((p: Package) => (
-                                <div
-                                    className={`border border-solid border-black rounded-xl mb-3`}
-                                >
+                                <div className={`border border-solid border-black rounded-xl mb-3`}>
                                     <div className="flex py-[10px] pl-[1px]">
-                                        <Image
-                                            src={box}
-                                            alt="box"
-                                            width={50}
-                                            height={50}
-                                        />
+                                        <Image src={box} alt="box" width={60} height={60} />
                                         <div className="flex-col border-l-2 border-black border-dotted">
                                             <div className="ml-2 font-poppins font-medium">
-                                                <div className="text-[#55BBD1] font-poppins font-semibold text-sm">
-                                                    {'#' + p._id.slice(19)}
-                                                </div>
-                                                <div className="text-sm">
-                                                    {p.address}
-                                                </div>
+                                                <div className="text-[#55BBD1] font-poppins font-semibold text-sm">{'#' + p._id.slice(19)}</div>
+                                                <div className="text-xs font-semibold">{`${p.address.slice(0, 14)}...`}</div>
                                             </div>
                                         </div>
                                         <div className="flex flex-col flex-grow items-end">
                                             <div className="mb-4 text-xs font-poppins font-bold bg-[#8EEE86] py-0.5 px-4 rounded-l-2xl">
-                                                {p.status === 'delivered' &&
-                                                    'ENTREGADO'}
+                                                {p.status === 'delivered' && 'ENTREGADO'}
                                             </div>
                                         </div>
                                     </div>
@@ -275,10 +210,7 @@ export default function WorkingDay() {
                 <br />
                 <div>
                     <Link href={'/get-packages'}>
-                        <button
-                            onClick={handleClick}
-                            className="bg-[#F4C455] text-lg py-1 w-80 rounded-full font-poppins font-medium mt-2"
-                        >
+                        <button onClick={handleClick} className="bg-[#F4C455] text-lg py-1 w-80 rounded-full font-poppins font-medium mt-2">
                             {!isLoading ? 'Obtener paquetes' : <Spinner />}
                         </button>
                     </Link>
