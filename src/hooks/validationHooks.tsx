@@ -92,10 +92,7 @@ export const useValidations = () => {
         }
     }
 
-    const validateConfirmPassword = (
-        confirmPassword: string,
-        password: string
-    ) => {
+    const validateConfirmPassword = (confirmPassword: string, password: string) => {
         if (confirmPassword === password) {
             setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: '' }))
             return true
@@ -109,7 +106,7 @@ export const useValidations = () => {
     }
 
     const validateAddress = (address: string) => {
-        if (/^[A-Za-zÁ-Úá-ú0-9\s]*$/.test(address)) {
+        if (/^[A-Za-zÁ-Úá-ú0-9\s.,]*$/.test(address)) {
             setErrors((prevErrors) => ({ ...prevErrors, address: '' }))
             return true
         } else {
@@ -136,9 +133,7 @@ export const useValidations = () => {
     }
 
     const isLoginComplete = () => {
-        return (
-            formValues.email.trim() !== '' && formValues.password.trim() !== ''
-        )
+        return formValues.email.trim() !== '' && formValues.password.trim() !== ''
     }
 
     const isLoginFormValid = () => {
@@ -156,21 +151,11 @@ export const useValidations = () => {
     }
 
     const isRegisterFormValid = () => {
-        return (
-            errors.name === '' &&
-            errors.lastName === '' &&
-            errors.email === '' &&
-            errors.password === '' &&
-            errors.confirmPassword === ''
-        )
+        return errors.name === '' && errors.lastName === '' && errors.email === '' && errors.password === '' && errors.confirmPassword === ''
     }
 
     const isAddPackageComplete = () => {
-        return (
-            formValues.name.trim() !== '' &&
-            formValues.address.trim() !== '' &&
-            formValues.packageWeight.trim() !== ''
-        )
+        return formValues.name.trim() !== '' && formValues.address.trim() !== '' && formValues.packageWeight.trim() !== ''
     }
 
     const isDeclarationComplete = () => {

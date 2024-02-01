@@ -22,8 +22,6 @@ import { handleDisplayPackages } from '@/utils/handlePackages'
 export default function ManageOrders() {
     const [renderedDays, setRenderedDays] = useState<DayData[]>([])
     const { usersData, data: packages, selectedDay } = useSelector((store: any) => store.dbDataReducer)
-    // dia seleccionado
-    // const [selectedDay, setSelectedDay] = useState<any>('')
 
     const dispatch = useDispatch()
     const { loginUserData } = useSelector((store: any) => store.userReducer)
@@ -32,13 +30,15 @@ export default function ManageOrders() {
 
     const totalUsers = usersData?.filter((user: UserData) => user).length
 
-    const deliveredPackages = packages?.filter((p: Package) => p.status === 'delivered' && handleDisplayPackages(p, selectedDay)).length
+    const deliveredPackages = packages?.filter((p: Package) => p.status === 'delivered' && handleDisplayPackages(p, selectedDay, false)).length
 
-    const totalPackages = packages?.filter((p: Package) => handleDisplayPackages(p, selectedDay)).length
+    const totalPackages = packages?.filter((p: Package) => handleDisplayPackages(p, selectedDay, false)).length
     const packagesPercentage = isNaN(deliveredPackages / totalPackages) ? 0 : Math.round((deliveredPackages / totalPackages) * 100)
     const usersPercentage = isNaN(activeUsers / totalUsers) ? 0 : Math.round((activeUsers / totalUsers) * 100)
 
     const router = useRouter()
+
+    // 01-12-2015
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -224,7 +224,7 @@ export default function ManageOrders() {
                                         <h1 className="text-[12px] text-white font-poppins font-semibold">
                                             {
                                                 packages?.filter((p: Package) => {
-                                                    return handleDisplayPackages(p, selectedDay)
+                                                    return handleDisplayPackages(p, selectedDay, false)
                                                 }).length
                                             }
                                         </h1>
