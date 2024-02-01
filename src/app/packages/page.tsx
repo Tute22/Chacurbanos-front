@@ -93,12 +93,12 @@ export default function Packages() {
                 </div>
 
                 <div>
-                    <h1 className="text-black font-bold mb-5">{data?.filter((p: Package) => handleDisplayPackages(p, selectedDay)).length} paquetes</h1>
+                    <h1 className="text-black font-bold mb-5">{data?.filter((p: Package) => handleDisplayPackages(p, selectedDay, false)).length} paquetes</h1>
                 </div>
 
                 <div className=" h-96 overflow-y-auto">
                     {data
-                        ?.filter((p: Package) => handleDisplayPackages(p, selectedDay))
+                        ?.filter((p: Package) => handleDisplayPackages(p, selectedDay, false))
                         .map((element: Package, index: number) => (
                             <div key={index} className={`border border-solid border-black rounded-xl mb-4 `}>
                                 <div className="flex py-[10px] pl-[1px]">
