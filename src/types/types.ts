@@ -56,3 +56,13 @@ export interface UserData {
     day: UserDay.PENDING | UserDay.IN_PROGRESS | UserDay.FINISH
     iconUrl: string
 }
+
+export interface DateObject extends DateTime {
+    c: {
+        month: number
+        day: number
+        hour: number
+        minute: number
+        year: number
+    }
+}

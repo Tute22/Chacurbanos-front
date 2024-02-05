@@ -14,7 +14,7 @@ import MainContainer from '@/commons/MainContainer'
 import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { DayData, UserData, Package } from '@/types/types'
+import { DayData, UserData, Package, DateObject } from '@/types/types'
 import { setMonth } from '@/utils/setMonth'
 import { setData, setSelectedDay } from '@/store/slice/dbData/dataSlice'
 import { handleDisplayPackages } from '@/utils/handlePackages'
@@ -120,10 +120,10 @@ export default function ManageOrders() {
     let secondMonth
     const handleDisplayMonth = () => {
         renderedDays?.map((e: any) => {
-            // @ts-expect-error  -- no borrar :)🐷🐷
-            if (renderedDays[0]?.info?.c?.month === e?.info?.c?.month) {
-                // @ts-expect-error -- no borrar :)🐷🐷
-                month = setMonth(renderedDays[0]?.info?.c?.month)
+            const date = renderedDays[0]?.info as DateObject
+
+            if (date.c?.month === e?.info?.c?.month) {
+                month = setMonth(date.c?.month)
             } else {
                 secondMonth = setMonth(e?.info?.c?.month)
             }
@@ -160,31 +160,33 @@ export default function ManageOrders() {
                         <div>
                             <div className="flex my-2">
                                 <TriangleDownArrow className="rotate-90 w-[20px]" onClick={handlePreviousDays} />
-                                {renderedDays.map((day) => (
-                                    <div
-                                        key={day.number}
-                                        className={`${day.time === 'before' ? classBeforeToday : ''} ${
-                                            selectedDay &&
-                                            selectedDay.date.month ===
-                                                // @ts-expect-error -- no borrar :)🐷
-                                                day.info.c.month &&
-                                            selectedDay.date.day ===
-                                                // @ts-expect-error -- no borrar :)🐷
-                                                day.info.c.day &&
-                                            selectedDay.date.year ===
-                                                // @ts-expect-error -- no borrar :)🐷
-                                                day.info.c?.year
-                                                ? classToday
-                                                : !selectedDay && day.time === 'today'
-                                                  ? classToday
-                                                  : classBeforeToday
-                                        } ${day.time === 'after' ? classAfterToday : ''}`}
-                                        onClick={() => handleSelectDay(day)}
-                                    >
-                                        <h3 className={`text-lg font-poppins font-normal ${day.time === 'after' ? 'text-[#626262]' : ''}`}>{day.day}</h3>
-                                        <h1 className={`text-xl font-poppins font-bold ${day.time === 'after' ? 'text-[#626262]' : ''}`}>{day.number}</h1>
-                                    </div>
-                                ))}
+                                {renderedDays.map((day) => {
+                                    return (
+                                        <div
+                                            key={day.number}
+                                            className={`${day.time === 'before' ? classBeforeToday : ''} ${
+                                                selectedDay &&
+                                                selectedDay.date.month ===
+                                                    // @ts-expect-error -- no borrar :)🐷
+                                                    day.info.c.month &&
+                                                selectedDay.date.day ===
+                                                    // @ts-expect-error -- no borrar :)🐷
+                                                    day.info.c.day &&
+                                                selectedDay.date.year ===
+                                                    // @ts-expect-error -- no borrar :)🐷
+                                                    day.info.c?.year
+                                                    ? classToday
+                                                    : !selectedDay && day.time === 'today'
+                                                      ? classToday
+                                                      : classBeforeToday
+                                            } ${day.time === 'after' ? classAfterToday : ''}`}
+                                            onClick={() => handleSelectDay(day)}
+                                        >
+                                            <h3 className={`text-lg font-poppins font-normal ${day.time === 'after' ? 'text-[#626262]' : ''}`}>{day.day}</h3>
+                                            <h1 className={`text-xl font-poppins font-bold ${day.time === 'after' ? 'text-[#626262]' : ''}`}>{day.number}</h1>
+                                        </div>
+                                    )
+                                })}
                                 <TriangleDownArrow className="rotate-[-90deg] w-[20px]" onClick={handleNextDays} />
                             </div>
                         </div>
