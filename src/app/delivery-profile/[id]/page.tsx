@@ -124,7 +124,7 @@ export default function DeliveryProfile() {
                         <TriangleDownArrow className=" w-[18px] h-6  ml-[3px] -rotate-90" />
                     </div>
 
-                    {pendingPackages.length ? (
+                    {pendingPackages?.length ? (
                         <div className="mt-4">
                             {pendingPackages?.map((p: Package) => (
                                 <div key={p._id} className={`border border-solid border-black rounded-xl mb-3 `}>
