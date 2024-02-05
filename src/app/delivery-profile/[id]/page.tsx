@@ -10,8 +10,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import axiosInstance from '../../../../axiosConfig'
 import { setSelectedUserData } from '@/store/slice/userData/userSlice'
 import { Package } from '@/types/types'
-import { setUsersData } from '@/store/slice/dbData/dataSlice'
+import { setData, setUsersData } from '@/store/slice/dbData/dataSlice'
 import { handleDisplayPackages } from '@/utils/handlePackages'
+import { toast } from 'react-toastify'
 
 export default function DeliveryProfile() {
     const router = useRouter()
@@ -75,6 +76,32 @@ export default function DeliveryProfile() {
                 setUsersChanged(!usersChanged)
             })
             .catch((error) => console.log(error))
+
+        if (selectedUserData.status === 'disabled') {
+            const pendingUserPackages = data?.filter((p: Package) => p.deliveredBy === selectedUserData._id && p.status === 'pending')
+
+            pendingUserPackages?.length &&
+                pendingUserPackages?.map((p: Package) => {
+                    axiosInstance
+                        .patch(`/packages/${p._id}`, {
+                            deliveredBy: '',
+                            status: 'disabled',
+                        })
+                        .then(() => {
+                            axiosInstance
+                                .get(`/packages`)
+                                .then((response) => {
+                                    dispatch(setData(response.data))
+                                    console.log('Solicitud con éxito')
+                                })
+                                .catch((error) => console.error(error))
+                        })
+                        .catch((err) => {
+                            console.error(err)
+                            toast.error('Error en la solicitud')
+                        })
+                })
+        }
     }
 
     return (
