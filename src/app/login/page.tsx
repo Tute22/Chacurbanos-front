@@ -16,6 +16,7 @@ import { UserLogin } from '@/commons/icons/UserLogin'
 import { LockIcon } from '@/commons/icons/LockIcon'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import { addZeros } from '@/utils/dateFormatter'
 
 export default function Login() {
     const router = useRouter()
@@ -105,9 +106,11 @@ export default function Login() {
             const today = new Date()
             today.setHours(0, 0, 0, 0)
 
+            const splitDate = today.toLocaleDateString('es-AR').split('/')
+
             dispatch(
                 setSelectedDay({
-                    stringDate: today.toLocaleDateString('es-AR'),
+                    stringDate: `${addZeros(splitDate[0])}/${addZeros(splitDate[1])}/${addZeros(splitDate[2])}`,
                     date: {
                         day: Number(today.toLocaleDateString('es-AR').split('/')[0]),
                         month: Number(today.toLocaleDateString('es-AR').split('/')[1]),
