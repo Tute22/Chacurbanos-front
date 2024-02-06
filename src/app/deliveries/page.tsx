@@ -56,9 +56,7 @@ export default function Deliveries() {
                         <div
                             className={`flex flex-col items-center border border-solid border-[#F4C455] rounded-xl w-[42px] text-[#55BBD1] shadow-lg py-1 px-7`}
                         >
-                            <h1 className="text-lg font-poppins font-normal">
-                                {DateTime.fromFormat(selectedDay.stringDate, 'dd/MM/yyyy', undefined).weekdayShort}
-                            </h1>
+                            <h1 className="text-lg font-poppins font-normal">{DateTime.fromFormat(selectedDay.stringDate, 'dd/MM/yyyy').weekdayShort}</h1>
                             <h3 className="text-xl font-poppins font-bold">{selectedDay?.date?.day}</h3>
                         </div>
                     </div>
