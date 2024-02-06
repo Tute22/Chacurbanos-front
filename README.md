@@ -24,9 +24,10 @@
 ## Technologies
 
 This project uses the following technologies:
-- **Frontend**: Next, Redux, Tailwind
-- **Backend**: Node.js, NestJS
-- **Base de Datos**: MongoDB
+
+-   **Frontend**: Next, Redux, Tailwind
+-   **Backend**: Node.js, NestJS
+-   **Base de Datos**: MongoDB
 
 ## Gitflow and semver
 
@@ -46,6 +47,10 @@ cd Chacurbanos-front
 # Install dependencies
 npm install
 
+# At the root, create a .env.local file containing the following:
+NEXT_PUBLIC_PORT = your_backend_URL
+NEXT_PUBLIC_GOOGLE_MAPS = your_google_maps_apikey
+
 # Start the application
 npm run dev
 
@@ -55,24 +60,29 @@ docker-compose up --build
 
 # Start the application with Docker
 docker-compose up
+
+#-----------------------------------------------------
+
+# Run the tests
+npm test
 ```
 
 ## Functionalities
 
-- **For Administrators**:
-    - Display of the list of couriers and their current status.
-    - Real-time tracking of ongoing deliveries.
-    - Management tools for creating, viewing, and editing packages.
+-   **For Administrators**:
 
-- **For Couriers**:
-    - Secure registration and login.
-    - Selection of packages for daily delivery.
-    - Intuitive interface for managing deliveries.
+    -   Display of the list of couriers and their current status.
+    -   Real-time tracking of ongoing deliveries.
+    -   Management tools for creating, viewing, and editing packages.
+
+-   **For Couriers**:
+    -   Secure registration and login.
+    -   Selection of packages for daily delivery.
+    -   Intuitive interface for managing deliveries.
 
 ## Contact
 
-If you have any questions or need more information, do not hesitate to contact us through [Contact Mail](mailto:contacto@chacurbanos.com).
----
+## If you have any questions or need more information, do not hesitate to contact us through [Contact Mail](mailto:fastdeliverychacurbanos@gmail.com).
 
 ## Developers
 
