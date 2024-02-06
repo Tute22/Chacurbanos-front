@@ -1,4 +1,4 @@
-const addZeros = (value: any) => {
+export const addZeros = (value: any) => {
     return value < 10 ? `0${value}` : value
 }
 
