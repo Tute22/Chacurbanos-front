@@ -72,7 +72,7 @@ export default function ManageOrders() {
         }
     }, [router])
 
-    const now = DateTime.local()
+    const now = DateTime.now().toLocal()
     const formattedDate = now.toFormat('dd/MM/yy')
     const days = fiveDays(formattedDate)
     injectTime(now, days)
@@ -81,8 +81,8 @@ export default function ManageOrders() {
         setRenderedDays(days)
     }, [])
 
-    const classBeforeToday = 'flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5'
-    const classToday = 'flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5 bg-[#F4C455]'
+    const classBeforeToday = 'flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5 cursor-pointer'
+    const classToday = 'flex flex-col items-center border border-solid border-black rounded-xl w-[42px] m-0.5 bg-[#F4C455] cursor-pointer'
     const classAfterToday = 'flex flex-col items-center border rounded-xl w-[42px] m-0.5 bg-[#626262] bg-opacity-[20%]'
 
     const handlePreviousDays = () => {
@@ -159,7 +159,7 @@ export default function ManageOrders() {
 
                         <div>
                             <div className="flex my-2">
-                                <TriangleDownArrow className="rotate-90 w-[20px]" onClick={handlePreviousDays} />
+                                <TriangleDownArrow className="rotate-90 m-auto w-[20px]" onClick={handlePreviousDays} />
                                 {renderedDays.map((day) => {
                                     return (
                                         <div
@@ -187,7 +187,7 @@ export default function ManageOrders() {
                                         </div>
                                     )
                                 })}
-                                <TriangleDownArrow className="rotate-[-90deg] w-[20px]" onClick={handleNextDays} />
+                                <TriangleDownArrow className="rotate-[-90deg] m-auto w-[20px]" onClick={handleNextDays} />
                             </div>
                         </div>
                     </div>

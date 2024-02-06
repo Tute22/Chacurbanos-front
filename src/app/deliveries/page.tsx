@@ -13,9 +13,9 @@ import { setSelectedUserData } from '@/store/slice/userData/userSlice'
 import { Package, User } from '@/types/types'
 import axiosInstance from '../../../axiosConfig'
 import { handleDisplayPackages } from '@/utils/handlePackages'
+import { setMonth } from '@/utils/setMonth'
 
 export default function Deliveries() {
-    const now = DateTime.local()
     const router = useRouter()
     const dispatch = useDispatch()
     const { usersData, data, selectedDay } = useSelector((store: any) => store.dbDataReducer)
@@ -50,14 +50,14 @@ export default function Deliveries() {
                 <MainContainer title={'Repartidores'} height={'600px'}>
                     <div className="flex">
                         <div>
-                            <h1 className="text-black text-xl mb-1 mt-2 font-poppins font-bold">Diciembre</h1>
+                            <h1 className="text-black text-xl mb-1 mt-2 font-poppins font-bold">{setMonth(selectedDay?.date?.month)}</h1>
                             <p className="border-dashed border-[#F4C455] border-t w-56"></p>
                         </div>
                         <div
-                            className={`flex flex-col items-center border border-solid border-[#F4C455] rounded-xl w-[42px] text-[#55BBD1] shadow-lg py-2 px-7`}
+                            className={`flex flex-col items-center border border-solid border-[#F4C455] rounded-xl w-[42px] text-[#55BBD1] shadow-lg py-1 px-7`}
                         >
-                            <h3 className="text-lg font-poppins font-normal">{now.weekdayShort}</h3>
-                            <h1 className="text-xl font-poppins font-bold">{now.day}</h1>
+                            <h1 className="text-lg font-poppins font-normal">{DateTime.fromFormat(selectedDay.stringDate, 'dd/MM/yyyy').weekdayShort}</h1>
+                            <h3 className="text-xl font-poppins font-bold">{selectedDay?.date?.day}</h3>
                         </div>
                     </div>
 

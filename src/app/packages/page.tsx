@@ -15,6 +15,7 @@ import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { handleDisplayPackages } from '@/utils/handlePackages'
 import { setMonth } from '@/utils/setMonth'
+import { DateTime } from 'luxon'
 
 export default function Packages() {
     const { data, selectedDay } = useSelector((store: any) => store.dbDataReducer)
@@ -86,12 +87,12 @@ export default function Packages() {
                         <p className="border-dashed border-[#F4C455] border-t w-[230px]"></p>
                     </div>
                     <div
-                        className={`flex flex-col items-center border border-solid border-[#F4C455] rounded-xl w-[42px] text-[#55BBD1] shadow-lg mt-1 py-2 px-7`}
+                        className={`flex flex-col items-center border border-solid border-[#F4C455] rounded-xl w-[42px] text-[#55BBD1] shadow-lg mt-1 py-1 px-7`}
                     >
-                        <h1 className="text-xl font-poppins font-bold">{selectedDay?.date?.day}</h1>
+                        <h1 className="text-lg font-poppins font-normal">{DateTime.fromFormat(selectedDay.stringDate, 'dd/MM/yyyy').weekdayShort}</h1>
+                        <h3 className="text-xl font-poppins font-bold">{selectedDay?.date?.day}</h3>
                     </div>
                 </div>
-
                 <div>
                     <h1 className="text-black font-bold mb-5">{data?.filter((p: Package) => handleDisplayPackages(p, selectedDay, false)).length} paquetes</h1>
                 </div>
