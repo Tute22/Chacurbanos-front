@@ -63,6 +63,7 @@ export default function GetPackages() {
             })
             .then(() => {
                 setPackagesChanged(!packagesChanged)
+                toast.info('Paquete retirado')
             })
             .catch((err) => {
                 console.error(err)
@@ -78,6 +79,7 @@ export default function GetPackages() {
             })
             .then(() => {
                 setPackagesChanged(!packagesChanged)
+                toast.info('Paquete asignado')
             })
             .catch((err) => {
                 console.error(err)
@@ -87,7 +89,6 @@ export default function GetPackages() {
 
     const handleClick = () => {
         setIsLoading(true)
-        toast.info('Obtuviste paquete/s')
         router.push('/working-day')
     }
 
@@ -110,12 +111,12 @@ export default function GetPackages() {
                         .map((p: Package) => (
                             <div key={p._id} className="border border-solid border-black h-[60px] rounded-xl my-2 flex items-center flex-row">
                                 {p.status === 'pending' ? (
-                                    <button onClick={() => handleDisablePackage(p)}>
-                                        <CheckboxCheck className="w-6 ml-4 h-fit fill-[#AEE3EF]" />
+                                    <button className="ml-4 h-fit" onClick={() => handleDisablePackage(p)}>
+                                        <CheckboxCheck className=" w-6 fill-[#AEE3EF]" />
                                     </button>
                                 ) : (
-                                    <button onClick={() => handleSetPendingPackage(p)}>
-                                        <CheckboxEmpty className="w-6 ml-4 h-fit" />
+                                    <button className="ml-4 h-fit" onClick={() => handleSetPendingPackage(p)}>
+                                        <CheckboxEmpty className="w-6" />
                                     </button>
                                 )}
 
