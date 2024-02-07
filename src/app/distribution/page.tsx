@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { GoogleMap } from '@/commons/GoogleMap'
 import axios from 'axios'
+import Modal from '@/commons/modal'
 
 type LocationState = {
     lat: number | null
@@ -21,6 +22,8 @@ export default function Distribution() {
     const { selectedPackage: inProgressPackage } = useSelector((store: any) => store.dbDataReducer)
     const [currentLocationCoordinates, setCurrentLocationCoordinates] = useState<LocationState>({ lat: null, lng: null })
     const [currentLocationStr, setCurrentLocationStr] = useState('')
+    const [modalFinIsOpen, setModalFinIsOpen] = useState(false)
+    const [modalCanIsOpen, setModalCanIsOpen] = useState(false)
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -107,6 +110,14 @@ export default function Distribution() {
             })
     }
 
+    const toggleModalFin = () => {
+        setModalFinIsOpen(!modalFinIsOpen)
+    }
+
+    const toggleModalCan = () => {
+        setModalCanIsOpen(!modalCanIsOpen)
+    }
+
     return (
         <div className="bg-[#AEE3EF] h-screen">
             <Navbar />
@@ -131,22 +142,34 @@ export default function Distribution() {
 
                 {/* Container para botones */}
                 <div className="pt-2">
-                    <button
-                        className="font-poppins font-medium w-full px-4 py-2 mb-4 bg-[#F4C455] rounded-full text-stone-900"
-                        onClick={() => {
-                            handleCompletePackage(inProgressPackage)
-                        }}
-                    >
+                    <button className="font-poppins font-medium w-full px-4 py-2 mb-4 bg-[#F4C455] rounded-full text-stone-900" onClick={toggleModalFin}>
                         Finalizar
                     </button>
+
+                    <Modal
+                        title={'Estás seguro'}
+                        subtitle={'El proceso de entrega se dará por finalizado'}
+                        isOpen={modalFinIsOpen}
+                        handle={handleCompletePackage}
+                        element={inProgressPackage}
+                        toggleModal={toggleModalFin}
+                    />
+
                     <button
                         className="font-poppins font-normal w-full px-4 py-2 rounded-full border-[#F4C455] border-solid border-[1px] text-stone-900"
-                        onClick={() => {
-                            handleCancelPackage(inProgressPackage)
-                        }}
+                        onClick={toggleModalCan}
                     >
                         Cancelar entrega
                     </button>
+
+                    <Modal
+                        title={'Estás seguro'}
+                        subtitle={'Se cancelará el proceso de entrega'}
+                        isOpen={modalCanIsOpen}
+                        handle={handleCancelPackage}
+                        element={inProgressPackage}
+                        toggleModal={toggleModalCan}
+                    />
                 </div>
             </MainContainer>
         </div>
