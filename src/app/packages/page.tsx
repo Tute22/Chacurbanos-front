@@ -16,10 +16,12 @@ import 'react-toastify/dist/ReactToastify.css'
 import { handleDisplayPackages } from '@/utils/handlePackages'
 import { setMonth } from '@/utils/setMonth'
 import { DateTime } from 'luxon'
+import Modal from '@/commons/modal'
 
 export default function Packages() {
     const { data, selectedDay } = useSelector((store: any) => store.dbDataReducer)
     const [packagesChanged, setPackagesChanged] = useState(false)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -54,16 +56,22 @@ export default function Packages() {
             .catch((error) => console.error(error))
     }, [router, packagesChanged])
 
-    const handleDelete = (element: Package) => {
-        axiosInstance
-            .delete(`/packages/${element._id}`)
-            .then(() => {
-                setPackagesChanged(!packagesChanged)
-                toast.success('Paquete eliminado correctamente')
-            })
-            .catch((error) => console.error(error))
+    const handleDelete = (element: Package | null | undefined) => {
+        if (element) {
+            axiosInstance
+                .delete(`/packages/${element?._id}`)
+                .then(() => {
+                    setPackagesChanged(!packagesChanged)
+                    toast.success('Paquete eliminado correctamente')
+                })
+                .catch((error) => console.error(error))
+        }
     }
 
+    const toggleModal = () => {
+        setModalIsOpen(!modalIsOpen)
+    }
+    // handleDelete(element)
     return (
         <div className="bg-[#AEE3EF] h-screen">
             <ToastContainer
@@ -114,13 +122,15 @@ export default function Packages() {
                                         </div>
                                     </div>
                                     <div className="flex flex-col flex-grow items-end pr-3 mt-4">
-                                        <button
-                                            onClick={() => {
-                                                handleDelete(element)
-                                            }}
-                                        >
-                                            {element.status !== 'delivered' ? <TrashIcon className="w-6 text-red" /> : ''}
-                                        </button>
+                                        <button onClick={toggleModal}>{element.status !== 'delivered' ? <TrashIcon className="w-6 text-red" /> : ''}</button>
+                                        <Modal
+                                            title={'Estás seguro'}
+                                            subtitle={'Este paquete se eliminará permanentemente'}
+                                            isOpen={modalIsOpen}
+                                            handle={handleDelete}
+                                            element={element}
+                                            toggleModal={toggleModal}
+                                        />
                                     </div>
                                 </div>
                             </div>

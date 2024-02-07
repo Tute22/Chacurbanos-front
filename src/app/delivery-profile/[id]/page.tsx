@@ -13,11 +13,13 @@ import { Package } from '@/types/types'
 import { setData, setUsersData } from '@/store/slice/dbData/dataSlice'
 import { handleDisplayPackages } from '@/utils/handlePackages'
 import { toast } from 'react-toastify'
+import Modal from '@/commons/modal'
 
 export default function DeliveryProfile() {
     const router = useRouter()
     const [usersChanged, setUsersChanged] = useState(false)
     const { data, selectedDay } = useSelector((store: any) => store.dbDataReducer)
+    const [modalIsOpen, setModalIsOpen] = useState(false)
 
     const { selectedUserData } = useSelector((store: any) => store.userReducer)
     const deliveredPackages = data?.filter(
@@ -28,6 +30,10 @@ export default function DeliveryProfile() {
         .filter((p: Package) => p.status === 'pending' || p.status === 'in progress')
 
     const dispatch = useDispatch()
+
+    const toggleModal = () => {
+        setModalIsOpen(!modalIsOpen)
+    }
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
@@ -131,7 +137,16 @@ export default function DeliveryProfile() {
                         {/* Container con toggle */}
                         <div>
                             <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" value="" className="sr-only peer" onClick={() => handleUserStatus()} />
+                                {/* onClick={() => handleUserStatus()} */}
+                                <input type="checkbox" value="" className="sr-only peer" onClick={toggleModal} />
+                                <Modal
+                                    title={'Estás seguro'}
+                                    subtitle={'Cambiará el estado de este repartidor'}
+                                    isOpen={modalIsOpen}
+                                    handle={handleUserStatus}
+                                    element={null}
+                                    toggleModal={toggleModal}
+                                />
                                 <div
                                     className={`w-11 h-6 border-[1px] border-solid border-[#55BBD1]  rounded-full  after:absolute after:top-[2px]  after:border-gray-300 after:border after:rounded-full ${
                                         selectedUserData?.status === 'disabled' ? 'after:start-[2px]' : 'after:end-[2px]'
