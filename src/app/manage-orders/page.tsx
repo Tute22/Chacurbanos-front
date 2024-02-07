@@ -1,9 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { Navbar } from '@/components/Navbar'
-import Image from 'next/image'
-import delivery1 from '../../../public/delivery1.png'
-import delivery2 from '../../../public/delivery2.png'
 import { TriangleDownArrow } from '@/commons/icons/TriangleDownArrow'
 import { PlusIcon } from '@/commons/icons/PlusIcon'
 import { CircularProgressbar } from 'react-circular-progressbar'
@@ -14,7 +11,7 @@ import MainContainer from '@/commons/MainContainer'
 import axiosInstance from '../../../axiosConfig'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { DayData, UserData, Package, DateObject } from '@/types/types'
+import { DayData, UserData, Package, DateObject, User } from '@/types/types'
 import { setMonth } from '@/utils/setMonth'
 import { setData, setSelectedDay } from '@/store/slice/dbData/dataSlice'
 import { handleDisplayPackages } from '@/utils/handlePackages'
@@ -26,9 +23,9 @@ export default function ManageOrders() {
     const dispatch = useDispatch()
     const { loginUserData } = useSelector((store: any) => store.userReducer)
 
-    const activeUsers = usersData?.filter((user: UserData) => user.status !== 'disabled').length
+    const activeUsers = usersData?.filter((user: UserData) => user.status !== 'disabled' && user.role === 'delivery').length
 
-    const totalUsers = usersData?.filter((user: UserData) => user).length
+    const totalUsers = usersData?.filter((user: UserData) => user.role === 'delivery').length
 
     const deliveredPackages = packages?.filter((p: Package) => p.status === 'delivered' && handleDisplayPackages(p, selectedDay, false)).length
 
@@ -204,9 +201,11 @@ export default function ManageOrders() {
                             <div>
                                 <h1 className="text-sm font-poppins font-bold">Repartidores</h1>
                                 <h3 className="text-xs font-poppins font-light">{`${activeUsers}/${totalUsers} Habilitados`}</h3>
-                                <div className="flex">
-                                    <Image src={delivery1} alt="Delivery 1 Logo" width={30} />
-                                    <Image src={delivery2} alt="Delivery 2 Logo" width={30} />
+                                <div className="flex mt-1">
+                                    {usersData?.slice(0, 3)?.map((user: User) => {
+                                        if (user.role === 'delivery')
+                                            return <img src={user.iconUrl} alt="Delivery Logo" width={26} height={26} className="rounded-full" />
+                                    })}
                                 </div>
                             </div>
                             <Link href={'/deliveries'}>

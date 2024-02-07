@@ -76,7 +76,7 @@ export default function Register() {
         try {
             setIsLoading(true)
 
-            let imageUrl
+            let imageUrl = 'https://res.cloudinary.com/dpbr1u8z5/image/upload/v1707342606/aj7jifsxooynzimddz9u.png'
 
             if (userImage) {
                 const formData = new FormData()
@@ -87,6 +87,7 @@ export default function Register() {
                         'Content-Type': 'multipart/form-data',
                     },
                 })
+
                 imageUrl = response.data.url
             }
 
