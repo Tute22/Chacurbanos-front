@@ -56,14 +56,16 @@ export default function Packages() {
             .catch((error) => console.error(error))
     }, [router, packagesChanged])
 
-    const handleDelete = (element: Package) => {
-        axiosInstance
-            .delete(`/packages/${element._id}`)
-            .then(() => {
-                setPackagesChanged(!packagesChanged)
-                toast.success('Paquete eliminado correctamente')
-            })
-            .catch((error) => console.error(error))
+    const handleDelete = (element: Package | null | undefined) => {
+        if (element) {
+            axiosInstance
+                .delete(`/packages/${element?._id}`)
+                .then(() => {
+                    setPackagesChanged(!packagesChanged)
+                    toast.success('Paquete eliminado correctamente')
+                })
+                .catch((error) => console.error(error))
+        }
     }
 
     const toggleModal = () => {
