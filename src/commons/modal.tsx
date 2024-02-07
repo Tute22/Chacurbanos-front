@@ -5,8 +5,8 @@ interface ModalProps {
     title: string
     subtitle: string
     isOpen: boolean
-    handle: (element?: Package | null) => void
-    element: Package | null
+    handle: (element?: Package | null | undefined) => void
+    element: Package | null | undefined
     toggleModal: () => void
 }
 // bg-gray-800 bg-opacity-50
@@ -21,7 +21,7 @@ export default function Modal({ title, subtitle, isOpen, handle, element, toggle
                 <div className="p-4 flex justify-evenly bg-gray-100 border-t border-gray-200">
                     <button
                         onClick={() => {
-                            element !== null ? handle(element) : handle()
+                            handle(element)
                             toggleModal()
                         }}
                         className="px-4 py-2 text-white rounded-xl bg-red-500 "

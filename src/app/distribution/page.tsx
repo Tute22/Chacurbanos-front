@@ -80,34 +80,38 @@ export default function Distribution() {
 
     console.log('IN PROGRESS PACKAGE >>>', inProgressPackage)
 
-    const handleCancelPackage = (selectedPackage: Package) => {
-        axiosInstance
-            .patch(`/packages/${selectedPackage?._id && selectedPackage?._id}`, {
-                status: 'pending',
-            })
-            .then(() => {
-                toast.info('Paquete cancelado')
-                router.push('/working-day')
-            })
-            .catch((err) => {
-                console.error(err)
-                toast.error('Error en la solicitud')
-            })
+    const handleCancelPackage = (selectedPackage: Package | null | undefined) => {
+        if (selectedPackage) {
+            axiosInstance
+                .patch(`/packages/${selectedPackage?._id && selectedPackage?._id}`, {
+                    status: 'pending',
+                })
+                .then(() => {
+                    toast.info('Paquete cancelado')
+                    router.push('/working-day')
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error('Error en la solicitud')
+                })
+        }
     }
 
-    const handleCompletePackage = (selectedPackage: Package) => {
-        axiosInstance
-            .patch(`/packages/${selectedPackage?._id && selectedPackage?._id}`, {
-                status: 'delivered',
-            })
-            .then(() => {
-                toast.success('Paquete entregado!')
-                router.push('/working-day')
-            })
-            .catch((err) => {
-                console.error(err)
-                toast.error('Error en la solicitud')
-            })
+    const handleCompletePackage = (selectedPackage: Package | null | undefined) => {
+        if (selectedPackage) {
+            axiosInstance
+                .patch(`/packages/${selectedPackage?._id && selectedPackage?._id}`, {
+                    status: 'delivered',
+                })
+                .then(() => {
+                    toast.success('Paquete entregado!')
+                    router.push('/working-day')
+                })
+                .catch((err) => {
+                    console.error(err)
+                    toast.error('Error en la solicitud')
+                })
+        }
     }
 
     const toggleModalFin = () => {
