@@ -12,6 +12,7 @@ import Spinner from '@/commons/Spinner'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
 
 export default function Register() {
     const router = useRouter()
@@ -28,9 +29,7 @@ export default function Register() {
 
         if (file) {
             if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-                toast.warning(
-                    `El archivo es demasiado grande. El tamaño máximo permitido es ${MAX_FILE_SIZE_MB} MB.`
-                )
+                toast.warning(`El archivo es demasiado grande. El tamaño máximo permitido es ${MAX_FILE_SIZE_MB} MB.`)
                 e.target.value = ''
                 return
             }
@@ -76,11 +75,27 @@ export default function Register() {
 
         try {
             setIsLoading(true)
+
+            let imageUrl
+
+            if (userImage) {
+                const formData = new FormData()
+                formData.append('userImage', userImage)
+
+                const response = await axios.post('api/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                imageUrl = response.data.url
+            }
+
             await axiosInstance.post(`/users`, {
                 name,
                 lastName,
                 email,
                 password,
+                iconUrl: imageUrl || '',
             })
 
             toast.success('Usuario Registrado')
@@ -92,10 +107,7 @@ export default function Register() {
         }
     }
 
-    const buttonOpacityClass =
-        isRegisterComplete() && isRegisterFormValid()
-            ? 'opacity-100'
-            : 'opacity-50'
+    const buttonOpacityClass = isRegisterComplete() && isRegisterFormValid() ? 'opacity-100' : 'opacity-50'
 
     return (
         <main className="bg-[#AEE3EF] h-screen">
@@ -105,26 +117,13 @@ export default function Register() {
                     <form onSubmit={handleSubmit}>
                         <div className="flex justify-center mb-4">
                             {userImage ? (
-                                <img
-                                    src={URL.createObjectURL(userImage)}
-                                    alt="User"
-                                    className="w-24 h-auto rounded-full"
-                                />
+                                <img src={URL.createObjectURL(userImage)} alt="User" className="w-24 h-auto rounded-full" />
                             ) : (
-                                <label
-                                    htmlFor="upload"
-                                    className="cursor-pointer"
-                                >
+                                <label htmlFor="upload" className="cursor-pointer">
                                     <Camera className="w-24 h-auto text-[#F4C455]" />
                                 </label>
                             )}
-                            <input
-                                id="upload"
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                className="hidden"
-                            />
+                            <input id="upload" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
                         </div>
                         <div className="mb-4">
                             <input
@@ -138,11 +137,7 @@ export default function Register() {
                                 }}
                                 required
                             />{' '}
-                            {errors.name && (
-                                <span className="text-red-600 text-xs">
-                                    {errors.name}
-                                </span>
-                            )}
+                            {errors.name && <span className="text-red-600 text-xs">{errors.name}</span>}
                         </div>
                         <div className="mb-4">
                             <input
@@ -156,11 +151,7 @@ export default function Register() {
                                 }}
                                 required
                             />{' '}
-                            {errors.lastName && (
-                                <span className="text-red-600 text-xs">
-                                    {errors.lastName}
-                                </span>
-                            )}
+                            {errors.lastName && <span className="text-red-600 text-xs">{errors.lastName}</span>}
                         </div>
                         <div className="mb-4">
                             <input
@@ -174,27 +165,15 @@ export default function Register() {
                                 }}
                                 required
                             />{' '}
-                            {errors.email && (
-                                <span className="text-red-600 text-xs">
-                                    {errors.email}
-                                </span>
-                            )}
+                            {errors.email && <span className="text-red-600 text-xs">{errors.email}</span>}
                         </div>
                         <div className="mb-4 relative">
                             {showPassword ? (
-                                <button
-                                    type="button"
-                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
-                                    onClick={handleTogglePassword}
-                                >
+                                <button type="button" className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer" onClick={handleTogglePassword}>
                                     <CloseEyeIcon className="text-gray-400" />
                                 </button>
                             ) : (
-                                <button
-                                    type="button"
-                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
-                                    onClick={handleTogglePassword}
-                                >
+                                <button type="button" className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer" onClick={handleTogglePassword}>
                                     <OpenEyeIcon className="text-gray-400 " />
                                 </button>
                             )}
@@ -206,34 +185,19 @@ export default function Register() {
                                 onChange={(e) => {
                                     validatePassword(e.currentTarget.value)
                                     setPassword(e.currentTarget.value)
-                                    validateConfirmPassword(
-                                        formValues.confirmPassword,
-                                        e.currentTarget.value
-                                    )
+                                    validateConfirmPassword(formValues.confirmPassword, e.currentTarget.value)
                                 }}
                                 required
                             />{' '}
-                            {errors.password && (
-                                <span className="text-red-600 text-xs">
-                                    {errors.password}
-                                </span>
-                            )}
+                            {errors.password && <span className="text-red-600 text-xs">{errors.password}</span>}
                         </div>
                         <div className="mb-4 relative">
                             {showConfirmPassword ? (
-                                <button
-                                    type="button"
-                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
-                                    onClick={handleToggleConfirmPassword}
-                                >
+                                <button type="button" className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer" onClick={handleToggleConfirmPassword}>
                                     <CloseEyeIcon className="text-gray-400" />
                                 </button>
                             ) : (
-                                <button
-                                    type="button"
-                                    className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer"
-                                    onClick={handleToggleConfirmPassword}
-                                >
+                                <button type="button" className="w-5 h-6 mr-2 ml-[253px] mt-2 absolute cursor-pointer" onClick={handleToggleConfirmPassword}>
                                     <OpenEyeIcon className="text-gray-400 " />
                                 </button>
                             )}
@@ -243,46 +207,28 @@ export default function Register() {
                                 placeholder="Confirmar contraseña"
                                 value={formValues.confirmPassword}
                                 onChange={(e) => {
-                                    validateConfirmPassword(
-                                        e.currentTarget.value,
-                                        formValues.password
-                                    )
+                                    validateConfirmPassword(e.currentTarget.value, formValues.password)
                                     setConfirmPassword(e.currentTarget.value)
                                 }}
                                 onBlur={(e) => {
-                                    validateConfirmPassword(
-                                        e.currentTarget.value,
-                                        formValues.password
-                                    )
+                                    validateConfirmPassword(e.currentTarget.value, formValues.password)
                                 }}
                                 required
                             />{' '}
-                            {errors.confirmPassword && (
-                                <span className="text-red-600 text-xs">
-                                    {errors.confirmPassword}
-                                </span>
-                            )}
+                            {errors.confirmPassword && <span className="text-red-600 text-xs">{errors.confirmPassword}</span>}
                         </div>
                         <div className="mb-4">
                             <button
                                 type="submit"
                                 className={`font-poppins font-medium w-full px-4 py-2 bg-[#F4C455] rounded-full ${buttonOpacityClass}`}
-                                disabled={
-                                    isRegisterComplete() &&
-                                    isRegisterFormValid()
-                                        ? false
-                                        : true
-                                }
+                                disabled={isRegisterComplete() && isRegisterFormValid() ? false : true}
                             >
                                 {!isLoading ? 'Crear' : <Spinner />}
                             </button>
                         </div>
 
                         <div className="text-center">
-                            <a
-                                href="#"
-                                className="font-poppins font-normal inline-block text-sm"
-                            >
+                            <a href="#" className="font-poppins font-normal inline-block text-sm">
                                 ¿Ya tenés una cuenta?
                             </a>
                         </div>
