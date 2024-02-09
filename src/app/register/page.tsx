@@ -81,9 +81,8 @@ export default function Register() {
             if (userImage) {
                 const formData = new FormData()
                 formData.append('userImage', userImage)
-                const apiURL = process.env.NEXT_PUBLIC_API_BASE_URL
 
-                const response = await axios.post(`${apiURL}/upload`, formData, {
+                const response = await axios.post('api/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
