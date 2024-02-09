@@ -1,26 +1,32 @@
+import { v2 as cloudinary, UploadApiErrorResponse, UploadApiResponse } from 'cloudinary'
 import { NextResponse } from 'next/server'
-import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary'
 
 interface CloudinaryResponse {
     secure_url: string
 }
 
+// Cloudinary config
 cloudinary.config({
     cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_NAME,
     api_key: process.env.NEXT_PUBLIC_CLOUDINARY_KEY,
     api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_SECRET,
+    secure: true,
 })
 
-export async function POST(request: any) {
-    const data = await request.formData()
-    const image = data.get('userImage')
+export const POST = async (req: any) => {
+    const data = await req.formData()
+    const image = await data.get('userImage')
 
     if (!image) {
         return NextResponse.json('no se ha subido ninguna imagen.', { status: 400 })
     }
 
-    const bytes = await image.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+    const fileBuffer = await image.arrayBuffer()
+
+    const mime = image.type
+    const encoding = 'base64'
+    const base64Data = Buffer.from(fileBuffer).toString('base64')
+    const fileUri = 'data:' + mime + ';' + encoding + ',' + base64Data
 
     const response: CloudinaryResponse = await new Promise((resolve, reject) => {
         cloudinary.uploader
@@ -33,7 +39,7 @@ export async function POST(request: any) {
                 }
                 resolve(res as CloudinaryResponse)
             })
-            .end(buffer)
+            .end(fileUri)
     })
 
     return NextResponse.json({ message: 'IMAGEN SUBIDA', url: response.secure_url })
