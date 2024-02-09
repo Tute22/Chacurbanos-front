@@ -82,7 +82,7 @@ export default function Register() {
                 const formData = new FormData()
                 formData.append('userImage', userImage)
 
-                const response = await axios.post('../api/upload/route.tsx', formData, {
+                const response = await axios.post('api/upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
